@@ -205,18 +205,13 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
         }
     }
 
-    /**
-     *
-     */
+
     @Override
     public int describeContents()
     {
         return 0;
     }
 
-    /**
-     *
-     */
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {

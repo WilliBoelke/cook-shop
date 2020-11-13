@@ -7,7 +7,6 @@ import java.io.Serializable;
  * contains categories for {@link Article}
  *
  * @author willi
- * @version 1.0
  */
 public enum Category implements Serializable
 {

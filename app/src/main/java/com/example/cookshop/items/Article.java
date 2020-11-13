@@ -8,12 +8,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.StringTokenizer;
 
+
+/**
+ * Subclass of {@link Item}.
+ * A article represents a item in the buying- or the available list
+ * or  an ingredient for a {@link Recipe}
+ * <p>
+ * Example:  a Apple or 20g of flour
+ * <p>
+ * An Article has (in addition to {@link Item} ) an  {@link Category}, a amount and a weight.
+ *
+ * @author willi
+ */
 public class Article extends Item implements Comparable<Article>, Cloneable
 {
     /**
      * Parcelable creator
      */
-    public static final Parcelable.Creator<Article> CREATOR = new Parcelable.Creator<Article>()
+    public static final Creator<Article> CREATOR = new Creator<Article>()
     {
         @Override
         public Article createFromParcel(Parcel in)
@@ -27,7 +39,6 @@ public class Article extends Item implements Comparable<Article>, Cloneable
             return new Article[size];
         }
     };
-
     /**
      * The {@link Category} of the article
      */
@@ -286,6 +297,9 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         return sb.toString();
     }
 
+
+    //....Parcelable..........
+
     /**
      * Set all values to the ones given by mementoPattern
      *
@@ -320,11 +334,6 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         }
     }
 
-
-
-    //....Parcelable..........
-
-
     @Override
     public int describeContents()
     {
@@ -344,7 +353,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     public static Article deserialize(byte[] bytes) throws IOException, ClassNotFoundException
     {
         ByteArrayInputStream b      = new ByteArrayInputStream(bytes);
-        ObjectInputStream o      = new ObjectInputStream(b);
+        ObjectInputStream    o      = new ObjectInputStream(b);
         return   (Article) o.readObject();
     }
 }

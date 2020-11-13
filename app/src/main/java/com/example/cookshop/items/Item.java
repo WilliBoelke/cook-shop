@@ -8,7 +8,17 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
+/**
+ * Superclass for {@link Article} and {@link Recipe}.
+ * Provides the variables name, and description (and the corresponding getter and setter Methods)
+ * which are used in both of the mentioned Classes.
+ * <p>
+ * Inherits from {@link Memento}  because all items should provide the methods {@link Memento#getMementoPattern()}
+ * and {@link Memento#setObjectFromMementoPattern(String)}.
+ * ---Notice: this may change in upcoming Versions, when we find a better solution to persist and transfer the objects.
+ *
+ * @author willi
+ */
 public abstract class Item implements Serializable, Parcelable, Memento
 {
     /**
