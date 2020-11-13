@@ -1,13 +1,15 @@
 package com.example.cookshop.items;
 
 
+import android.os.Parcelable;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
-public abstract class Item implements Serializable
+public abstract class Item implements Serializable, Parcelable, Memento
 {
     /**
      * The Log Tag
