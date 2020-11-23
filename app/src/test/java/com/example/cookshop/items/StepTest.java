@@ -70,7 +70,6 @@ public class StepTest
         assertTrue(testStep1.getName().equals("neuer name 1") &&
                 testStep2.getName().equals("neuer name 3") &&
                 testStep4.getName().equals("Schritt 4"));
-
     }
 
 
