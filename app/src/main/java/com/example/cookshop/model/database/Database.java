@@ -6,6 +6,9 @@ import com.example.cookshop.items.Step;
 
 import java.util.ArrayList;
 
+/**
+ * The Interface for {@link DatabaseHelper}
+ */
 public interface Database
 {
 

@@ -59,6 +59,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
+        //TODO : We need a better solution here, but that works for now
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STEPS);
@@ -84,7 +85,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
         if (result1 == -1 || !result2 || !result3)
         {
             //Detailed Log output
-            Log.e(TAG, "Someting went wrong while inserting the Recipe : ");
+            Log.e(TAG, "insertRecipe : Something went wrong while inserting the Recipe : ");
             Log.e(TAG, "result1 = " + result1 + "result2 = " + result2 + "result3 = " + result3);
             return false;
         }
@@ -95,27 +96,33 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     @Override
     public boolean insertSeveralRecipes(ArrayList<Recipe> recipes)
     {
+        Log.v(TAG, "insertSeveralRecipes : Trying to add a list of Recipes to the database ..." );
         for (int i = 0; i < recipes.size(); i++)
         {
             boolean check = this.insertRecipe(recipes.get(i));
 
             if (check == false)
-            {/* Interrupts the complete method if
+            {
+                /* Interrupts the complete method if
             something goes wrong, wont even save
-            the rest of the list...i don't know if this is the best solution know */
-                return false;
+            the rest of the list...i don't know if this is the best solution */
+                Log.e(TAG, "insertSeveralRecipes : Something went wrong while inserting the Recipe  " + recipes.get(i).getName() + " at index " + i );
+                return  false;
             }
         }
+        Log.v(TAG, "insertSeveralRecipes : Inserted recipes successfully" );
         return true;
     }
 
     @Override
     public boolean insertStep(String belonging, Step step)
     {
+        Log.v(TAG, "insertStep : Trying to add step " + step.getName() + " to " + belonging );
         SQLiteDatabase database      = this.getWritableDatabase();
         ContentValues  contentValues = generateStepContentValues(step, belonging);
         long           result        = database.insert(TABLE_STEPS, null, contentValues);
         database.close();
+        Log.v(TAG, "insertStep : Added  " + step.getName() + " to " + belonging );
         return result != -1;
     }
 
@@ -123,14 +130,17 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     @Override
     public boolean insertSeveralSteps(String recipeName, ArrayList<Step> steps)
     {
+        Log.v(TAG, "insertSeveralSteps : Trying to add a list of steps to the database ..." );
         for (int i = 0; i < steps.size(); i++)
         {
             boolean check = this.insertStep(recipeName, steps.get(i));
             if (check == false)
             {
+                Log.e(TAG, "insertSeveralSteps: could not add Step " + steps.get(i).getName() + " at index " + i);
                 return false;
             }
         }
+        Log.v(TAG, "insertSeveralRecipes : Inserted steps successfully" );
         return true;
     }
 
@@ -168,29 +178,33 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     @Override
     public void deleteRecipe(String name)
     {
+        Log.v(TAG, "deleteRecipe : Try to delete " + name + "..." );
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(TABLE_RECIPES, COLUMN_RECIPE_NAME + " = ? ", new String[]{name});
         database.delete(TABLE_ARTICLE, COLUMN_ARTICLE_BELONGING + " = ? ", new String[]{name});
         database.delete(TABLE_STEPS, COLUMN_STEP_BELONGING + " = ? ", new String[]{name});
         database.close();
+        Log.v(TAG, "deleteRecipe : Deleted " + name  );
     }
 
     @Override
     public void deleteArticle(String name, String belonging)
     {
-        Log.e(TAG, "Try to delete " + name + ", from " + belonging + "...");
+        Log.v(TAG, "deleteArticle : Try to delete " + name + ", from " + belonging + "...");
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(TABLE_ARTICLE, COLUMN_ARTICLE_BELONGING + " = ?  AND " + COLUMN_ARTICLE_NAME + " = ? ", new String[]{belonging, name});
-        Log.e(TAG, "Deleted  " + name + ", from " + belonging);
+        Log.v(TAG, "deleteArticle : Deleted  " + name + ", from " + belonging);
         database.close();
     }
 
     @Override
     public void deleteStep(String name, String belonging)
     {
+        Log.v(TAG, "deleteStep : Try to delete " + name + ", from " + belonging + "...");
         SQLiteDatabase database = this.getWritableDatabase();
         database.delete(TABLE_STEPS, COLUMN_STEP_BELONGING + " = ?  AND " + COLUMN_STEP_NAME + " = ? ", new String[]{belonging, name});
         database.close();
+        Log.v(TAG, "deleteStep : Deleted  " + name + ", from " + belonging);
     }
 
 
@@ -304,6 +318,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     @Override
     public void updateRecipe(String oldName, Recipe newRecipe)
     {
+        Log.v(TAG, "updateRecipe : Try to update Recipe with name  " + oldName + " to new Recipe  " + newRecipe.toString()  + "...");;
+
         SQLiteDatabase database  = this.getWritableDatabase();
         ContentValues  newValues = generateRecipeContentValues(newRecipe);
         database.update(TABLE_RECIPES, newValues, COLUMN_RECIPE_NAME + " = '" + oldName + "'", null);
