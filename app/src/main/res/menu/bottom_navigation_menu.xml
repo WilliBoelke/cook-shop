@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--  android:icon="?attr/icon" -->
+    <item
+          android:id="@+id/nav_available"
+          android:title="Storage" />
+
+    <item
+        android:id="@+id/nav_shopping"
+        android:title="Shopping" />
+
+    <item
+        android:id="@+id/nav_recipes"
+        android:title="Recipes" />
+
+    <item
+        android:id="@+id/nav_recommended"
+        android:title="Recommended" />
+
+    <item
+        android:id="@+id/nav_to_cook"
+        android:title="To Cook" />
+</menu>
