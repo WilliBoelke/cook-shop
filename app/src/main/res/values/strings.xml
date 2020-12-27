@@ -16,4 +16,6 @@
     <string name="description">describtion</string>
     <string name="amount">amount</string>
     <string name="weight">weight</string>
+    <string name="new_article">add new article</string>
+    <string name="new_step">"Add new Step "</string>
 </resources>

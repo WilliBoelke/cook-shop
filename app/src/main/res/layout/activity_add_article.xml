@@ -5,8 +5,7 @@
     android:id="@+id/add_article_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark"
-    android:backgroundTint="@color/background_dark"
+    android:background="?attr/backgroundColor"
     android:backgroundTintMode="src_over">
 
 
