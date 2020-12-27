@@ -1,0 +1,57 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+    </style>
+
+
+    <!-- Light/Day theme. -->
+    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+
+        <item name="colorBackground">@color/background_light</item>
+        <item name="foreground">@color/foreground_light</item>
+
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorPrimaryVariant">@color/primary_light</item>
+        <item name="colorOnPrimary">@color/primary_light</item>
+
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="colorSecondaryVariant">@color/secondary_light</item>
+
+        <item name="android:statusBarColor">@color/foreground_light</item>
+
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textColorSecondary">@color/textSecondary_light</item>
+
+    </style>
+
+    <!-- Dark/Night theme. -->
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+
+        <item name="colorBackground">@color/background_dark</item>
+        <item name="foreground">@color/foreground_dark</item>
+
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/primary_dark</item>
+
+        <item name="colorSecondary">@color/secondary_dark</item>
+        <item name="colorSecondaryVariant">@color/secondary_dark</item>
+
+        <item name="android:statusBarColor">@color/foreground_dark</item>
+
+        <item name="textColor">@color/text_dark</item>
+        <item name="textColorSecondary">@color/textSecondary_dark</item>
+    </style>
+
+</resources>
