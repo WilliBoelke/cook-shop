@@ -18,4 +18,6 @@
     <string name="weight">weight</string>
     <string name="new_article">add new article</string>
     <string name="new_step">"Add new Step "</string>
+    <string name="timer">timer</string>
+    <string name="timer_descriptional_text">Du kannst für jeden         Schritt einen Timer (in Sekunden) angeben. Wenn du         Später das Rezept nachkochst, kannst du den Timer         nutzen um dir mit einem Click eine Erinnerung zu erstellen</string>
 </resources>
