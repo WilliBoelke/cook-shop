@@ -16,6 +16,9 @@
         <!-- Color for primary texts-->
         <attr name="textColorPrimary" format="color" />
         <attr name="textColorSecondary" format="color" />
+    </declare-styleable>
 
+    <declare-styleable name="drawables">
+        <attr name="edit_text_background" format="reference" />
     </declare-styleable>
 </resources>

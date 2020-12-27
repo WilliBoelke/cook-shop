@@ -14,6 +14,9 @@
 
         <item name="textColorPrimary">@color/text_light</item>
         <item name="textColorSecondary">@color/text_light</item>
+
+
+        <item name="edit_text_background">@drawable/edit_text_background_white</item>
     </style>
 
     <!-- Light/Day theme. -->
@@ -30,6 +33,8 @@
         <item name="textColorPrimary">@color/text_light</item>
         <item name="textColorSecondary">@color/text_light</item>
 
+        <item name="edit_text_background">@drawable/edit_text_background_white</item>
+
     </style>
 
     <!-- Dark/Night theme. -->
@@ -45,6 +50,8 @@
 
         <item name="textColorPrimary">@color/text_dark</item>
         <item name="textColorSecondary">#F1A5A5A5</item>
+
+        <item name="edit_text_background">@drawable/edit_text_background_black</item>
     </style>
 
 
