@@ -16,7 +16,8 @@
         <item name="textColorSecondary">@color/text_light</item>
 
 
-        <item name="edit_text_background">@drawable/edit_text_background_white</item>
+        <item name="edit_text_background">@drawable/gradient_background_rounded_corners_white</item>
+        <item name="big_gradient_rounded_corner">@drawable/gradient_background_rounded_corners_white</item>
     </style>
 
     <!-- Light/Day theme. -->
@@ -34,6 +35,7 @@
         <item name="textColorSecondary">@color/text_light</item>
 
         <item name="edit_text_background">@drawable/edit_text_background_white</item>
+        <item name="big_gradient_rounded_corner">@drawable/gradient_background_rounded_corners_white</item>
 
     </style>
 
@@ -52,7 +54,10 @@
         <item name="textColorSecondary">#F1A5A5A5</item>
 
         <item name="edit_text_background">@drawable/edit_text_background_black</item>
+        <item name="big_gradient_rounded_corner">@drawable/gradient_background_rounded_corners_black</item>
+
     </style>
+
 
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="?attr/big_gradient_rounded_corner">
+
+    <TextView
+        android:id="@+id/name_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/header2_font_size"
+        android:fontFamily="@font/comfortaa"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/weight_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_textview"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/primary_font_size"
+        android:fontFamily="@font/comfortaa"
+        android:textStyle="normal"/>
+
+    <TextView
+        android:id="@+id/amount_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/secondary_font_size"
+        android:fontFamily="@font/comfortaa"
+        android:textStyle="normal"/>
+
+    <TextView
+        android:id="@+id/weight_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/amount_textview"
+        app:layout_constraintTop_toTopOf="@+id/amount_textview"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/secondary_font_size"
+        android:fontFamily="@font/comfortaa"
+        android:textStyle="normal"/>
+        android:textStyle="normal"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
