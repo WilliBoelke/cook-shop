@@ -39,7 +39,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
-        layout="@layout/content_recipe_viewer"
+        layout="@layout/recipe_viewer_conent"
         android:layout_height="420dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
