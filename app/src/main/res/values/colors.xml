@@ -28,4 +28,5 @@
     <color name="text_dark">#F1FFFFFF</color>
     <!-- Color for secondary texts-->
     <color name="textSecondary_dark">#98CACACA</color>
+
 </resources>

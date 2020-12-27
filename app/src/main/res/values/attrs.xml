@@ -1,17 +1,21 @@
 <resources>
-    <declare-styleable name="colors">
-        <attr name="android:foreground" format="color" />
-        <attr name="android:colorBackground" format="color" />
 
+    <declare-styleable name="colors">
+        <!-- Color for foreground elements like cards, ListView items or menus-->
+        <attr name="colorForeground" format="color" />
+        <!-- Color for the layout background-->
+        <attr name="colorBackground" format="color" />
+        <!-- Color for primary Buttons-->
         <attr name="colorPrimary" format="color" />
+        <!-- Color for secondary Buttons-->
         <attr name="colorPrimaryVariant" format="color" />
         <attr name="colorOnPrimary" format="color" />
 
-        <attr name="colorSecondary" format="color" />
-        <attr name="colorSecondaryVariant" format="color" />
-        <attr name="android:statusBarColor" format="color" />
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="colorSecondaryVariant">@color/secondary_light</item>
+        <!-- Color for primary texts-->
+        <attr name="textColorPrimary" format="color" />
+        <attr name="textColorSecondary" format="color" />
 
-        <attr name="android:textColor" format="color" />
-        <attr name="android:textColorSecondary" format="color" />
     </declare-styleable>
 </resources>
