@@ -3,6 +3,7 @@ package com.example.cookshop.view;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.cookshop.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,9 +25,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: Called");
+        super.onCreate(savedInstanceState);
 
+        //Set the Abb theme (true = dark, false = light)
         setTheme(true);
         //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setTheme(boolean theme)
     {
-        //Setting tthe app heme and contentView
+        //Setting the app heme and contentView
         Log.d(TAG, "onCreate : setting app theme...");
         if (theme)
         {
@@ -71,6 +73,11 @@ public class MainActivity extends AppCompatActivity
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
+    private void onMainFabClickListener(View view)
+    {
+
+    }
+
 
 
     //------------Bottom Navigation ------------
@@ -88,18 +95,23 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId())
             {
                 case R.id.nav_to_cook:
+                    Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment toCook");
                     selectedFragment = FragmentShoppingList.class;
                     break;
                 case R.id.nav_recommended:
+                    Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment recommended");
                     selectedFragment = FragmentRecommendedList.class;
                     break;
                 case R.id.nav_recipes:
+                    Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment recipes");
                     selectedFragment = FragmentRecipeList.class;
                     break;
                 case R.id.nav_available:
-                        selectedFragment = FragmentAvailableList.class;
+                    Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment available");
+                    selectedFragment = FragmentAvailableList.class;
                     break;
                 case R.id.nav_shopping:
+                    Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment shopping");
                     selectedFragment = FragmentShoppingList.class;
                     break;
                 default:

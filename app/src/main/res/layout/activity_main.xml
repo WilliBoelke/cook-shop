@@ -9,7 +9,6 @@
     android:backgroundTint="?attr/backgroundColor">
 
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
@@ -19,7 +18,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_conversion_absoluteHeight="731dp"
-        tools:layout_conversion_absoluteWidth="411dp" />
+        tools:layout_conversion_absoluteWidth="411dp">
+
+    </androidx.fragment.app.FragmentContainerView>
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
@@ -36,6 +39,8 @@
         app:menu="@menu/bottom_navigation_menu"
         tools:layout_conversion_absoluteHeight="56dp"
         tools:layout_conversion_absoluteWidth="411dp" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

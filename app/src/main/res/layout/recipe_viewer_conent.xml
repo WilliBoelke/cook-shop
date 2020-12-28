@@ -140,10 +140,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:text="@string/step"
             android:textColor="?attr/textColorPrimary"
-            app:layout_constraintStart_toStartOf="@+id/steps_viewpager"
+            app:layout_constraintStart_toStartOf="@+id/content_card_articles"
             app:layout_constraintTop_toBottomOf="@+id/content_card_description" />
 
         <TextView
@@ -151,11 +150,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="8dp"
             android:text="@string/article"
             android:textColor="?attr/textColorPrimary"
-            app:layout_constraintStart_toStartOf="@+id/articles_viewpager"
+            app:layout_constraintStart_toStartOf="@+id/content_card_articles"
             app:layout_constraintTop_toBottomOf="@+id/content_card_steps" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 </androidx.core.widget.NestedScrollView>

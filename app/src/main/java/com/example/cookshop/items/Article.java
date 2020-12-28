@@ -50,6 +50,8 @@ public class Article extends Item implements Comparable<Article>, Cloneable
 
 
     //....Constructor..........
+
+
     /**
      * The weight
      */
