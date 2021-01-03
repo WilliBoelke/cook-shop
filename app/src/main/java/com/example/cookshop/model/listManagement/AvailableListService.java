@@ -17,7 +17,7 @@ public class AvailableListService extends ArticleListService
     public static final String BELONGING_TAG = "avail";
 
 
-    protected AvailableListService(DatabaseHelper databaseService) {
+    public AvailableListService(DatabaseHelper databaseService) {
         super(databaseService);
     }
 }

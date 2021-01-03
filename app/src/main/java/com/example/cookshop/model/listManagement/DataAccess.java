@@ -32,62 +32,46 @@ public class DataAccess implements Observabel
     private RecipeListService recipeListService;
     private ShoppingListService shoppingListService;
 
-    private ArrayList<Observer> onRecipeListChangeListener;
-    private ArrayList<Observer> onAvailableListChangeListener;
-    private ArrayList<Observer> onBuyingListChangeListener;
+    private static ArrayList<Observer> onRecipeListChangeListener;
+    private static ArrayList<Observer> onAvailableListChangeListener;
+    private static ArrayList<Observer> onBuyingListChangeListener;
 
 
     //....Constructor..........
 
-
-    public DataAccess(Context context)
-    {
-        DatabaseHelper databaseService = new DatabaseHelper(context);
-       // availableListService = new AvailableListService(databaseService);
-        shoppingListService = new ShoppingListService(databaseService);
-
-        //Observer Lists :
-        onAvailableListChangeListener = new ArrayList<>();
-        onBuyingListChangeListener = new ArrayList<>();
-        onRecipeListChangeListener = new ArrayList<>();
-    }
-
     /**
-     * Constructor to set mockObjects to test this class
-     *
-     * @param mockRecipeListService
-     * @param mockBuyingListService
-     * @param mockAvailableListService
+     * Private constructor
      */
-    public DataAccess(RecipeListService mockRecipeListService, ShoppingListService mockBuyingListService, AvailableListService mockAvailableListService)
+    private DataAccess()
     {
 
-        availableListService = mockAvailableListService;
-        shoppingListService = mockBuyingListService;
-        recipeListService = mockRecipeListService;
-
-        //Observer Lists :
-        onAvailableListChangeListener = new ArrayList<>();
-        onBuyingListChangeListener = new ArrayList<>();
-        onRecipeListChangeListener = new ArrayList<>();
     }
 
-    /**
-     * Constructor to set a mockDatabaseService.
-     * To test the ListServices
-     * @param mockDatabaseService
-     */
-    public DataAccess(DatabaseHelper mockDatabaseService)
+    public void initialize(Context context, RecipeListService recipeListService, ShoppingListService shoppingListService, AvailableListService availableListService)
     {
-        availableListService = new AvailableListService(mockDatabaseService);
-        shoppingListService = new ShoppingListService(mockDatabaseService);
-        recipeListService = new RecipeListService(mockDatabaseService);
+            DatabaseHelper databaseService = new DatabaseHelper(context);
 
-        //Observer Lists :
-        onAvailableListChangeListener = new ArrayList<>();
-        onBuyingListChangeListener = new ArrayList<>();
-        onRecipeListChangeListener = new ArrayList<>();
+            this.availableListService = availableListService;
+            this.shoppingListService = shoppingListService;
+            this.recipeListService = recipeListService;
+
+            //Observer Lists :
+            onAvailableListChangeListener = new ArrayList<>();
+            onBuyingListChangeListener = new ArrayList<>();
+            onRecipeListChangeListener = new ArrayList<>();
     }
+
+    public static DataAccess getInstance()
+    {
+        if (ourInstance == null)
+        {
+            ourInstance = new DataAccess();
+        }
+        return ourInstance;
+    }
+
+
+
 
     /**
      * Adds one article to the availableList (and database)
@@ -172,12 +156,12 @@ public class DataAccess implements Observabel
     }
 
     /**
-     * deletes the article at index from the buyingList (and database)
+     * deletes the article at index from the shopping list (and database)
      *
      * @param index
      *         the index of the article
      */
-    public void deleteArticleTheBuyingList(int index)
+    public void deleteArticleShoppingList(int index)
     {
         this.shoppingListService.removeItem(index);
         this.onBuyingListChange();
@@ -307,7 +291,7 @@ public class DataAccess implements Observabel
 
     public void updateRecipe(int index, Recipe newRecipe)
     {
-        //this.recipeListService.updateRecipe(index, newRecipe);
+       // this.recipeListService.updateRecipe(index, newRecipe);
         this.onRecipeListChange();
     }
 

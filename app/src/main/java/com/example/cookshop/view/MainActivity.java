@@ -6,6 +6,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.cookshop.R;
+import com.example.cookshop.items.Article;
+import com.example.cookshop.items.Category;
+import com.example.cookshop.model.database.DatabaseHelper;
+import com.example.cookshop.model.listManagement.AvailableListService;
+import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.model.listManagement.RecipeListService;
+import com.example.cookshop.model.listManagement.ShoppingListService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +21,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 
 public class MainActivity extends AppCompatActivity
 {
+
     //------------Static Variables------------
 
 
@@ -30,6 +38,10 @@ public class MainActivity extends AppCompatActivity
 
         //Set the Abb theme (true = dark, false = light)
         setTheme(true);
+        //
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        DataAccess.getInstance().initialize(this.getApplicationContext(), new RecipeListService(db), new ShoppingListService(db), new AvailableListService(db) );
+
         //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
 

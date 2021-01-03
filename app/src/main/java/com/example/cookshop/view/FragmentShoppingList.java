@@ -1,68 +1,158 @@
 package com.example.cookshop.view;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.cookshop.R;
+import com.example.cookshop.items.Article;
+import com.example.cookshop.items.Category;
+import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.view.SwipeToDelete.BuyingArticleRecyclerAdapter;
+import com.example.cookshop.view.SwipeToDelete.SwipeCallbackLeft;
+import com.example.cookshop.view.SwipeToDelete.SwipeCallbackRight;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentShoppingList#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FragmentShoppingList extends Fragment {
+import java.util.ArrayList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class FragmentShoppingList extends FragmentArticleList
+{
 
-    public FragmentShoppingList() {
+    //------------Instance Variables------------
+
+
+    /**
+     * Log Tag
+     */
+    private final String TAG = "FragmentShoppingList";
+
+
+    //------------Constructors------------
+
+    public FragmentShoppingList()
+    {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FramentShoppingList.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentShoppingList newInstance(String param1, String param2) {
-        FragmentShoppingList fragment = new FragmentShoppingList();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
+
+    //------------Activity/Fragment Lifecycle------------
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        /**
+         *    register at onBuyingChangeListener, so the
+         *    DataAccess will call this {@link #onChange()} method
+         */
+        DataAccess.getInstance().registerOnBuyingListChangeListener(this);
+
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.main_fratgment_list, container, false);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        insertArticles();
     }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        DataAccess.getInstance().unregisterOnBuyingListChangeListener(this);
+    }
+
+
+    @Override
+    protected ArticleRecyclerViewAdapter initializeRecyclerViewAdapter()
+    {
+        return new BuyingArticleRecyclerAdapter(this.getCorrespondingList(), this.getContext());
+    }
+
+
+
+    //------------FragmentArticleList Overrides------------
+
+
+    @Override
+    protected ArrayList<Article> getCorrespondingList()
+    {
+        return DataAccess.getInstance().getBuyingList();
+    }
+
+
+    @Override
+    protected void setupSwipeGestures()
+    {
+
+        Log.e(TAG, "setupSwipeGestures");
+        swipeCallbackLeft = position -> {
+            Log.e(TAG,"-----------------------------");
+            DataAccess.getInstance().deleteArticleShoppingList(position);
+        };
+
+        swipeCallbackRight = position -> {
+
+        };
+    }
+
+    //------------Observer------------
+
+    @Override
+    public void onChange()
+    {
+        Log.e(TAG,"onChange");
+        this.recyclerAdapter.notifyDataSetChanged();
+    }
+
+
+    //------------Setup views------------
+    protected void startArticleViewerActivity(int position)
+    {
+        /**
+         Intent displayIntent = new Intent(getActivity(), ArticleViewer.class);
+         displayIntent.putExtra("position", position);
+         displayIntent.putExtra("belonging", "buy");
+         startActivity(displayIntent);
+         **/
+    }
+
+
+
+
+    /**
+     * insert test articles
+     * TODO remove
+     */
+    private void insertArticles()
+    {
+        DataAccess.getInstance().addArticleToBuyingList(new Article("test", "beschreibung",  Category.FRUIT, 2, 1));
+        DataAccess.getInstance().addArticleToBuyingList(new Article("anderer Article", "beschreibung",  Category.FRUIT, 2, 1));
+        DataAccess.getInstance().addArticleToBuyingList(new Article("bananen", "beschreibung",  Category.FRUIT, 2, 1));
+    }
+
 
 }

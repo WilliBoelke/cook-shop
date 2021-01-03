@@ -16,6 +16,20 @@
         android:background="?attr/small_gradient_rounded_corner">
 
 
+        <TextView
+            android:id="@+id/article_name_textview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="TextView"
+            android:textColor="?attr/textColorPrimary"
+            android:fontFamily="@font/comfortaa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/article_image"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/article_image"
             android:layout_width="77dp"
@@ -27,20 +41,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/article_name_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-
-            app:layout_constraintStart_toEndOf="@+id/article_image"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="@dimen/header2_font_size"
-            android:textColor="?attr/textColorSecondary"
-            android:fontFamily="@font/comfortaa"
-            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/article_amount_textview"
@@ -49,12 +49,12 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:fontFamily="@font/comfortaa"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="@dimen/secondary_font_size"
+            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/article_image"
-            android:textSize="@dimen/secondary_font_size"
-            android:textColor="?attr/textColorSecondary"
-            android:fontFamily="@font/comfortaa"
-            android:textStyle="normal"
             app:layout_constraintTop_toBottomOf="@+id/article_name_textview" />
 
         <TextView
@@ -71,7 +71,6 @@
             android:textStyle="normal"
             app:layout_constraintStart_toEndOf="@+id/article_amount_textview"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.cardview.widget.CardView>
