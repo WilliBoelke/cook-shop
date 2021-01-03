@@ -1,5 +1,6 @@
 package com.example.cookshop.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -9,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.view.addUpdateViews.AddArticleActivity;
 import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -122,16 +126,30 @@ public class FragmentShoppingList extends FragmentArticleList
 
     //------------Setup views------------
 
+    @Override
     protected void startArticleViewerActivity(int position)
     {
-        /**
          Intent displayIntent = new Intent(getActivity(), ArticleViewer.class);
          displayIntent.putExtra("position", position);
          displayIntent.putExtra("belonging", "buy");
          startActivity(displayIntent);
-         **/
     }
 
+    @Override
+    protected void setupAddFab()
+    {
+        FloatingActionButton addFab = view.findViewById(R.id.add_item_fab);
+
+        addFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent newBuyArticle = new Intent(getContext(), AddArticleActivity.class);
+                newBuyArticle.putExtra("belonging", "buy");
+                startActivity(newBuyArticle);
+            }
+        });
+    }
 
 
 

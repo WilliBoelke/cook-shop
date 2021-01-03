@@ -11,8 +11,6 @@
         android:id="@+id/article_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +19,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/request_new_map_fab"
+        android:id="@+id/add_item_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/fab_margin"
@@ -29,7 +27,6 @@
         android:background="?attr/colorPrimary"
         android:backgroundTint="?attr/colorPrimary"
         android:clickable="true"
-        android:onClick="onMainFabClick"
         app:layout_constraintBottom_toBottomOf="@+id/article_recycler"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".view.addUpdateViews.AddArticleActivity"
+            android:label="@string/add_article"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".view.main.MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>

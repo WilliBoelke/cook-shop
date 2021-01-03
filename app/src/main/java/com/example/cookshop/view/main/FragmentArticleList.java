@@ -61,7 +61,7 @@ public abstract class FragmentArticleList extends Fragment implements Observer
     /**
      * The view
      */
-    private View view;
+    protected View view;
 
     /**
      * Needs tio be implemented in the subclasses i the method
@@ -104,9 +104,11 @@ public abstract class FragmentArticleList extends Fragment implements Observer
 
          setupSwipeGestures();//call before RecyclerView setup, else no wipe gestures
          setupRecyclerView();
+         setupAddFab();
 
         return view;
     }
+
 
 
     //------------Abstract Methods------------
@@ -131,6 +133,8 @@ public abstract class FragmentArticleList extends Fragment implements Observer
 
 
     protected abstract void  setupSwipeGestures();
+
+    protected abstract void setupAddFab();
 
 
     //------------Setup Views------------

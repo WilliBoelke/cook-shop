@@ -7,6 +7,26 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
+
+    <!--categories-->
+    <string name="fruit">Obst</string>
+    <string name="vegetable">Gemüse</string>
+    <string name="drink">Getränke</string>
+    <string name="meat">Fleisch</string>
+    <string name="other">Sonstiges</string>
+
+    <!--Array used for teh category spinner-->
+    <string-array name="categories">
+        <item>Obst</item>
+        <item>Gemüse</item>
+        <item>Getränk</item>
+        <item>Fleisch</item>
+        <item>Sonstiges</item>
+    </string-array>
+
+    <!--warnings-->
+    <string name="no_name_warning">Es muss mindestens ein Name eingeben werden</string>
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_home">Home</string>
@@ -24,4 +44,5 @@
     <string name="article">Articles</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_article">Add Article</string>
 </resources>
