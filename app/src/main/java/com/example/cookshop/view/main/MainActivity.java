@@ -1,10 +1,8 @@
 package com.example.cookshop.view.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.cookshop.R;
 import com.example.cookshop.model.database.DatabaseHelper;
@@ -12,13 +10,10 @@ import com.example.cookshop.model.listManagement.AvailableListService;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.model.listManagement.RecipeListService;
 import com.example.cookshop.model.listManagement.ShoppingListService;
-import com.example.cookshop.view.addUpdateViews.AddArticleActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.ui.AppBarConfiguration;
 
 public class MainActivity extends AppCompatActivity
 {

@@ -14,7 +14,8 @@ import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.view.addUpdateViews.AddArticleActivity;
+import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
+import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
 import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -63,7 +64,6 @@ public class FragmentShoppingList extends FragmentArticleList
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        insertArticles();
     }
 
 
@@ -150,19 +150,5 @@ public class FragmentShoppingList extends FragmentArticleList
             }
         });
     }
-
-
-
-    /**
-     * insert test articles
-     * TODO remove
-     */
-    private void insertArticles()
-    {
-        DataAccess.getInstance().addArticleToshopingList(new Article("test", "beschreibung",  Category.FRUIT, 2, 1));
-        DataAccess.getInstance().addArticleToshopingList(new Article("anderer Article", "beschreibung",  Category.FRUIT, 2, 1));
-        DataAccess.getInstance().addArticleToshopingList(new Article("bananen", "beschreibung",  Category.FRUIT, 2, 1));
-    }
-
 
 }

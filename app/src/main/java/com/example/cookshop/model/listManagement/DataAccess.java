@@ -174,7 +174,7 @@ public class DataAccess implements Observabel
      *         the list index
      * @return the article at index
      */
-    public Article getArticleFromBuyingList(int index)
+    public Article getArticleFromShoppingList(int index)
     {
         return (Article) this.shoppingListService.getItem(index);
     }
@@ -185,7 +185,7 @@ public class DataAccess implements Observabel
      * @param name
      * @return
      */
-    public Article getArticleFromBuyingList(String name)
+    public Article getArticleFromShoppingList(String name)
     {
         return this.shoppingListService.searchForArticle(name);
     }

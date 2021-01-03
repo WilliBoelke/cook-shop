@@ -1,4 +1,4 @@
-package com.example.cookshop.view.addUpdateViews;
+package com.example.cookshop.view.articleViewUpdateAdd;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,11 @@ import java.io.Serializable;
  */
 public class AddArticleActivity extends AppCompatActivity
 {
+
+
+    //------------Instance Variables------------
+
+
     /**
      * The Log Tag
      */
@@ -47,10 +52,13 @@ public class AddArticleActivity extends AppCompatActivity
     protected Category category;
     protected Intent intent;
     protected String editBelonging;
-
     protected int position;
-
     protected Article editArticle;
+
+
+
+
+    //------------Activity/Fragment Lifecycle------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,55 +84,10 @@ public class AddArticleActivity extends AppCompatActivity
 
     }
 
-    private void processIntent()
-    {
-        intent = getIntent();
-        //get article object from the intent
-        this.belonging = intent.getStringExtra("belonging");
 
-        /*
-         * Now it gets a little bit complicated,
-         * this code is for EditArticle class/activity which inherits from this one.
-         *
-         * if the belonging string passed by the intend equals "edit"
-         * this code will get 2 more values from the intent, so we can find
-         * and get the exact article from the DataAccess - sp we can manipulate it.
-         */
-        if (this.belonging.equals("edit"))
-        {
-            /*
-             * first i get the position of the article
-             */
-            position = intent.getIntExtra("position", -1);
-            if (position == -1)
-            {
-                Log.e(TAG, "no position specified");
-            }
-            else
-            {
-                /*
-                 * Now we need to know the real belonging of the article
-                 * i will that call "editBelonging"
-                 */
-                editBelonging = intent.getStringExtra("editBelonging");
-            }
 
-            // now lets get the article
-            if (editBelonging.equals("buy"))
-            {
-                editArticle = DataAccess.getInstance().getArticleFromBuyingList(position);
-            }
-            else if (editBelonging.equals("available"))
-            {
-                editArticle = DataAccess.getInstance().getArticleFromAvailableList(position);
-            }
-            //if its an article from a recipe
-            else
-            {
-                editArticle = DataAccess.getInstance().getRecipe(editBelonging).getArticles().get(position);
-            }
-        }
-    }
+    //------------Setup views------------
+
 
     private void setupWeightInput()
     {
@@ -223,6 +186,56 @@ public class AddArticleActivity extends AppCompatActivity
 
 
 
+    private void processIntent()
+    {
+        intent = getIntent();
+        //get article object from the intent
+        this.belonging = intent.getStringExtra("belonging");
+
+        /*
+         * Now it gets a little bit complicated,
+         * this code is for EditArticle class/activity which inherits from this one.
+         *
+         * if the belonging string passed by the intend equals "edit"
+         * this code will get 2 more values from the intent, so we can find
+         * and get the exact article from the DataAccess - sp we can manipulate it.
+         */
+        if (this.belonging.equals("edit"))
+        {
+            /*
+             * first i get the position of the article
+             */
+            position = intent.getIntExtra("position", -1);
+            if (position == -1)
+            {
+                Log.e(TAG, "no position specified");
+            }
+            else
+            {
+                /*
+                 * Now we need to know the real belonging of the article
+                 * i will that call "editBelonging"
+                 */
+                editBelonging = intent.getStringExtra("editBelonging");
+            }
+
+            // now lets get the article
+            if (editBelonging.equals("buy"))
+            {
+                editArticle = DataAccess.getInstance().getArticleFromShoppingList(position);
+            }
+            else if (editBelonging.equals("available"))
+            {
+                editArticle = DataAccess.getInstance().getArticleFromAvailableList(position);
+            }
+            //if its an article from a recipe
+            else
+            {
+                editArticle = DataAccess.getInstance().getRecipe(editBelonging).getArticles().get(position);
+            }
+        }
+    }
+
 
     /**
      * Generates an Article from the user input
@@ -253,7 +266,6 @@ public class AddArticleActivity extends AppCompatActivity
         }
         return new Article(name, description, category, amount, weight);
     }
-
 
     public void onAddArticleFabClick(View view)
     {
