@@ -1,4 +1,4 @@
-package com.example.cookshop.view;
+package com.example.cookshop.view.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.model.Observer;
-import com.example.cookshop.view.SwipeToDelete.RecyclerAdapterSwipeGestures;
-import com.example.cookshop.view.SwipeToDelete.SwipeCallbackLeft;
-import com.example.cookshop.view.SwipeToDelete.SwipeCallbackRight;
+import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
+
 
 
 import java.util.ArrayList;

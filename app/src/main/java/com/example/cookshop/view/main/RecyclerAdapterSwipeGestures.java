@@ -1,4 +1,4 @@
-package com.example.cookshop.view.SwipeToDelete;
+package com.example.cookshop.view.main;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

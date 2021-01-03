@@ -1,26 +1,18 @@
-package com.example.cookshop.view;
+package com.example.cookshop.view.main;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.view.SwipeToDelete.BuyingArticleRecyclerAdapter;
-import com.example.cookshop.view.SwipeToDelete.SwipeCallbackLeft;
-import com.example.cookshop.view.SwipeToDelete.SwipeCallbackRight;
+import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -86,16 +78,14 @@ public class FragmentShoppingList extends FragmentArticleList
     }
 
 
-    @Override
-    protected ArticleRecyclerViewAdapter initializeRecyclerViewAdapter()
-    {
-        return new BuyingArticleRecyclerAdapter(this.getCorrespondingList(), this.getContext());
-    }
-
-
 
     //------------FragmentArticleList Overrides------------
 
+    @Override
+    protected ArticleRecyclerViewAdapter initializeRecyclerViewAdapter()
+    {
+        return new ArticleRecyclerViewAdapter(this.getCorrespondingList(), this.getContext());
+    }
 
     @Override
     protected ArrayList<Article> getCorrespondingList()
@@ -108,16 +98,17 @@ public class FragmentShoppingList extends FragmentArticleList
     protected void setupSwipeGestures()
     {
 
-        Log.e(TAG, "setupSwipeGestures");
         swipeCallbackLeft = position -> {
-            Log.e(TAG,"-----------------------------");
+            DataAccess.getInstance().transferArticleFromBuyingToAvailableList(position);
+        };
+
+        swipeCallbackRight = position ->
+        {
             DataAccess.getInstance().deleteArticleShoppingList(position);
         };
-
-        swipeCallbackRight = position -> {
-
-        };
     }
+
+
 
     //------------Observer------------
 
@@ -130,6 +121,7 @@ public class FragmentShoppingList extends FragmentArticleList
 
 
     //------------Setup views------------
+
     protected void startArticleViewerActivity(int position)
     {
         /**
@@ -149,9 +141,9 @@ public class FragmentShoppingList extends FragmentArticleList
      */
     private void insertArticles()
     {
-        DataAccess.getInstance().addArticleToBuyingList(new Article("test", "beschreibung",  Category.FRUIT, 2, 1));
-        DataAccess.getInstance().addArticleToBuyingList(new Article("anderer Article", "beschreibung",  Category.FRUIT, 2, 1));
-        DataAccess.getInstance().addArticleToBuyingList(new Article("bananen", "beschreibung",  Category.FRUIT, 2, 1));
+        DataAccess.getInstance().addArticleToshopingList(new Article("test", "beschreibung",  Category.FRUIT, 2, 1));
+        DataAccess.getInstance().addArticleToshopingList(new Article("anderer Article", "beschreibung",  Category.FRUIT, 2, 1));
+        DataAccess.getInstance().addArticleToshopingList(new Article("bananen", "beschreibung",  Category.FRUIT, 2, 1));
     }
 
 

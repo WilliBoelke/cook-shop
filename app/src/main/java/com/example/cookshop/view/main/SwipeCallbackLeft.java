@@ -1,4 +1,4 @@
-package com.example.cookshop.view.SwipeToDelete;
+package com.example.cookshop.view.main;
 
 /**
  * Used to implement different  Swipe actions in {@link RecyclerAdapterSwipeGestures}

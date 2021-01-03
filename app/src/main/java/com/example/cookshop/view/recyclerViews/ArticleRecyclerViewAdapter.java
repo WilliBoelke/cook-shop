@@ -1,4 +1,4 @@
-package com.example.cookshop.view;
+package com.example.cookshop.view.recyclerViews;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,18 +15,26 @@ import com.example.cookshop.items.Article;
 
 import java.util.ArrayList;
 
-abstract public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecyclerViewAdapter.ArticleViewHolder>
+
+/**
+ * Recycler View Adapter for articles
+ */
+public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecyclerViewAdapter.ArticleViewHolder>
 {
+
 
     private ArrayList<Article> articleArrayList;
     private OnItemClickListener onItemClickListener;
     private Context context;
 
-    protected ArticleRecyclerViewAdapter(ArrayList<Article> articleArrayList, Context context)
+
+    public ArticleRecyclerViewAdapter(ArrayList<Article> articleArrayList, Context context)
     {
         this.articleArrayList = articleArrayList;
         this.context = context;
     }
+
+
 
     @NonNull
     @Override
@@ -36,6 +44,7 @@ abstract public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<Ar
         ArticleViewHolder articleViewHolder = new ArticleViewHolder(view, this.onItemClickListener);
         return articleViewHolder;
     }
+
 
 
     @Override
@@ -52,29 +61,18 @@ abstract public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<Ar
         articleViewHolder.weightTextView.setText(currentArticle.getWeight() + " gramm");
     }
 
+
+
     @Override
     public int getItemCount()
     {
         return articleArrayList.size();
     }
 
+
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
-    }
-
-    public abstract void switchLists(int position);
-
-    /**
-     * To be Overridden in the subclasses to delete  articles from the corresponding ListService
-     *
-     * @param position
-     */
-    public abstract void deleteItem(int position);
-
-    public Context getContext()
-    {
-        return this.context;
     }
 
 
@@ -82,6 +80,7 @@ abstract public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<Ar
     {
         void onItemClick(int position);
     }
+
 
     public static class ArticleViewHolder extends RecyclerView.ViewHolder
     {

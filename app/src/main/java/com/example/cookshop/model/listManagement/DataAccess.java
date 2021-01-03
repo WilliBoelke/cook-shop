@@ -144,12 +144,12 @@ public class DataAccess implements Observabel
     }
 
     /**
-     * Adds one article to the buyingList(and database)
+     * Adds one article to the shopping(and database)
      *
      * @param article
      *         the article to be added
      */
-    public void addArticleToBuyingList(Article article)
+    public void addArticleToshopingList(Article article)
     {
         this.shoppingListService.addArticleIntelligent(article);
         this.onBuyingListChange();
