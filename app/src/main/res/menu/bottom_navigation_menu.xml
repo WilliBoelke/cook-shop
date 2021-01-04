@@ -3,12 +3,12 @@
     <!--  android:icon="?attr/icon" -->
     <item
           android:id="@+id/nav_available"
-        android:icon="@drawable/fridge_fluent"
+        android:icon="@drawable/ic_notifications_black_24dp"
           android:title="Storage" />
 
     <item
         android:id="@+id/nav_shopping"
-        android:icon="@drawable/list_fluent"
+        android:icon="@drawable/ic_notifications_black_24dp"
         android:title="Shopping" />
 
     <item

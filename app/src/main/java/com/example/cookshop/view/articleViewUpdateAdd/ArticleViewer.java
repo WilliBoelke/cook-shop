@@ -18,9 +18,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.cookshop.R;
+import com.example.cookshop.controller.viewController.ArticleController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.google.android.material.appbar.AppBarLayout;
+
+import java.text.SimpleDateFormat;
 
 /**
  * This shows all the details about an article,
@@ -35,6 +38,8 @@ public class ArticleViewer extends AppCompatActivity {
 
 
     //------------Instance Variables------------
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
     private Article viewedArticle;
 
@@ -61,7 +66,11 @@ public class ArticleViewer extends AppCompatActivity {
      */
     private String   belonging;
 
-
+    /**
+     *
+     * @param savedInstanceState
+     */
+    private ArticleController controller;
 
 
     //------------Activity/Fragment Lifecycle------------
@@ -72,7 +81,7 @@ public class ArticleViewer extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.article_viewer);
-
+        this.controller = new ArticleController();
         //get intent
         Intent intent = getIntent();
         belonging = intent.getStringExtra("belonging");
@@ -101,6 +110,8 @@ public class ArticleViewer extends AppCompatActivity {
         this.setupWeightTextView();
         this.setupAmountTextView();
         this.setupDescriptionTextView();
+        this.setupLastChangedTextView();
+        this.setupCreationDateTextView();
     }
 
 
@@ -149,6 +160,18 @@ public class ArticleViewer extends AppCompatActivity {
     {
         weight = findViewById(R.id.weight_textview);
         weight.setText(Double.toString(viewedArticle.getWeight()));
+    }
+
+    private void setupCreationDateTextView()
+    {
+        TextView creationDate = findViewById(R.id.creation_date_textview);
+        creationDate.setText(simpleDateFormat.format(viewedArticle.getDateOfCreation()));
+    }
+
+    private void setupLastChangedTextView()
+    {
+        TextView lastChanged = findViewById(R.id.last_changed_textview);
+        lastChanged.setText(simpleDateFormat.format(viewedArticle.getDateOfUpdate()));
     }
 
 

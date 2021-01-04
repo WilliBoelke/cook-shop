@@ -1,11 +1,10 @@
 package com.example.cookshop.view.articleViewUpdateAdd;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.cookshop.R;
+import com.example.cookshop.items.Article;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -17,8 +16,8 @@ public class EditArticle extends  AddArticleActivity
     {
         super.onCreate(savedInstanceState);
 
-        name.setText(this.editArticle.getName());
-        description.setText(this.editArticle.getDescription());
+        nameTextView.setText(this.editArticle.getName());
+        descriptionTextView.setText(this.editArticle.getDescription());
         amountSeekBar.setProgress(this.editArticle.getAmount());
         weightSeekbar.setProgress((int) this.editArticle.getWeight());
         switch (editArticle.getCategory())
@@ -48,19 +47,19 @@ public class EditArticle extends  AddArticleActivity
     public void onAddArticleFabClick(View view)
     {
 
-
-        if (!name.getText().toString().equals(""))
+        if (!nameTextView.getText().toString().equals(""))
         {
+            Article updatedValues = controller.generateArticleFromInput(nameTextView, descriptionTextView, category, weightTextView, amountTextView, editArticle.getDateOfCreation(), editArticle.getDateOfUpdate());
             // this method is used in EditArticle
             if (this.belonging.equals("edit"))
             {
                 if (this.editBelonging.equals("buy"))
                 {
-                    DataAccess.getInstance().updateArticleFromBuyingList(this.position, getArticle());
+                    DataAccess.getInstance().updateArticleFromBuyingList(this.position, updatedValues);
                 }
                 else if (this.editBelonging.equals("available"))
                 {
-                    DataAccess.getInstance().updateArticleFromAvailableList(this.position, getArticle());
+                    DataAccess.getInstance().updateArticleFromAvailableList(this.position, updatedValues);
                 }
 
                 finish();

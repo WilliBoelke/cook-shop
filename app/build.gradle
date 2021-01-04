@@ -1,18 +1,27 @@
-plugins {
-    id 'com.android.application'
-}
+apply plugin: 'com.android.application'
+
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    sourceSets {
+        main { java.srcDirs = ['src/main/java'] }
+        test { java.srcDirs = ['src/test/unitTests/java'] }
+        androidTest { java.srcDirs = ['src/test/androidTest/java'] }
+    }
+
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.cookshop"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 22
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

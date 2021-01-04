@@ -1,10 +1,13 @@
 package com.example.cookshop.controller.viewController;
 
+import android.widget.TextView;
+
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This Class coordinates the Communication between View and Model
@@ -15,50 +18,57 @@ import java.util.ArrayList;
 public class ArticleController
 {
 
-    /**
-     * The belonging String determines which list is the  articles belong to
-     * (Available, Shopping or and Recipe)
-     *
-     * it needs to be passed  from  the Activity
-     */
-    private String belonging;
-
-    public void ArticleController(String belonging)
+    public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount)
     {
-        this.belonging = belonging;
+        // Declaring  standard values for the Article
+        String nameString        = name.getText().toString(); // must always be != null so we can get it right here
+        String descriptionString= "description";
+        int    amountI     = 1;
+        double weightD      = 0.0;
+
+        //Overwrite standard values if there is an input
+
+        if (!description.getText().toString().trim().equals(""))
+        {
+            descriptionString = description.getText().toString();
+        }
+        if (!weight.getText().toString().trim().equals(""))
+        {
+            weightD = Double.parseDouble(weight.getText().toString());
+        }
+        if (!amount.getText().toString().trim().equals(""))
+        {
+            amountI = Integer.parseInt(amount.getText().toString());
+        }
+
+        return new Article(nameString, descriptionString, category, amountI, weightD);
+    }
+
+    public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount, Date creation, Date changed)
+    {
+        // Declaring  standard values for the Article
+        String nameString        = name.getText().toString(); // must always be != null so we can get it right here
+        String descriptionString= "description";
+        int    amountI     = 1;
+        double weightD      = 0.0;
+
+        //Overwrite standard values if there is an input
+
+        if (!description.getText().toString().trim().equals(""))
+        {
+            descriptionString = description.getText().toString();
+        }
+        if (!weight.getText().toString().trim().equals(""))
+        {
+            weightD = Double.parseDouble(weight.getText().toString());
+        }
+        if (!amount.getText().toString().trim().equals(""))
+        {
+            amountI = Integer.parseInt(amount.getText().toString());
+        }
+
+        return new Article(nameString, descriptionString, category, amountI, weightD, creation);
     }
 
 
-    /**
-     * Checks user input for a recipe
-     * returns 0 if everything is correct
-     * @param name
-     * @param description
-     * @param category
-     * @param weight
-     * @param amount
-     * @return
-     */
-    public int checkInput(String name, String description, Category category, float weight, int amount)
-    {
-        return 1;
-    }
-
-    public void  deleteArticle(int index, String belonging)
-    {
-    }
-
-
-    public void updateArticle(int index, String belonging, Article newArticle)
-    {
-
-    }
-
-
-
-    public ArrayList<Article> getArticleList()
-    {
-         DataAccess.getInstance().getBuyingList();
-         return null;
-    }
 }

@@ -79,6 +79,14 @@ public interface DatabaseNamingContract
      */
     String COLUMN_ARTICLE_WEIGHT      = "WEIGHT";
     /**
+     *
+     */
+    String COLUMN_ARTICLE_CREATION_DATE ="CREATION_DATE";
+    /**
+     *
+     */
+    String COLUMN_ARTICLE_UPDATE_DATE ="UPDATE_DATE";
+    /**
      * column category of the article table
      */
     String COLUMN_ARTICLE_CATEGORY    = "CATEGORY";

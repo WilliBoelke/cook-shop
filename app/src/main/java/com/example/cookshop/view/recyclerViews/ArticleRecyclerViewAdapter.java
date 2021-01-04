@@ -40,7 +40,7 @@ public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecy
     @Override
     public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i)
     {
-        View view              = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_card_article, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_card_article, parent, false);
         ArticleViewHolder articleViewHolder = new ArticleViewHolder(view, this.onItemClickListener);
         return articleViewHolder;
     }
@@ -92,7 +92,6 @@ public class ArticleRecyclerViewAdapter extends RecyclerView.Adapter<ArticleRecy
         public ArticleViewHolder(@NonNull View itemView, final OnItemClickListener listener)
         {
             super(itemView);
-            articleImageView = itemView.findViewById(R.id.article_image);
             nameTextView = itemView.findViewById(R.id.article_name_textview);
             weightTextView = itemView.findViewById(R.id.article_weight_textview);
             amountTextView = itemView.findViewById(R.id.article_amount_textview);

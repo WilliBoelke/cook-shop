@@ -1,5 +1,7 @@
 package com.example.cookshop.model.listManagement;
 
+import android.util.Log;
+
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.items.Item;
@@ -25,6 +27,7 @@ public class ArticleListService extends ItemListService
         super(databaseService);
     }
 
+    private final String TAG = this.getClass().getSimpleName();
 
     //....Methods..........
 
@@ -121,6 +124,7 @@ public class ArticleListService extends ItemListService
         Article oldArticle = (Article) this.getItem(index);
 
         this.getItemList().set(index, newArticle);
+        Log.d(TAG, "updateArticle :  oldArticle  = " +oldArticle.getName() + " new article = " + newArticle.getName());
         this.getDatabase().updateArticle(oldArticle.getName(), getBELONGING_TAG(), newArticle);
     }
 

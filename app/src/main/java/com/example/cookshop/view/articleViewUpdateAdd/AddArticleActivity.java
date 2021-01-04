@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookshop.R;
+import com.example.cookshop.controller.viewController.ArticleController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
@@ -41,10 +42,10 @@ public class AddArticleActivity extends AppCompatActivity
      * added
      */
     protected String belonging;
-    protected EditText name;
-    protected EditText description;
-    protected EditText amountTxt;
-    protected EditText weightTxt;
+    protected EditText nameTextView;
+    protected EditText descriptionTextView;
+    protected EditText amountTextView;
+    protected EditText weightTextView;
     protected SeekBar amountSeekBar;
     protected SeekBar weightSeekbar;
     protected Spinner categorySpinner;
@@ -54,7 +55,7 @@ public class AddArticleActivity extends AppCompatActivity
     protected String editBelonging;
     protected int position;
     protected Article editArticle;
-
+    protected ArticleController controller;
 
 
 
@@ -65,14 +66,14 @@ public class AddArticleActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.article_add_edit);
-
+        controller = new ArticleController();
         processIntent();
 
-            name = findViewById(R.id.name_edittext);
-            description = findViewById(R.id.description_edittext);
-            amountTxt = findViewById(R.id.amount_edittext);
+            nameTextView = findViewById(R.id.name_edittext);
+            descriptionTextView = findViewById(R.id.description_edittext);
+            amountTextView = findViewById(R.id.amount_edittext);
             amountSeekBar = findViewById(R.id.amount_seekbar);
-            weightTxt = findViewById(R.id.weight_edittext);
+            weightTextView = findViewById(R.id.weight_edittext);
             weightSeekbar = findViewById(R.id.weight_seekbar);
             categorySpinner = findViewById(R.id.category_spinner);
             addFab = findViewById(R.id.add_fab);
@@ -99,7 +100,7 @@ public class AddArticleActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
                 //set the value of the weight EditText
-                weightTxt.setText("" + progress);
+                weightTextView.setText("" + progress);
             }
 
             @Override
@@ -126,7 +127,7 @@ public class AddArticleActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
                 //set the value of the amount EditText
-                amountTxt.setText("" + progress);
+                amountTextView.setText("" + progress);
             }
 
             @Override
@@ -198,7 +199,7 @@ public class AddArticleActivity extends AppCompatActivity
          *
          * if the belonging string passed by the intend equals "edit"
          * this code will get 2 more values from the intent, so we can find
-         * and get the exact article from the DataAccess - sp we can manipulate it.
+         * and get the exact article from  DataAccess
          */
         if (this.belonging.equals("edit"))
         {
@@ -214,7 +215,7 @@ public class AddArticleActivity extends AppCompatActivity
             {
                 /*
                  * Now we need to know the real belonging of the article
-                 * i will that call "editBelonging"
+                 * i will  call that "editBelonging"
                  */
                 editBelonging = intent.getStringExtra("editBelonging");
             }
@@ -237,58 +238,29 @@ public class AddArticleActivity extends AppCompatActivity
     }
 
 
-    /**
-     * Generates an Article from the user input
-     *
-     * @return the article
-     */
-    protected Article getArticle()
-    {
-        // Declaring  standard values for the Article
-        String name        = this.name.getText().toString();
-        String description = "description";
-        int    amount      = 1;
-        double weight      = 0.0;
-
-        //Overwrite standard values if there is an input
-
-        if (!this.description.getText().toString().trim().equals(""))
-        {
-            description = this.description.getText().toString();
-        }
-        if (!this.weightTxt.getText().toString().trim().equals(""))
-        {
-            weight = Double.parseDouble(this.weightTxt.getText().toString());
-        }
-        if (!this.amountTxt.getText().toString().trim().equals(""))
-        {
-            amount = Integer.parseInt(this.amountTxt.getText().toString());
-        }
-        return new Article(name, description, category, amount, weight);
-    }
 
     public void onAddArticleFabClick(View view)
     {
-
-        if (!name.getText().toString().equals(""))
+        if (!nameTextView.getText().toString().equals(""))
         {
+            Article newArticle = controller.generateArticleFromInput(nameTextView, descriptionTextView, category, weightTextView, amountTextView);
             if (belonging.equals("buy"))
             {
                 //Add Article to Database and ListServices
-                DataAccess.getInstance().addArticleToshopingList(getArticle());
+                DataAccess.getInstance().addArticleToshopingList(newArticle);
                 finish();
             }
             else if (belonging.equals("available"))
             {
                 //Add Article to Database and ListServices
-                DataAccess.getInstance().addArticleToAvailableList(getArticle());
+                DataAccess.getInstance().addArticleToAvailableList(newArticle);
                 finish();
             }
             else if (belonging.equals("newRecipe"))
             {
                 //Return the article to the AddRecipe Activity via resultIntent
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("newArticle", (Serializable) getArticle());
+                resultIntent.putExtra("newArticle", (Serializable) newArticle);
                 setResult(RESULT_OK, resultIntent);
                 finish();
             }
