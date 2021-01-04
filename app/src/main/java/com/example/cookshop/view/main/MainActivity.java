@@ -1,5 +1,6 @@
 package com.example.cookshop.view.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import com.example.cookshop.model.listManagement.AvailableListService;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.model.listManagement.RecipeListService;
 import com.example.cookshop.model.listManagement.ShoppingListService;
+import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -130,5 +132,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
+
+
 
 }

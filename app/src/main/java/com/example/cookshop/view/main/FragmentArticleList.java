@@ -101,7 +101,7 @@ public abstract class FragmentArticleList extends Fragment implements Observer
     {
         // Inflate the layout for this fragment
          view = inflater.inflate(R.layout.main_fratgment_list, container, false);
-
+         setHasOptionsMenu(true);
          setupSwipeGestures();//call before RecyclerView setup, else no wipe gestures
          setupRecyclerView();
          setupAddFab();
