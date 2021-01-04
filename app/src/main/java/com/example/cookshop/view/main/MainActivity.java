@@ -1,23 +1,29 @@
-package com.example.cookshop.view;
+package com.example.cookshop.view.main;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.cookshop.R;
+import com.example.cookshop.model.database.DatabaseHelper;
+import com.example.cookshop.model.listManagement.AvailableListService;
+import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.model.listManagement.RecipeListService;
+import com.example.cookshop.model.listManagement.ShoppingListService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.ui.AppBarConfiguration;
 
 public class MainActivity extends AppCompatActivity
 {
+
     //------------Static Variables------------
 
 
     //------------Instance Variables------------
+
+
 
     private  final String TAG = getClass().getSimpleName();
 
@@ -29,21 +35,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         //Set the Abb theme (true = dark, false = light)
-        setTheme(true);
+        setTheme(false);
+        //
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        DataAccess.getInstance().initialize(this.getApplicationContext(), new RecipeListService(db), new ShoppingListService(db), new AvailableListService(db) );
+
         //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentShoppingList.class, new Bundle()).addToBackStack(null).commit();
         setContentView(R.layout.activity_main);
-       // BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        //NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        //NavigationUI.setupWithNavController(navView, navController);
-
 
         this.setupBottomNav();
     }
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "onCreate :  app theme LIGHT");
         }
     }
+
     private void setupBottomNav()
     {
         // setting up the BottomNavigationView with Listener
@@ -73,10 +74,6 @@ public class MainActivity extends AppCompatActivity
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
-    private void onMainFabClickListener(View view)
-    {
-
-    }
 
 
 
@@ -133,6 +130,5 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
     };
-
 
 }

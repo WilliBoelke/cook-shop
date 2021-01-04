@@ -1,19 +1,28 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+
+apply plugin: 'com.android.application'
+
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
 
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    sourceSets {
+        main { java.srcDirs = ['src/main/java'] }
+        test { java.srcDirs = ['src/test/unitTests/java'] }
+        androidTest { java.srcDirs = ['src/test/androidTest/java'] }
+    }
+
+    compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.myapplication"
-        minSdkVersion 16
-        targetSdkVersion 30
+        applicationId "com.example.cookshop"
+        minSdkVersion 22
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -34,8 +43,10 @@ android {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.2.0'
+    //Glide -- for the Header images
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0-alpha03'
+
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

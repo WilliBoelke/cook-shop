@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 
@@ -47,7 +49,14 @@ public class Article extends Item implements Comparable<Article>, Cloneable
      * The amount
      */
     private int      amount;
-
+    /**
+     * The Date of creation
+     */
+    private Date dateOfCreation;
+    /**
+     * Date of last update
+     */
+    private Date dateOfUpdate;
 
     //....Constructor..........
 
@@ -68,7 +77,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     /**
      * Constructor for all parameters
      */
-    public Article(String name, String description, Category category, int amount, double weight)
+    public Article(String name, String description, Category category, int amount, double weight, Date dateOfCreation, Date lastUpdated)
     {
         // Using setter method here because they check (and correct if necessary) the values
         this.setName(name);
@@ -76,6 +85,33 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         this.setCategory(category);
         this.setAmount(amount);
         this.setWeight(weight);
+        this.dateOfCreation =  dateOfCreation;
+        this.dateOfUpdate=  lastUpdated;
+    }
+
+
+    public Article(String name, String description, Category category, int amount, double weight, Date dateOfCreation)
+    {
+        // Using setter method here because they check (and correct if necessary) the values
+        this.setName(name);
+        this.setDescription(description);
+        this.setCategory(category);
+        this.setAmount(amount);
+        this.setWeight(weight);
+        this.dateOfCreation =  dateOfCreation;
+        this.dateOfUpdate=  Calendar.getInstance().getTime();
+    }
+
+
+    public Article(String name, String description, Category category, int amount, double weight) {
+        // Using setter method here because they check (and correct if necessary) the values
+        this.setName(name);
+        this.setDescription(description);
+        this.setCategory(category);
+        this.setAmount(amount);
+        this.setWeight(weight);
+        this.dateOfCreation =  Calendar.getInstance().getTime();
+        this.dateOfUpdate =  Calendar.getInstance().getTime();
     }
 
     /**
@@ -86,6 +122,15 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         this.setObjectFromMementoPattern(mementoPattern);
     }
 
+    public Date getDateOfCreation()
+    {
+        return dateOfCreation;
+    }
+
+    public Date getDateOfUpdate()
+    {
+        return dateOfUpdate;
+    }
 
     //....Methods..........
 
@@ -100,6 +145,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         this.category = (Category) in.readSerializable();
         this.weight = in.readDouble();
         this.description = in.readString();
+        this.dateOfCreation =  Calendar.getInstance().getTime();
     }
 
     /**
@@ -111,6 +157,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     public void addAmount(int add)
     {
         this.setAmount(this.amount + add);
+        this.dateOfUpdate =  Calendar.getInstance().getTime();
     }
 
     /**
@@ -122,6 +169,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     public void addWeight(double add)
     {
         this.setWeight(this.weight + add);
+        this.dateOfUpdate =  Calendar.getInstance().getTime();
     }
 
     /**
@@ -188,6 +236,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     public void setCategory(Category category)
     {
         this.category = category;
+        this.dateOfUpdate =  Calendar.getInstance().getTime();
     }
 
 
@@ -226,6 +275,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         {
             this.amount = 0;
         }
+        this.dateOfUpdate =  Calendar.getInstance().getTime();
     }
 
     /**
@@ -256,6 +306,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         {
             this.weight = 0;
         }
+        this.dateOfUpdate =  Calendar.getInstance().getTime();
     }
 
     /**

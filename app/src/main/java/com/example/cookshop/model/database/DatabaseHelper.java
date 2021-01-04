@@ -12,7 +12,11 @@ import com.example.cookshop.items.Category;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.example.cookshop.model.database.DatabaseNamingContract.COLUMN_STEP_BELONGING;
 
@@ -23,7 +27,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
      */
     private final String  TAG = this.getClass().getSimpleName();
     private Context context;
-
+     private  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     //....Constructor..........
 
     public DatabaseHelper(Context context)
@@ -44,6 +48,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                 COLUMN_ARTICLE_AMOUNT + " INEGER,  " +
                 COLUMN_ARTICLE_WEIGHT + " REAL,  " +
                 COLUMN_ARTICLE_CATEGORY + " TEXT, " +
+                COLUMN_ARTICLE_CREATION_DATE + " TEXT, " +
+                COLUMN_ARTICLE_UPDATE_DATE + " TEXT, " +
                 COLUMN_ARTICLE_BELONGING + " TEXT );";
         String createStepTable = "CREATE TABLE IF NOT EXISTS " + TABLE_STEPS + " (" + COLUMN_STEP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_STEP_NAME + " TEXT NOT NULL, " +
@@ -249,7 +255,17 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                     String description = cursor.getString(cursor.getColumnIndex(COLUMN_ARTICLE_DESCRIPTION));
                     int    amount      = cursor.getInt(cursor.getColumnIndex(COLUMN_ARTICLE_AMOUNT));
                     double weight      = cursor.getDouble(cursor.getColumnIndex(COLUMN_ARTICLE_WEIGHT));
-
+                    Date  creationDate = Calendar.getInstance().getTime();
+                    Date lastChangedDate =   Calendar.getInstance().getTime();
+                    try
+                    {
+                        creationDate = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COLUMN_ARTICLE_CREATION_DATE)));
+                      lastChangedDate = simpleDateFormat.parse(cursor.getString(cursor.getColumnIndex(COLUMN_ARTICLE_UPDATE_DATE)));
+                    }
+                     catch (ParseException e)
+                     {
+                          e.printStackTrace();
+                     }
                     Category category;
                     //Needed to hard code these strings because i cant use the Categorys toString method inside the switch
                     switch (cursor.getString(cursor.getColumnIndex(COLUMN_ARTICLE_CATEGORY)))
@@ -269,7 +285,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                         default:
                             category = Category.OTHERS;
                     }
-                    articleArrayList.add(new Article(name, description, category, amount, weight));
+                    articleArrayList.add(new Article(name, description, category, amount, weight, creationDate, lastChangedDate));
                 }
                 while (cursor.moveToNext());
             }
@@ -341,6 +357,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     @Override
     public void updateArticle(String oldName, String belonging, Article article)
     {
+        Log.d(TAG, "updateArticle: called with :  oldArticle Name : " +oldName + " new Article Name : " +article.getName() + " in list : " + belonging );
         SQLiteDatabase database  = this.getWritableDatabase();
         ContentValues  newValues = generateArticleContentValues(article, belonging);
         database.update(TABLE_ARTICLE, newValues, COLUMN_ARTICLE_NAME + " = '" + oldName + "' AND " + COLUMN_ARTICLE_BELONGING + " = '" + belonging + "'", null);
@@ -378,6 +395,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
         contentValues.put(COLUMN_ARTICLE_AMOUNT, article.getAmount());
         contentValues.put(COLUMN_ARTICLE_WEIGHT, article.getWeight());
         contentValues.put(COLUMN_ARTICLE_CATEGORY, article.getCategory().toString());
+        contentValues.put(COLUMN_ARTICLE_CREATION_DATE, simpleDateFormat.format(article.getDateOfCreation()));
+       contentValues.put(COLUMN_ARTICLE_UPDATE_DATE, simpleDateFormat.format(article.getDateOfUpdate()));
         contentValues.put(COLUMN_ARTICLE_BELONGING, belonging);
         return contentValues;
     }

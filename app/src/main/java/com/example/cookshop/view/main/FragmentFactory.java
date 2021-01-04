@@ -1,4 +1,4 @@
-package com.example.cookshop.view;
+package com.example.cookshop.view.main;
 
 import android.util.Log;
 

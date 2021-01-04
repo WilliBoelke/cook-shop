@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background_dark"
-    android:backgroundTint="@color/background_dark"
+    android:background="?attr/backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,7 +19,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/request_new_map_fab"
+        android:id="@+id/add_item_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/fab_margin"
@@ -28,7 +27,6 @@
         android:background="?attr/colorPrimary"
         android:backgroundTint="?attr/colorPrimary"
         android:clickable="true"
-        android:onClick="onMainFabClick"
         app:layout_constraintBottom_toBottomOf="@+id/article_recycler"
         app:layout_constraintEnd_toEndOf="parent" />
 

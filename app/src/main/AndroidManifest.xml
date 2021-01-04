@@ -9,11 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.articleViewUpdateAdd.EditArticle"></activity>
+        <activity android:name=".view.articleViewUpdateAdd.ArticleViewer" />
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.articleViewUpdateAdd.AddArticleActivity"
+            android:label="@string/add_article"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.main.MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
