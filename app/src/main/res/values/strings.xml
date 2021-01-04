@@ -22,4 +22,6 @@
     <string name="timer_descriptional_text">Du kannst für jeden         Schritt einen Timer (in Sekunden) angeben. Wenn du         Später das Rezept nachkochst, kannst du den Timer         nutzen um dir mit einem Click eine Erinnerung zu erstellen</string>
     <string name="step">Steps</string>
     <string name="article">Articles</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
