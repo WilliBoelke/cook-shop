@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Light Mode colors :-->
+    <!-- Color for primary Buttons-->
+    <color name="primary_light">#50EC36</color>
+    <!-- Color for secondary Buttons-->
+    <color name="secondary_light">#339722</color>
+    <!-- Color for the layout background-->
+    <color name="background_light">#FAF9F7</color>
+    <!-- Color for foreground elements like cards, ListView items or menus-->
+    <color name="foreground_light">#FFFFFF</color>
+    <!-- Color for primary texts-->
+    <color name="text_light">#F1000000</color>
+    <!-- Color for secondary texts-->
+    <color name="textSecondary_light">#362B2A2A</color>
+
+    <!-- Dark Mode colors :-->
+    <!-- Color for primary Buttons-->
+    <color name="primary_dark">#50EC36</color>
+    <!-- Color for secondary Buttons-->
+    <color name="secondary_dark">#339722</color>
+    <!-- Color for the layout background-->
+    <color name="background_dark">#2E2E2E</color>
+    <!-- Color for foreground elements like cards, ListView items or menus-->
+    <color name="foreground_dark">#333333</color>
+    <!-- Color for primary texts-->
+    <color name="text_dark">#F1FFFFFF</color>
+    <!-- Color for secondary texts-->
+    <color name="textSecondary_dark">#98CACACA</color>
+
 </resources>
