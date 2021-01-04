@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.cookshop.R;
@@ -21,6 +23,7 @@ public class SynchronizeActivity extends AppCompatActivity
 {
     private final String TAG = this.getClass().getSimpleName();
     private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothDevice bondedBluetoothDevice;
     private ArrayList<BluetoothDevice> mBTDevices;
     private DeviceListAdapter mDeviceListAdapter;
     private ListView listView;
@@ -31,9 +34,16 @@ public class SynchronizeActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_synchronie);
+
         listView = findViewById(R.id.device_list_view);
         mBTDevices = new ArrayList<>();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+     listView.setOnItemClickListener(this.listClickListener);
+        //Broadcasts whenBond state changes, pairing devices for example
+        IntentFilter bondStateChangeFilter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        registerReceiver(mBroadcastReceiver4, bondStateChangeFilter);
+
+
         enableBluetooth();
         makeDiscoverable();
         startDiscovery();
@@ -70,6 +80,15 @@ public class SynchronizeActivity extends AppCompatActivity
         {
             //receiver was not registered
             Log.e(TAG, "onDestroy: Receiver3 was not registered ");
+        }
+        try
+        {
+            unregisterReceiver(mBroadcastReceiver4);
+        }
+        catch (IllegalArgumentException e)
+        {
+            //receiver was not registered
+            Log.e(TAG, "onDestroy: Receiver4 was not registered ");
         }
     }
 
@@ -238,4 +257,52 @@ public class SynchronizeActivity extends AppCompatActivity
         }
     };
 
+
+
+    /**
+     * Broadcast Receiver to react to  bond state changes (Pairing status changes)
+     */
+    private final BroadcastReceiver mBroadcastReceiver4 = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            final String action = intent.getAction();
+            if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED))
+            {
+                BluetoothDevice mDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                //3 cases:
+                //case1: bonded already
+                if (mDevice.getBondState() == BluetoothDevice.BOND_BONDED)
+                {
+                    Log.d(TAG, "mBroadcastReceiver4: BOND_BONDED.");
+                    //inside BroadcastReceiver4
+                    bondedBluetoothDevice = mDevice;
+                }
+                //case2: creating a bone
+                if (mDevice.getBondState() == BluetoothDevice.BOND_BONDING)
+                {
+                    Log.d(TAG, "mBroadcastReceiver4: BOND_BONDING.");
+                }
+                //case3: breaking a bond
+                if (mDevice.getBondState() == BluetoothDevice.BOND_NONE)
+                {
+                    Log.d(TAG, "mBroadcastReceiver4: BOND_NONE.");
+                }
+            }
+        }
+    };
+
+    private AdapterView.OnItemClickListener  listClickListener=  new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mBluetoothAdapter.cancelDiscovery();
+
+            Log.d(TAG, "Clicked on ListViewItem at  position " + position );
+            String deviceName = mBTDevices.get(position).getName();
+            String deviceAddress = mBTDevices.get(position).getAddress();
+            Log.d(TAG, "Clicked on ListViewItem with name :  " + deviceName + " " + deviceAddress);
+            mBTDevices.get(position).createBond();
+        }
+    };
 }
