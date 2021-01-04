@@ -1,10 +1,23 @@
 <resources>
 
 
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+    </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="backgroundColor">@color/background_light</item>
-        <item name="colorForeground">#F1A5A5A5</item>
+
+    <!-- Light/Day theme. -->
+    <style name="LightTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+
+        <item name="colorBackground">@color/background_light</item>
+        <item name="foreground">@color/foreground_light</item>
 
         <item name="colorPrimary">@color/primary_light</item>
         <item name="colorPrimaryVariant">@color/primary_light</item>
@@ -42,9 +55,14 @@
     </style>
 
     <!-- Dark/Night theme. -->
-    <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="backgroundColor">@color/background_dark</item>
-        <item name="colorForeground">#3C3C3C</item>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+
+        <item name="colorBackground">@color/background_dark</item>
+        <item name="foreground">@color/foreground_dark</item>
 
         <item name="colorPrimary">@color/primary_dark</item>
         <item name="colorPrimaryVariant">@color/primary_dark</item>
@@ -58,6 +76,9 @@
         <item name="edit_text_background">@drawable/edit_text_background_black</item>
         <item name="big_gradient_rounded_corner">@drawable/gradient_background_rounded_corners_black</item>
         <item name="small_gradient_rounded_corner">@drawable/recycler_item_gradient_black</item>
+
+        <item name="textColor">@color/text_dark</item>
+        <item name="textColorSecondary">@color/textSecondary_dark</item>
 
     </style>
 
