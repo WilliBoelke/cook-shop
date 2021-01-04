@@ -1,9 +1,13 @@
 <resources>
-    <declare-styleable name="colors">
-        <attr name="foreground" format="color" />
-        <attr name="colorBackground" format="color" />
 
+    <declare-styleable name="colors">
+        <!-- Color for foreground elements like cards, ListView items or menus-->
+        <attr name="colorForeground" format="color" />
+        <!-- Color for the layout background-->
+        <attr name="colorBackground" format="color" />
+        <!-- Color for primary Buttons-->
         <attr name="colorPrimary" format="color" />
+        <!-- Color for secondary Buttons-->
         <attr name="colorPrimaryVariant" format="color" />
         <attr name="colorOnPrimary" format="color" />
 

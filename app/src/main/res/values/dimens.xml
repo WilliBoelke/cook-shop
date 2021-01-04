@@ -16,4 +16,6 @@
 
     <dimen name="secondary_button_height">50dp</dimen>
     <dimen name="secondary_button_width">100dp</dimen>
+    <dimen name="app_bar_height">240dp</dimen>
+    <dimen name="header2_font_size">20</dimen>
 </resources>
