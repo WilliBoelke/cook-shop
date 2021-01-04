@@ -10,14 +10,8 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
-import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
-import com.example.cookshop.view.articleViewUpdateAdd.EditArticle;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentRecommendedList#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FragmentRecommendedList extends Fragment
 {
 
@@ -36,19 +30,19 @@ View view;
         view =  inflater.inflate(R.layout.fragment_recommended, container, false);
 
 
-        ssetupSynchronizeButoon();
+        setupSynchronizationButton();
         return view;
     }
 
-    private void ssetupSynchronizeButoon()
+    private void setupSynchronizationButton()
     {
         Button synchronize = view.findViewById(R.id.sync_button);
         synchronize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Intent synchIntent = new Intent(getContext(), SynchronieActivity.class);
-                startActivity(synchIntent);
+                Intent syncIntent = new Intent(getContext(), SynchronizeActivity.class);
+                startActivity(syncIntent);
             }
         });
     }
