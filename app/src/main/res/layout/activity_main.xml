@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    android:backgroundTint="?attr/backgroundColor">
+    tools:context=".activities.main.MainActivity"
+    android:id="@+id/main_layout">
 
 
     <androidx.fragment.app.FragmentContainerView
@@ -23,10 +22,16 @@
     </androidx.fragment.app.FragmentContainerView>
 
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary" />
+    </android.support.design.widget.AppBarLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_view"
-        android:layout_width="0dp"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorForeground"
         app:elevation="8dp"
@@ -44,3 +49,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
