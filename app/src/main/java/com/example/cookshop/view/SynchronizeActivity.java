@@ -1,9 +1,10 @@
-package com.example.cookshop.view.main;
+package com.example.cookshop.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +13,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.cookshop.R;
+import com.example.cookshop.controller.network.BluetoothConnection;
+import com.example.cookshop.controller.network.OnUpdateListener;
+import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.view.recyclerViews.DeviceListAdapter;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class SynchronizeActivity extends AppCompatActivity
@@ -24,10 +31,14 @@ public class SynchronizeActivity extends AppCompatActivity
     private final String TAG = this.getClass().getSimpleName();
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothDevice bondedBluetoothDevice;
+    private BluetoothConnection bluetoothConnection;
+    private SynchronizationManager synchronizationManager;
     private ArrayList<BluetoothDevice> mBTDevices;
     private DeviceListAdapter mDeviceListAdapter;
     private ListView listView;
-
+    private TextView msgTextView;
+    private Button connect;
+    private Button send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +49,10 @@ public class SynchronizeActivity extends AppCompatActivity
         listView = findViewById(R.id.device_list_view);
         mBTDevices = new ArrayList<>();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-     listView.setOnItemClickListener(this.listClickListener);
+        connect = findViewById(R.id.connect_button);
+        send = findViewById(R.id.send_button);
+        msgTextView = findViewById(R.id.display_msg_textview);
+        listView.setOnItemClickListener(this.listClickListener);
         //Broadcasts whenBond state changes, pairing devices for example
         IntentFilter bondStateChangeFilter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(mBroadcastReceiver4, bondStateChangeFilter);
@@ -47,7 +61,39 @@ public class SynchronizeActivity extends AppCompatActivity
         enableBluetooth();
         makeDiscoverable();
         startDiscovery();
+
+
     }
+
+
+    private void startSyncManager()
+    {
+        Log.d(TAG, "startSynchronization: starting synchronization manager");
+        synchronizationManager= new SynchronizationManager(new BluetoothConnection(mBluetoothAdapter, getApplicationContext()), bondedBluetoothDevice, new OnUpdateListener()
+        {
+            @Override
+            public void onUpdate(String message)
+            {
+               msgTextView.setText(message);
+            }
+        });
+
+    }
+
+    public void  startSynchronization(View view)
+    {
+        if(synchronizationManager != null)
+        {
+            connect.setClickable(false); // not clickable again
+            synchronizationManager.execute();
+        }
+        else
+        {
+            Log.e(TAG, "startSynchronization: Sync not ready yet, bond with device first");
+            msgTextView.setText("Sync not ready yet, bond with device first");
+        }
+    }
+
 
 
     @Override
@@ -89,6 +135,13 @@ public class SynchronizeActivity extends AppCompatActivity
         {
             //receiver was not registered
             Log.e(TAG, "onDestroy: Receiver4 was not registered ");
+        }
+        try {
+            Method m = bondedBluetoothDevice.getClass()
+                    .getMethod("removeBond", (Class[]) null);
+            m.invoke(bondedBluetoothDevice, (Object[]) null);
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -278,8 +331,9 @@ public class SynchronizeActivity extends AppCompatActivity
                     Log.d(TAG, "mBroadcastReceiver4: BOND_BONDED.");
                     //inside BroadcastReceiver4
                     bondedBluetoothDevice = mDevice;
+                    startSyncManager();
                 }
-                //case2: creating a bone
+                //case2: creating a bond
                 if (mDevice.getBondState() == BluetoothDevice.BOND_BONDING)
                 {
                     Log.d(TAG, "mBroadcastReceiver4: BOND_BONDING.");

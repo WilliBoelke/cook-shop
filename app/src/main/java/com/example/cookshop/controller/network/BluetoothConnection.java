@@ -43,9 +43,13 @@ public class BluetoothConnection  implements NetworkConnection
 
         private UUID deviceUUID;
 
-        private ProgressDialog mProgressDialog;
+        boolean isConnected;
+
+    // private ProgressDialog mProgressDialog;
 
         private OnReceiveCallback mOnReceiveCallback;
+
+        private boolean isServer;
 
     //------------Constructors------------
 
@@ -53,6 +57,7 @@ public class BluetoothConnection  implements NetworkConnection
         {
             this.mBluetoothAdapter = mBluetoothAdapter;
             this.context = context;
+            isConnected = false;
         }
 
 
@@ -60,7 +65,7 @@ public class BluetoothConnection  implements NetworkConnection
 
 
     @Override
-    public synchronized void start()
+    public synchronized void startServer()
     {
         Log.d(TAG, "start : starting BluetoothConnection");
 
@@ -90,12 +95,25 @@ public class BluetoothConnection  implements NetworkConnection
         this.mOnReceiveCallback = listener;
     }
 
+    @Override
+    public boolean isServer()
+    {
+        return this.isServer;
+    }
 
+    @Override
+    public boolean isConnected()
+    {
+        return  this.isConnected;
+    }
+
+
+    @Override
     public void startClient(BluetoothDevice device, UUID uuid)
     {
         Log.d(TAG, "startClient: started");
 
-        mProgressDialog = ProgressDialog.show(context, "Connecting Bluetooth", "Please Wait...", true);
+//        mProgressDialog = ProgressDialog.show(context, "Connecting Bluetooth", "Please Wait...", true);
 
         mConnectThread = new ConnectThread(device, uuid);
         mConnectThread.start();
@@ -158,6 +176,7 @@ public class BluetoothConnection  implements NetworkConnection
 
                 if (socket != null)
                 {
+                    isServer = true;
                     connected(socket, mmDevice);
                 }
 
@@ -237,7 +256,7 @@ public class BluetoothConnection  implements NetworkConnection
                 }
             }
             Log.d(TAG, "ConnectThread: run: connection established ");
-
+            isServer = false;
             connected(mmSocket, mmDevice);
         }
 
@@ -279,7 +298,7 @@ public class BluetoothConnection  implements NetworkConnection
             this.mmSocket = bluetoothSocket;
 
             //The Connection was successful, we can now dismiss the dialog
-            mProgressDialog.dismiss();
+           // mProgressDialog.dismiss();
 
             // Setting up in and output stream
             InputStream tmpIn = null;
@@ -311,6 +330,12 @@ public class BluetoothConnection  implements NetworkConnection
             //waiting for incoming transmissions
             while(true)
             {
+                int count = 1;
+                if(count == 1)
+                {
+                    isConnected = true;
+                    count ++;
+                }
                 try
                 {
                     //Blocking Call

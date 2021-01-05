@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
+import com.example.cookshop.view.SynchronizeActivity;
 
 
 public class FragmentRecommendedList extends Fragment
