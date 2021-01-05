@@ -1,7 +1,4 @@
-package com.example.cookshop.controller;
-
-import com.example.cookshop.model.Observabel;
-import com.example.cookshop.model.Observer;
+package com.example.cookshop.controller.network;
 
 public class SynchronizationManager
 {
