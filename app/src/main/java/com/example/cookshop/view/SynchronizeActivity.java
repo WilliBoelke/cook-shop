@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.telephony.SmsMessage;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,11 +58,9 @@ public class SynchronizeActivity extends AppCompatActivity
         IntentFilter bondStateChangeFilter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(mBroadcastReceiver4, bondStateChangeFilter);
 
-
         enableBluetooth();
         makeDiscoverable();
         startDiscovery();
-
 
     }
 
@@ -74,7 +73,7 @@ public class SynchronizeActivity extends AppCompatActivity
             @Override
             public void onUpdate(String message)
             {
-               msgTextView.setText(message);
+
             }
         });
 
@@ -99,16 +98,16 @@ public class SynchronizeActivity extends AppCompatActivity
     @Override
     protected void onDestroy()
     {
-      super.onDestroy();
-      try
-      {
-          unregisterReceiver(mBroadcastReceiver1);
-      }
-      catch (IllegalArgumentException e)
-      {
-          //receiver was not registered
-          Log.e(TAG, "onDestroy: Receiver1 was not registered ");
-      }
+        super.onDestroy();
+        try
+        {
+            unregisterReceiver(mBroadcastReceiver1);
+        }
+        catch (IllegalArgumentException e)
+        {
+            //receiver was not registered
+            Log.e(TAG, "onDestroy: Receiver1 was not registered ");
+        }
         try
         {
             unregisterReceiver(mBroadcastReceiver2);

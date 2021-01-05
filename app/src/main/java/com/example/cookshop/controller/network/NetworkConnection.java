@@ -19,4 +19,6 @@ public interface NetworkConnection
      boolean isServer();
 
      boolean isConnected();
+
+     void closeConnection();
 }

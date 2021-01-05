@@ -107,6 +107,12 @@ public class BluetoothConnection  implements NetworkConnection
         return  this.isConnected;
     }
 
+    @Override
+    public void closeConnection()
+    {
+           // this.mConnectedThread.cancel();
+    }
+
 
     @Override
     public void startClient(BluetoothDevice device, UUID uuid)
@@ -201,7 +207,7 @@ public class BluetoothConnection  implements NetworkConnection
 
 
 
-    //------------Connect Thread ------------
+    //------------Connected Thread ------------
 
     private class ConnectThread extends  Thread
     {
@@ -341,7 +347,7 @@ public class BluetoothConnection  implements NetworkConnection
                     //Blocking Call
                     bytes = mmInputStream.read(buffer);
                     String incomingTransmission = new String(buffer, 0, bytes);
-                    Log.d(TAG, "ConnectedThread: run received transmission:  " + incomingTransmission);
+                    Log.d(TAG, "  " + incomingTransmission);
 
                     mOnReceiveCallback.onIncomingMessage(incomingTransmission);
                 }
