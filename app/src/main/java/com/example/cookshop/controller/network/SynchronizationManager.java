@@ -235,7 +235,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
     private void synchronize()
     {
-        Log.d(TAG, "Finish Sync");
+        Log.d(TAG, "synchronize");
 
         if(startedAsSender)
         {
@@ -243,12 +243,15 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             // with ours and synchronized it (see else block)
             //It then will send the complete list, including our article back to here.
             //so we can just replace the whole list without the nned of comparing it again
+            Log.d(TAG, "synchronize: started as sender, saving articles ");
             DataAccess.getInstance().overrideShoppingListCompletely(receivedArticles);
         }
         else
         {
+            Log.d(TAG, "synchronize: started as receiver, comparing and snc lists ");
             for (Article a: receivedArticles)
             {
+
                 DataAccess.getInstance().addArticleToShoppingList(a);
             }
         }
