@@ -7,9 +7,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cookshop.items.Article;
+import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class SynchronizationManager extends AsyncTask<String, String, String>
@@ -251,8 +253,34 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             Log.d(TAG, "synchronize: started as receiver, comparing and snc lists ");
             for (Article a: receivedArticles)
             {
+                /**
+                 * Okay so... here i compare both lists, the local ne and the transferred one:
+                 * I will compare the Articles name Name if they are in both lists i will take the one with the more recent "lastUpdateDate"
+                 * And write a information about it into the description.
+                 */
+                // Boolean to check if a match was found (and merged)
+                Boolean merged = false;
 
-                DataAccess.getInstance().addArticleToShoppingList(a);
+                for (int index = 0; index < DataAccess.getInstance().getBuyingList().size(); index++)
+                {
+                    // Get the Article once to minimize method calls
+                    Article tempArticle = DataAccess.getInstance().getArticleFromShoppingList(index);
+
+                    //save the names of both articles / trimmed and in lowercase
+                    String trimmedArticleName = a.getName().trim().toLowerCase();
+                    String trimmedTempArticleName = tempArticle.getName().trim().toLowerCase();
+
+                    // Check if the names are the same
+                    if (trimmedArticleName.equals(trimmedTempArticleName))
+                    {
+                        // a is newer then tmpArticle
+                        if (!tempArticle.getDateOfUpdate().after(a.getDateOfUpdate()))
+                        {
+                            DataAccess.getInstance().deleteArticleShoppingList(index);
+                            DataAccess.getInstance().addArticleToShoppingList(a);
+                        }
+                    }
+                }
             }
         }
     }

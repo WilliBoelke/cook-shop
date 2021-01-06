@@ -392,6 +392,6 @@ public class DataAccess implements Observabel
 
     public void overrideShoppingListCompletely(ArrayList<Article> synchronizedList)
     {
-        this.shoppingListService.addSeveralArticlesIntelligent(synchronizedList);
+        this.shoppingListService.overrideListCompletly(synchronizedList);
     }
 }

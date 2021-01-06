@@ -33,13 +33,15 @@ public class ArticleListService extends ItemListService
 
     protected void overrideListCompletly(ArrayList<Article> list)
     {
-        for (int i = 0; i < this.getItemList().size(); i++)
+        for (int i = 0; i <=this.getItemList().size(); i++)
         {
+            Log.d("SynchronizationManager", "Delte item " + i);
             removeItem(i);
         }
-
+        Log.d("SynchronizationManager", "Adding Articles  = " +  list.size());
         for (Article a: list)
         {
+
             addItem(a);
         }
     }
