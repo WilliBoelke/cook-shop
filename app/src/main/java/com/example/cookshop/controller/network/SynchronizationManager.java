@@ -111,7 +111,6 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                     if(sender)
                     {
                         sendArticles();
-                        synchronize();
                     }
                     else
                     {
@@ -124,7 +123,6 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                     Log.d(TAG, "not connected");
                 }
             }
-
             networkConnection.closeConnection();
 
        return null;
