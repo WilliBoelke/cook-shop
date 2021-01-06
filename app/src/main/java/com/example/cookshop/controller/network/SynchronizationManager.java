@@ -23,12 +23,6 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
     private ArrayList<Article> receivedArticles;
 
-    private final String ACKNOWLEDGED = "ACK";
-
-    private final String FINISHED = "FIN";
-
-    private OnUpdateListener onUpdateListener;
-
     private NetworkConnection networkConnection;
 
     private BluetoothDevice mDevice;
@@ -36,6 +30,12 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private boolean sender;
 
     private boolean startedAsSender;
+
+    private final String ACKNOWLEDGED = "ACK";
+
+    private final String FINISHED = "FIN";
+
+
 
     /**
      * There are two states, sender and receiver
@@ -47,15 +47,18 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
 
 
-    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnUpdateListener onUpdateListener)
+
+
+    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnReceiveCallback onReceiveCallback)
     {
         Log.d(TAG, "Initialize SyncManager");
         this.networkConnection = networkConnection;
         this.receivedArticles =  new ArrayList<>();
         this.mDevice = device;
-        this.onUpdateListener = onUpdateListener;
+        this.onReceiveCallback = onReceiveCallback;
         Log.d(TAG, "Starting NetworkConnection as server");
         networkConnection.startServer();
+
         networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
@@ -129,6 +132,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
        return null;
     }
+
+
+
+
+
 
 
 
@@ -235,6 +243,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     }
 
 
+
+    /**
+     * Compares and synchronizes both lists (Local and the just received list)
+     *
+     */
     private void synchronize()
     {
         Log.d(TAG, "synchronize");

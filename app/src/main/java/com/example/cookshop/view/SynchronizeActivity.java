@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.telephony.SmsMessage;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +18,7 @@ import android.widget.TextView;
 
 import com.example.cookshop.R;
 import com.example.cookshop.controller.network.BluetoothConnection;
-import com.example.cookshop.controller.network.OnUpdateListener;
+import com.example.cookshop.controller.network.OnReceiveCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.view.recyclerViews.DeviceListAdapter;
 
@@ -68,10 +66,10 @@ public class SynchronizeActivity extends AppCompatActivity
     private void startSyncManager()
     {
         Log.d(TAG, "startSynchronization: starting synchronization manager");
-        synchronizationManager= new SynchronizationManager(new BluetoothConnection(mBluetoothAdapter, getApplicationContext()), bondedBluetoothDevice, new OnUpdateListener()
+        synchronizationManager= new SynchronizationManager(new BluetoothConnection(mBluetoothAdapter), bondedBluetoothDevice, new OnReceiveCallback()
         {
             @Override
-            public void onUpdate(String message)
+            public void onIncomingMessage(String Message)
             {
 
             }

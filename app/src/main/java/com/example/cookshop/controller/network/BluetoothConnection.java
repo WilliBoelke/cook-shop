@@ -5,7 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.content.Context;
+import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
@@ -13,51 +13,96 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
+/**
+ * Connects to other bluetooth enabled devices.
+ *
+ */
 public class BluetoothConnection  implements NetworkConnection
 {
 
+
+
     //------------Instance Variables------------
 
+    /**
+     * The name of the app
+     * needed for the BluetoothAdapter
+     */
+    private static final String appName = "CookAndShop";
 
-        private static final String appName = "CookAndShop";
+    /**
+     * Log Tag
+     */
+    private final String TAG = this.getClass().getSimpleName();
 
-        private final String TAG = this.getClass().getSimpleName();
-
+    /**
+     * A generated UUID needed for the BluetoothAdapter
+     */
         private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
 
-        private final BluetoothAdapter mBluetoothAdapter;
+    /**
+     * The BluetoothAdapter
+     */
+    private final BluetoothAdapter mBluetoothAdapter;
 
-        private Context context;
+    /**
+     * An instance of the AcceptThread
+     */
+    private AcceptThread mAcceptThread;
 
-        private AcceptThread mAcceptThread;
+    /**
+     * An instance of the ConnectThread
+     */
+    private ConnectThread mConnectThread;
 
-        private ConnectThread mConnectThread;
+    /**
+     * An instance of the ConnectedThread
+     */
+    private ConnectedThread mConnectedThread;
 
-        private ConnectedThread mConnectedThread;
+    /**
+     * The Bluetooth device to connect with
+     */
+    private BluetoothDevice mmDevice;
 
-        private BluetoothDevice mmDevice;
+    private UUID deviceUUID;
 
-        private UUID deviceUUID;
+    /**
+     * true if Accept or ConnectThread finished and AcceptThread starts
+     */
+    boolean isConnected;
 
-        boolean isConnected;
+    /**
+     * On Receive callback can be implemented somewhere else and set
+     * through the setter, will execute when the ConnectedThread receives something
+     */
+    private OnReceiveCallback mOnReceiveCallback;
 
-        // private ProgressDialog mProgressDialog;
+    /**
+     * is true when the AcceptThread finishes before the connect thread
+     * finished
+     */
+    private boolean isServer;
 
-        private OnReceiveCallback mOnReceiveCallback;
 
-        private boolean isServer;
+
+
 
     //------------Constructors------------
 
-        public BluetoothConnection(BluetoothAdapter mBluetoothAdapter, Context context)
-        {
-            this.mBluetoothAdapter = mBluetoothAdapter;
-            this.context = context;
-            isConnected = false;
-        }
+    public BluetoothConnection(BluetoothAdapter mBluetoothAdapter)
+    {
+        this.mBluetoothAdapter = mBluetoothAdapter;
+        isConnected = false;
+    }
+
+
+
 
 
     //------------Network Connection Methods ------------
+
+
 
 
     @Override
@@ -79,11 +124,25 @@ public class BluetoothConnection  implements NetworkConnection
         }
     }
 
+
+
+    @Override
+    public void startClient(BluetoothDevice device, UUID uuid)
+    {
+        Log.d(TAG, "startClient: started");
+        mConnectThread = new ConnectThread(device, uuid);
+        mConnectThread.start();
+    }
+
+
+
     @Override
     public void write(String message)
     {
         mConnectedThread.write(message);
     }
+
+
 
     @Override
     public void setOnReceiveListener(OnReceiveCallback listener)
@@ -91,11 +150,15 @@ public class BluetoothConnection  implements NetworkConnection
         this.mOnReceiveCallback = listener;
     }
 
+
+
     @Override
     public boolean isServer()
     {
         return this.isServer;
     }
+
+
 
     @Override
     public boolean isConnected()
@@ -103,23 +166,42 @@ public class BluetoothConnection  implements NetworkConnection
         return  this.isConnected;
     }
 
+
+
     @Override
     public void closeConnection()
     {
-           // this.mConnectedThread.cancel();
+        Log.d(TAG, "closeConnection: trying to close connection");
+        try
+        {
+            this.mConnectedThread.cancel();
+            Log.d(TAG, "closeConnection: closed ConnectedThread");
+        }
+        catch (NullPointerException e)
+        {
+            Log.d(TAG, "closeConnection: ConnectedThread was null");
+        }
+        try
+        {
+            this.mAcceptThread.cancel();
+            Log.d(TAG, "closeConnection: closed AcceptThread");
+        }
+        catch (NullPointerException e)
+        {
+            Log.d(TAG, "closeConnection: AcceptThread was null");
+        }
+        try
+        {
+            this.mConnectThread.cancel();
+            Log.d(TAG, "closeConnection: closed ConnectThread");
+        }
+        catch (NullPointerException e)
+        {
+            Log.d(TAG, "closeConnection: ConnectThread was null");
+        }
+
     }
 
-
-    @Override
-    public void startClient(BluetoothDevice device, UUID uuid)
-    {
-        Log.d(TAG, "startClient: started");
-
-//        mProgressDialog = ProgressDialog.show(context, "Connecting Bluetooth", "Please Wait...", true);
-
-        mConnectThread = new ConnectThread(device, uuid);
-        mConnectThread.start();
-    }
 
 
 
@@ -127,21 +209,28 @@ public class BluetoothConnection  implements NetworkConnection
 
     //------------Accept Thread ------------
 
+
     /**
      * the AcceptThreads runs at the beginning and waits for incoming connections
      * It runs as long as a connection is accepted
      */
     private class AcceptThread extends Thread
     {
+
+        //------------Instance Variables------------
+
         private final BluetoothServerSocket mmServerSocket;
+
 
 
         //------------Constructors------------
 
-
         public AcceptThread()
         {
+
             BluetoothServerSocket tmp = null;
+
+
             try
             {
                 tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord(appName, MY_UUID_INSECURE);
@@ -155,59 +244,80 @@ public class BluetoothConnection  implements NetworkConnection
             Log.d(TAG, "AcceptThread: Setting up Server ");
 
         }
-            /**
-             * Opens the ServerSocket and waits for incoming connections
-             */
-            public void run()
+
+
+
+
+        //------------Methods------------
+
+        /**
+         * Opens the ServerSocket and waits for incoming connections
+         */
+        public void run()
+        {
+            Log.d(TAG, "AcceptThread: run : AcceptThread Running");
+
+            BluetoothSocket socket = null;
+
+            //Blocking Call :
+            //Accept thread waits here till another device connects (or canceled)
+            Log.d(TAG, "AcceptThread: run : RFCOM server socket started, waiting for connections ...");
+            try {
+                socket = mmServerSocket.accept();
+                Log.d(TAG, "AcceptThread: run : RFCOM server socket accepted connection.");
+            }
+            catch (IOException e)
             {
-                Log.d(TAG, "AcceptThread: run : AcceptThread Running");
-
-                BluetoothSocket socket = null;
-
-                //Blocking Call :
-                //Accept thread waits here till another device connects (or canceled)
-                Log.d(TAG, "AcceptThread: run : RFCOM server socket started, waiting for connections ...");
-                try {
-                    socket = mmServerSocket.accept();
-                    Log.d(TAG, "AcceptThread: run : RFCOM server socket accepted connection.");
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-                if (socket != null)
-                {
-                    isServer = true;
-                    connected(socket, mmDevice);
-                }
-
-                Log.d(TAG, "AcceptThread: run : AcceptThread Ended ");
+                e.printStackTrace();
             }
 
-
-            /**
-             * Cancels the AcceptThread by closing the ServerSocket
-             */
-            public void cancel ()
+            if (socket != null)
             {
-                Log.d(TAG, "AcceptThread: cancel: canceling AcceptThread");
-                try {
-                    mmServerSocket.close();
-                } catch (IOException e) {
-                    Log.e(TAG, "AcceptThread: cancel: failed to close ServerSocket : " + e.getStackTrace());
-                }
+                isServer = true;
+                connected(socket, mmDevice);
             }
+
+            Log.d(TAG, "AcceptThread: run : AcceptThread Ended ");
+        }
+
+
+
+        /**
+         * Cancels the AcceptThread by closing the ServerSocket
+         */
+        public void cancel ()
+        {
+            Log.d(TAG, "AcceptThread: cancel: canceling AcceptThread");
+            try {
+                mmServerSocket.close();
+            } catch (IOException e) {
+                Log.e(TAG, "AcceptThread: cancel: failed to close ServerSocket : " + e.getStackTrace());
+            }
+        }
 
         }
 
 
 
+
+
     //------------Connected Thread ------------
 
+
+    /**
+     * The ConnectThread trys to connect to another device (running in AcceptThread)
+     */
     private class ConnectThread extends  Thread
     {
+
+
+        //------------Instance Variables------------
+
         private BluetoothSocket mmSocket;
+
+
+
+        //------------Constructors------------
 
         public ConnectThread(BluetoothDevice device, UUID uuid)
         {
@@ -216,12 +326,19 @@ public class BluetoothConnection  implements NetworkConnection
             deviceUUID = uuid;
         }
 
+
+
+        //------------Methods------------
+
+
+        /**
+         * Starts to connect to another devices BluetoothServerSocket
+         */
         public void run()
         {
             BluetoothSocket tmp = null;
             Log.e(TAG, "ConnectThread: run: ConnectThread is running");
 
-            //Getting a BluetoothSocket for connection with the given Device
 
             try
             {
@@ -230,7 +347,7 @@ public class BluetoothConnection  implements NetworkConnection
             }
             catch (IOException e)
             {
-                Log.d(TAG, "ConnectThread: run: could not create a Rfcomm Socke  " + e.getStackTrace());
+                Log.d(TAG, "ConnectThread: run: could not create a Rfcomm Socket  " + e.getStackTrace());
             }
 
             mmSocket = tmp;
@@ -262,6 +379,7 @@ public class BluetoothConnection  implements NetworkConnection
             connected(mmSocket, mmDevice);
         }
 
+
         /**
          * Cancels the AcceptThread by closing the ServerSocket
          */
@@ -291,16 +409,32 @@ public class BluetoothConnection  implements NetworkConnection
      */
     private class ConnectedThread extends  Thread
     {
-        private final BluetoothSocket mmSocket;
+
+        //------------Instance Variables------------
+
+
+        /**
+         * The Connected Socked
+         */
+        private final BluetoothSocket mmSocket
+                ;
+        /**
+         * OutputStream to send Bytes
+         */
         private final OutputStream mmOutputStream;
+
+        /**
+         * InputStream to receive Bytes
+         */
         private final InputStream mmInputStream;
-        
+
+
+
+        //------------Constructors------------
+
         public ConnectedThread(BluetoothSocket bluetoothSocket)
         {
             this.mmSocket = bluetoothSocket;
-
-            //The Connection was successful, we can now dismiss the dialog
-           // mProgressDialog.dismiss();
 
             // Setting up in and output stream
             InputStream tmpIn = null;
@@ -356,7 +490,10 @@ public class BluetoothConnection  implements NetworkConnection
         }
 
 
-
+        /**
+         * Writes  through the outpuSteam to the other device
+         * @param string
+         */
         public void write(String string)
         {
             Log.d(TAG, "ConnectedThread: write: writing to the OutputStream : " + string);
@@ -369,7 +506,6 @@ public class BluetoothConnection  implements NetworkConnection
                Log.e(TAG, "ConnectedThread: write: an exception occured while writing to the OutputStream " + e.getMessage());
             }
         }
-
 
 
         /**
@@ -391,6 +527,11 @@ public class BluetoothConnection  implements NetworkConnection
     }
 
 
+    /**
+     * Starts the connectedThread after either Accept ot ConnectThread have finished
+     * @param mmSocket
+     * @param mmDevice
+     */
     private void connected(BluetoothSocket mmSocket, BluetoothDevice mmDevice)
     {
         Log.e(TAG, "connected: Accept or ConnectThread finished - starting  ConnectedThread");
