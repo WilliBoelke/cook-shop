@@ -1,13 +1,11 @@
 package com.example.cookshop.controller.network;
 
 
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
-import android.nfc.Tag;
 import android.util.Log;
 
 import java.io.IOException;
@@ -17,8 +15,6 @@ import java.util.UUID;
 
 public class BluetoothConnection  implements NetworkConnection
 {
-
-
 
     //------------Instance Variables------------
 
@@ -45,7 +41,7 @@ public class BluetoothConnection  implements NetworkConnection
 
         boolean isConnected;
 
-    // private ProgressDialog mProgressDialog;
+        // private ProgressDialog mProgressDialog;
 
         private OnReceiveCallback mOnReceiveCallback;
 

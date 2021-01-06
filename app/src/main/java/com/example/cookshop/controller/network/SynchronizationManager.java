@@ -3,13 +3,11 @@ package com.example.cookshop.controller.network;
 
 import android.bluetooth.BluetoothDevice;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.view.SynchronizeActivity;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -20,6 +18,8 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private final String TAG = getClass().getSimpleName();
 
     private OnReceiveCallback onReceiveCallback;
+
+    private ArrayList<Article> receivedArticles;
 
     private final String ACKNOWLEDGED = "ACK";
 
@@ -33,6 +33,8 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
     private boolean sender;
 
+    private boolean startedAsSender;
+
     /**
      * There are two states, sender and receiver
      * i will increment that when the state changed
@@ -42,12 +44,12 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
     private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
 
-    private Article receivedArticle;
 
     public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnUpdateListener onUpdateListener)
     {
         Log.d(TAG, "Initialize SyncManager");
         this.networkConnection = networkConnection;
+        this.receivedArticles =  new ArrayList<>();
         this.mDevice = device;
         this.onUpdateListener = onUpdateListener;
         Log.d(TAG, "Starting NetworkConnection as server");
@@ -102,16 +104,19 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                     {
                         // Only on first state
                         this.sender = networkConnection.isServer();
+                        this.startedAsSender = sender;
                     }
                     Log.d(TAG, "doingInBackground :  sender  = " + sender  );
 
                     if(sender)
                     {
                         sendArticles();
+                        synchronize();
                     }
                     else
                     {
                         receivedArticles();
+                        synchronize();
                     }
                 }
                 else
@@ -119,6 +124,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                     Log.d(TAG, "not connected");
                 }
             }
+
             networkConnection.closeConnection();
 
        return null;
@@ -127,6 +133,9 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
 
 
+    /**
+     * Transfers Articles through the NetworkConnection to the remote device
+     */
     private void receivedArticles()
     {
         this.networkConnection.setOnReceiveListener(new OnReceiveCallback()
@@ -149,7 +158,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                 {
                     Article newArticle = new Article();
                     newArticle.setObjectFromMementoPattern(Message);
-                    DataAccess.getInstance().addArticleToshopingList(newArticle);
+                    receivedArticles.add(newArticle);
                     networkConnection.write(ACKNOWLEDGED);
                 }
             }
@@ -171,11 +180,9 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     }
 
 
-
-
-
-
-
+    /**
+     * Transfers Articles through the NetworkConnection to the remote device
+     */
     private void sendArticles()
     {
 
@@ -225,5 +232,27 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         sender = !sender;
         stateChanged++;
 
+    }
+
+
+    private void synchronize()
+    {
+        Log.d(TAG, "Finish Sync");
+
+        if(startedAsSender)
+        {
+            //If we started as sender, the remote device will already have compared his list
+            // with ours and synchronized it (see else block)
+            //It then will send the complete list, including our article back to here.
+            //so we can just replace the whole list without the nned of comparing it again
+            DataAccess.getInstance().overrideShoppingListCompletely(receivedArticles);
+        }
+        else
+        {
+            for (Article a: receivedArticles)
+            {
+                DataAccess.getInstance().addArticleToShoppingList(a);
+            }
+        }
     }
 }

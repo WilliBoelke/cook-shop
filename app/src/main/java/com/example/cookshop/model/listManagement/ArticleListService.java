@@ -31,6 +31,20 @@ public class ArticleListService extends ItemListService
 
     //....Methods..........
 
+    protected void overrideListCompletly(ArrayList<Article> list)
+    {
+        for (int i = 0; i < this.getItemList().size(); i++)
+        {
+            removeItem(i);
+        }
+
+        for (Article a: list)
+        {
+            addItem(a);
+        }
+    }
+
+
 
     protected Article searchForArticle(String name)
     {
