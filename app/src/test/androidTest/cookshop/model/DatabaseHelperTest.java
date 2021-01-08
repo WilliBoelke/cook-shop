@@ -1,4 +1,4 @@
-package com.example.cookshop;
+package cookshop.model;
 
 import android.content.Context;
 
@@ -357,30 +357,3 @@ public class DatabaseHelperTest
         assertEquals(1, database.retrieveAllArticlesFrom("BelongingOne").size());
     }
 }
-
-
-/*    *//**
- *  Should throw an exception
- *//*
-    @Test
-    public void addArticlesToDatabaseNotExistingTableTest()
-    {
-        database.reset();
-        try
-        {
-            database.insertArticle("qwertz", testArticle1);
-            database.insertArticle("qwertz", testArticle1);
-        }
-        catch(IllegalArgumentException e)
-        {
-            if(e.getMessage().equals("this list table doesn't exits"))
-            {
-                assertTrue(true);
-            }
-            else
-            {
-                assertTrue(false);
-            }
-        }
-
-    }*/

@@ -24,31 +24,31 @@ public interface NetworkConnection
      * @param device
      * @param uuid
      */
-      void startClient(BluetoothDevice device, UUID uuid);
+    void startClient(BluetoothDevice device, UUID uuid);
 
     /**
      * Sends a String to the connected device
      * @param message
      */
-     void write(String message);
+    void write(String message);
 
     /**
      * Setter for an {@link OnReceiveCallback}
      * which can be implemented to react to incoming transmissions
      * @param listener
      */
-     void setOnReceiveListener(OnReceiveCallback listener);
+    void setOnReceiveListener(OnReceiveCallback listener);
 
     /**
      * @return
      */
-     boolean isServer();
+    boolean isServer();
 
     /**
      * Returns true if a connection is established
      * @return
      */
-     boolean isConnected();
+    boolean isConnected();
 
 
     /**

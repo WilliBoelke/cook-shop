@@ -449,6 +449,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                 COLUMN_ARTICLE_AMOUNT + " INEGER,  " +
                 COLUMN_ARTICLE_WEIGHT + " REAL,  " +
                 COLUMN_ARTICLE_CATEGORY + " TEXT, " +
+                COLUMN_ARTICLE_CREATION_DATE + " TEXT, " +
+                COLUMN_ARTICLE_UPDATE_DATE + " TEXT, " +
                 COLUMN_ARTICLE_BELONGING + " TEXT );";
         String createStepTable = "CREATE TABLE IF NOT EXISTS " + TABLE_STEPS + " (" + COLUMN_STEP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_STEP_NAME + " TEXT NOT NULL, " +

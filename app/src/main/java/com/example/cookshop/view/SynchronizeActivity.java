@@ -2,6 +2,7 @@ package com.example.cookshop.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -14,30 +15,99 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.cookshop.R;
 import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
+import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.recyclerViews.DeviceListAdapter;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+/**
+ * This Activity lets the user Synchronize lists via Bluetooth
+ * it will automatically activate Bluetooth and  Discoverability
+ * in {@link #onCreate(Bundle)}
+ *
+ * The user the can pick a device from the list view by clicking on it
+ * this will create a bond with that device and start the {@link SynchronizationManager}
+ * and thus the {@link BluetoothConnection} in AcceptThread
+ * (on both bonded devices) as soon as one of them clicks the connect button
+ * it will call {@link SynchronizationManager}'s execute method. which will also start the BluetoothConnections connect
+ * thread and automatically start the list synchronisation.
+ *
+ * @author WilliBoelke
+ */
 public class SynchronizeActivity extends AppCompatActivity
 {
+
+
+    //------------Instance Variables------------
+
+    /**
+     * The Log Tag
+     */
     private final String TAG = this.getClass().getSimpleName();
+
+    /**
+     * The BluetoothAdapter
+     */
     private BluetoothAdapter mBluetoothAdapter;
+
+    /**
+     * The BluetoothDevice which we
+     * created a bond with
+     */
     private BluetoothDevice bondedBluetoothDevice;
-    private BluetoothConnection bluetoothConnection;
+
+    /**
+     * The SynchronizationManager which will synchronize the lists
+     */
     private SynchronizationManager synchronizationManager;
+
+    /**
+     * The list of nearby bluetooth devices
+     * which is displayed in the {@link #listView}
+     *
+     * Populated  in the {@link #foundDeviceReceiver}
+     */
     private ArrayList<BluetoothDevice> mBTDevices;
+
+    /**
+     * ListAdapter to display {@link BluetoothDevice}
+     * in {@link #listView}
+     */
     private DeviceListAdapter mDeviceListAdapter;
+
+    /**
+     * ListView to show discovered BluetoothDevices
+     */
     private ListView listView;
+
+    /**
+     * TextView to change Synchronization updates to the user
+     */
     private TextView msgTextView;
+
+    /**
+     * Button to start ty syc process after bonded
+     * to another device
+     */
     private Button connect;
-    private Button send;
+
+    /**
+     * ProgressBar to show thy sync progress to the user
+     * (not working yet)
+     */
+    private ProgressBar progressBar;
+
+
+    //------------Activity/Fragment Lifecycle------------
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -49,12 +119,12 @@ public class SynchronizeActivity extends AppCompatActivity
         mBTDevices = new ArrayList<>();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         connect = findViewById(R.id.connect_button);
-        send = findViewById(R.id.send_button);
-        msgTextView = findViewById(R.id.display_msg_textview);
+        msgTextView = findViewById(R.id.status_text_view);
         listView.setOnItemClickListener(this.listClickListener);
+        progressBar = findViewById(R.id.progress_par);
         //Broadcasts whenBond state changes, pairing devices for example
         IntentFilter bondStateChangeFilter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(mBroadcastReceiver4, bondStateChangeFilter);
+        registerReceiver(bondStateChangedReceiver, bondStateChangeFilter);
 
         enableBluetooth();
         makeDiscoverable();
@@ -71,17 +141,20 @@ public class SynchronizeActivity extends AppCompatActivity
             @Override
             public void onIncomingMessage(String Message)
             {
-
+                progressBar.setVisibility(View.INVISIBLE);
+                msgTextView.setText("The lists are synchronized");
             }
-        });
+        }, DataAccess.getInstance());
 
     }
+
 
     public void  startSynchronization(View view)
     {
         if(synchronizationManager != null)
         {
             connect.setClickable(false); // not clickable again
+            connect.setVisibility(View.INVISIBLE);
             synchronizationManager.execute();
         }
         else
@@ -91,47 +164,45 @@ public class SynchronizeActivity extends AppCompatActivity
         }
     }
 
-
-
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
         try
         {
-            unregisterReceiver(mBroadcastReceiver1);
+            unregisterReceiver(actionStateChangedReceiver);
         }
         catch (IllegalArgumentException e)
         {
             //receiver was not registered
-            Log.e(TAG, "onDestroy: Receiver1 was not registered ");
+            Log.e(TAG, "onDestroy: actionStateChangedReceiver was not registered ");
         }
         try
         {
-            unregisterReceiver(mBroadcastReceiver2);
+            unregisterReceiver(actionScanModeChangedReceiver);
         }
         catch (IllegalArgumentException e)
         {
             //receiver was not registered
-            Log.e(TAG, "onDestroy: Receiver2 was not registered ");
+            Log.e(TAG, "onDestroy: actionScanModeChangedReceiver was not registered ");
         }
         try
         {
-            unregisterReceiver(mBroadcastReceiver3);
+            unregisterReceiver(foundDeviceReceiver);
         }
         catch (IllegalArgumentException e)
         {
             //receiver was not registered
-            Log.e(TAG, "onDestroy: Receiver3 was not registered ");
+            Log.e(TAG, "onDestroy: foundDeviceReceiver was not registered ");
         }
         try
         {
-            unregisterReceiver(mBroadcastReceiver4);
+            unregisterReceiver(bondStateChangedReceiver);
         }
         catch (IllegalArgumentException e)
         {
             //receiver was not registered
-            Log.e(TAG, "onDestroy: Receiver4 was not registered ");
+            Log.e(TAG, "onDestroy: bondStateChangedReceiver was not registered ");
         }
         try {
             Method m = bondedBluetoothDevice.getClass()
@@ -141,6 +212,12 @@ public class SynchronizeActivity extends AppCompatActivity
             Log.e(TAG, e.getMessage());
         }
     }
+
+
+
+
+
+    //------------Enabling Bluetooth------------
 
 
     /**
@@ -162,11 +239,14 @@ public class SynchronizeActivity extends AppCompatActivity
             //Register Broadcast Receiver
 
             IntentFilter BluetoothIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-            registerReceiver(mBroadcastReceiver1, BluetoothIntent);
+            registerReceiver(actionStateChangedReceiver, BluetoothIntent);
         }
     }
 
 
+    /**
+     * makes the device discoverable for other bluetooth devices
+     */
     private void makeDiscoverable()
     {
         Log.d(TAG, "makeDiscoverable: making device discoverable");
@@ -176,13 +256,14 @@ public class SynchronizeActivity extends AppCompatActivity
         startActivity(discoverableIntent);
 
         //Register Broadcast Receiver
-
         IntentFilter intentFilter = new IntentFilter(mBluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
-        registerReceiver(mBroadcastReceiver2, intentFilter);
-
+        registerReceiver(actionScanModeChangedReceiver, intentFilter);
     }
 
 
+    /**
+     * starts looking for other devices
+     */
     private void startDiscovery()
     {
         Log.d(TAG, "startDiscovery: start looking for other devices");
@@ -194,25 +275,29 @@ public class SynchronizeActivity extends AppCompatActivity
             mBluetoothAdapter.startDiscovery();
 
             IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
+            registerReceiver(foundDeviceReceiver, discoverDevicesIntent);
         }
         if(!mBluetoothAdapter.isDiscovering())
         {
             mBluetoothAdapter.startDiscovery();
 
             IntentFilter discoverDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-            registerReceiver(mBroadcastReceiver3, discoverDevicesIntent);
+            registerReceiver(foundDeviceReceiver, discoverDevicesIntent);
         }
     }
 
 
 
 
+
+    //------------Bluetooth BroadcastReceiver-----------
+
+
     /**
      * BroadcastReceiver for Bluetooth ACTION_STATE_CHANGED
      * (mainly for logging at this moment)
      */
-    private final BroadcastReceiver mBroadcastReceiver1 = new BroadcastReceiver()
+    private final BroadcastReceiver actionStateChangedReceiver = new BroadcastReceiver()
     {
         public void onReceive(Context context, Intent intent)
         {
@@ -247,7 +332,7 @@ public class SynchronizeActivity extends AppCompatActivity
      * BroadcastReceiver for Bluetooth ACTION_SCAN_MODE_CHANGED
      * (mainly for logging at this moment)
      */
-    private final BroadcastReceiver mBroadcastReceiver2 = new BroadcastReceiver()
+    private final BroadcastReceiver actionScanModeChangedReceiver = new BroadcastReceiver()
     {
         public void onReceive(Context context, Intent intent)
         {
@@ -288,7 +373,7 @@ public class SynchronizeActivity extends AppCompatActivity
      * Broadcast Receiver for listing devices that are not yet paired
      * -Executed by btnDiscover() method.
      */
-    private BroadcastReceiver mBroadcastReceiver3 = new BroadcastReceiver()
+    private BroadcastReceiver foundDeviceReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
@@ -312,8 +397,9 @@ public class SynchronizeActivity extends AppCompatActivity
     /**
      * Broadcast Receiver to react to  bond state changes (Pairing status changes)
      */
-    private final BroadcastReceiver mBroadcastReceiver4 = new BroadcastReceiver()
+    private final BroadcastReceiver bondStateChangedReceiver = new BroadcastReceiver()
     {
+        @SuppressLint("SetTextI18n")
         @Override
         public void onReceive(Context context, Intent intent)
         {
@@ -328,6 +414,10 @@ public class SynchronizeActivity extends AppCompatActivity
                     Log.d(TAG, "mBroadcastReceiver4: BOND_BONDED.");
                     //inside BroadcastReceiver4
                     bondedBluetoothDevice = mDevice;
+                    listView.setVisibility(View.INVISIBLE);
+                    msgTextView.setVisibility(View.VISIBLE);
+                    connect.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.primary_dark));
+                    msgTextView.setText("Click Synchronization to proceed ");
                     startSyncManager();
                 }
                 //case2: creating a bond

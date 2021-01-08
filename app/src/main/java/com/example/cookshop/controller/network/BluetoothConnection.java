@@ -38,7 +38,7 @@ public class BluetoothConnection  implements NetworkConnection
     /**
      * A generated UUID needed for the BluetoothAdapter
      */
-        private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
+    private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
 
     /**
      * The BluetoothAdapter
@@ -295,7 +295,7 @@ public class BluetoothConnection  implements NetworkConnection
             }
         }
 
-        }
+    }
 
 
 
@@ -483,15 +483,15 @@ public class BluetoothConnection  implements NetworkConnection
                 }
                 catch (IOException e)
                 {
-                   Log.e(TAG, "ConnectedThread: run: Problem reading from input stream" + e.getMessage());
-                   //break;
+                    Log.e(TAG, "ConnectedThread: run: Problem reading from input stream" + e.getMessage());
+                    //break;
                 }
             }
         }
 
 
         /**
-         * Writes  through the outpuSteam to the other device
+         * Writes  through the OutputSteam to the other device
          * @param string
          */
         public void write(String string)
@@ -503,7 +503,7 @@ public class BluetoothConnection  implements NetworkConnection
             }
             catch (IOException e)
             {
-               Log.e(TAG, "ConnectedThread: write: an exception occured while writing to the OutputStream " + e.getMessage());
+                Log.e(TAG, "ConnectedThread: write: an exception occured while writing to the OutputStream " + e.getMessage());
             }
         }
 

@@ -14,28 +14,113 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * This AsyncTasks uses a {@link BluetoothConnection} to synchronize the
+ * Shopping list between two devices
+ *
+ * -------------How it works------------------
+ * We have two devices A and B connected via bluetooth
+ * Device A is the Bluetooth Server and B the client.. this we can get from the .isClient()
+ * method of the {@link NetworkConnection}
+ *
+ * Depending on which it is it will start sending its articles {@link #sendArticles()}
+ * A as Server will start.
+ * After each Article it will wait for the client to send its acknowledgment {@link #ACKNOWLEDGED}
+ * When all articles are transferred it fill send {@link #FINISHED} .
+ *
+ * The client (B) will then go into its {@link #synchronize()} method and there
+ * compare the received articles with its local list.
+ * It will compare them by name, should the any doubling names, compare their dateOfUpdate
+ * and only save the newer one.
+ *
+ * The server A meanwhile is waiting for articles to be send to him.
+ * When B has finished synchronizing the lists, it will start sending
+ * it to A.
+ * Again Article by Article and waiting for the ACK of A.
+ *
+ *When all articles are send, it again wills end FINISHED
+ *
+ * A then dont need to compare the lists again. It can replace its complete local list with
+ * the received one.
+ *
+ * In the end, both, A and B have the same list, with the most recently updated articles.
+ *
+ *
+ * @author WilliBoelke
+ *
+ */
 public class SynchronizationManager extends AsyncTask<String, String, String>
 {
 
+
+
+    //------------Instance Variables------------
+
+    /**
+     * Log Tag
+     */
     private final String TAG = getClass().getSimpleName();
 
+    /**
+     * The UUID
+     */
+    private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
+
+    /**
+     * OnReceive callback can be implemented in the
+     * Activity to get a callback on certain events
+     * (just on post execute at the moment)
+     */
     private OnReceiveCallback onReceiveCallback;
 
+    /**
+     * Array list of articles
+     * this list will be filled with the articles from the remote device
+     * and later be merged into the current list
+     * (or replace it completely)
+     */
     private ArrayList<Article> receivedArticles;
 
+    /**
+     * A Network Connection
+     * in this case a {@link BluetoothConnection}
+     */
     private NetworkConnection networkConnection;
 
+    /**
+     * The remote bluetooth device
+     */
     private BluetoothDevice mDevice;
 
+    /**
+     * This boolean is true at the beginning
+     * when e started as bluetooth server
+     * else its false, it will change after the first FINISH
+     */
     private boolean sender;
 
+    /**
+     * This will stay true or false,
+     * depending on if we started as server or not.
+     * Needed to determine if we can replace the complete list in the end
+     */
     private boolean startedAsSender;
 
+    /*
+     * The ACK send after each received article
+     */
     private final String ACKNOWLEDGED = "ACK";
 
+    /**
+     * The FIN send after all articles are transferred
+     */
     private final String FINISHED = "FIN";
 
-
+    /**
+     * instance of the model,
+     * passed through the constructor to enable testing
+     */
+    private DataAccess dataAccessInstance;
 
     /**
      * There are two states, sender and receiver
@@ -44,12 +129,14 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      */
     private int stateChanged = 1;
 
-    private final UUID MY_UUID_INSECURE =  UUID.fromString("bebde602-4ee1-11eb-ae93-0242ac130002");
 
 
 
 
-    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnReceiveCallback onReceiveCallback)
+    //------------Constructors------------
+
+
+    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnReceiveCallback onReceiveCallback, DataAccess dataAccess)
     {
         Log.d(TAG, "Initialize SyncManager");
         this.networkConnection = networkConnection;
@@ -58,6 +145,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.onReceiveCallback = onReceiveCallback;
         Log.d(TAG, "Starting NetworkConnection as server");
         networkConnection.startServer();
+        this.dataAccessInstance = dataAccess;
 
         networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
@@ -68,6 +156,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             }
         });
     }
+
+
+
+
+    //------------AsyncTask------------
 
 
     @Override
@@ -83,7 +176,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     {
         Log.d(TAG, "onPostExecute:");
         super.onPostExecute(s);
-
+        this.onReceiveCallback.onIncomingMessage(s);
     }
 
     @Override
@@ -97,48 +190,53 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             networkConnection.startClient(mDevice, MY_UUID_INSECURE);
         }
 
-        Log.d(TAG, "doingInBackground :  Starting Sync loop ...seeing you on the other side");
-            while (stateChanged<3)
+        Log.d(TAG, "doingInBackground :  Starting Sync loop ...see you on the other side");
+        while (stateChanged<3)
+        {
+            Log.d(TAG, "doingInBackground :  state  = " + stateChanged);
+
+            if (networkConnection.isConnected())
             {
-                Log.d(TAG, "doingInBackground :  state  = " + stateChanged);
-
-                if (networkConnection.isConnected())
+                Log.d(TAG, "doingInBackground :  Both devices should now be connected...starting sync");
+                if(stateChanged == 1)
                 {
-                    Log.d(TAG, "doingInBackground :  Both devices should now be connected...starting sync");
-                    if(stateChanged == 1)
-                    {
-                        // Only on first state
-                        this.sender = networkConnection.isServer();
-                        this.startedAsSender = sender;
-                    }
-                    Log.d(TAG, "doingInBackground :  sender  = " + sender  );
+                    // Only on first state
+                    this.sender = networkConnection.isServer();
+                    this.startedAsSender = sender;
+                }
+                Log.d(TAG, "doingInBackground :  sender  = " + sender  );
 
-                    if(sender)
-                    {
-                        sendArticles();
-                    }
-                    else
-                    {
-                        receivedArticles();
-                        synchronize();
-                    }
+                if(sender)
+                {
+                    sendArticles();
                 }
                 else
                 {
-                    Log.d(TAG, "not connected");
+                    receivedArticles();
+                    if(!startedAsSender)
+                    {
+                        synchronize();
+                    }
                 }
             }
-            networkConnection.closeConnection();
+            else
+            {
+                Log.d(TAG, "not connected");
+            }
+        }
+        if(startedAsSender)
+        {
+            synchronize();
+        }
+        networkConnection.closeConnection();
 
-       return null;
+        return null;
     }
 
 
 
 
-
-
-
+    //------------Send and Receive------------
 
 
     /**
@@ -146,6 +244,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      */
     private void receivedArticles()
     {
+        Log.d(TAG, "Set onReceiveListener");
         this.networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
@@ -244,6 +343,9 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
 
 
+    //------------Synchronize------------
+
+
     /**
      * Compares and synchronizes both lists (Local and the just received list)
      *
@@ -264,36 +366,67 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         else
         {
             Log.d(TAG, "synchronize: started as receiver, comparing and snc lists ");
+            Log.d(TAG, "synchronize: received  " + receivedArticles.size() + " Articles");
+
+            //To compare bot lists (local and received) we need to keep them as they are
+            //during the process.
+            //The change will take place after the comparison , tmp values will be stored in the following Lists
+            ArrayList<Integer> toDeleteIndex = new ArrayList();
+            ArrayList<Article> toAddArticles = new ArrayList();
+            boolean matched = false;
             for (Article a: receivedArticles)
             {
+
+
+
                 /**
                  * Okay so... here i compare both lists, the local ne and the transferred one:
                  * I will compare the Articles name Name if they are in both lists i will take the one with the more recent "lastUpdateDate"
                  * And write a information about it into the description.
                  */
-                // Boolean to check if a match was found (and merged)
-                Boolean merged = false;
-
-                for (int index = 0; index < DataAccess.getInstance().getBuyingList().size(); index++)
+                for (int index = 0; index < dataAccessInstance.getBuyingList().size(); index++)
                 {
-                    // Get the Article once to minimize method calls
-                    Article tempArticle = DataAccess.getInstance().getArticleFromShoppingList(index);
-
-                    //save the names of both articles / trimmed and in lowercase
-                    String trimmedArticleName = a.getName().trim().toLowerCase();
-                    String trimmedTempArticleName = tempArticle.getName().trim().toLowerCase();
-
-                    // Check if the names are the same
-                    if (trimmedArticleName.equals(trimmedTempArticleName))
+                    if(!matched)
                     {
-                        // a is newer then tmpArticle
-                        if (!tempArticle.getDateOfUpdate().after(a.getDateOfUpdate()))
+                        // Get the Article once to minimize method calls
+                        Article tempArticle = dataAccessInstance.getArticleFromShoppingList(index);
+
+                        //save the names of both articles / trimmed and in lowercase
+                        String trimmedArticleName = a.getName().trim().toLowerCase();
+                        String trimmedTempArticleName = tempArticle.getName().trim().toLowerCase();
+
+                        // Check if the names are the same
+                        Log.d(TAG, "synchronize: comparing " + a.getName());
+                        if (trimmedArticleName.equals(trimmedTempArticleName))
                         {
-                            DataAccess.getInstance().deleteArticleShoppingList(index);
-                            DataAccess.getInstance().addArticleToShoppingList(a);
+                            Log.d(TAG, "synchronize: found match");
+                            // local article is older then received article
+                            if (!tempArticle.getDateOfUpdate().after(a.getDateOfUpdate()))
+                            {
+                                Log.d(TAG, "synchronize: local article is older then received article ...replacing");
+                                toDeleteIndex.add(index);
+                                toAddArticles.add(a);
+                                matched = true;
+                            }
                         }
                     }
                 }
+                if(!matched)
+                {
+                    toAddArticles.add(a);
+                    matched = false;
+                }
+            }
+
+            for (Integer i : toDeleteIndex)
+            {
+                Log.d(TAG, "Delete article at " + i);
+                dataAccessInstance.deleteArticleShoppingList(i.intValue());
+            }
+            for (Article a: toAddArticles)
+            {
+                Log.d(TAG, "Add article with name  "+ a.getName());
+                dataAccessInstance.addArticleToShoppingList(a);
             }
         }
     }

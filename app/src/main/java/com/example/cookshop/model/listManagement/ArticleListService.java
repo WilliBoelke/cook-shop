@@ -31,12 +31,14 @@ public class ArticleListService extends ItemListService
 
     //....Methods..........
 
-    protected void overrideListCompletly(ArrayList<Article> list)
+
+    protected void overrideListCompletely(ArrayList<Article> list)
     {
-        for (int i = 0; i <=this.getItemList().size(); i++)
+        int size = this.getItemList().size();
+        for (int i = 0; i < size; i++)
         {
-            Log.d("SynchronizationManager", "Delte item " + i);
-            removeItem(i);
+            Log.d("SynchronizationManager", "itemList size =  " + this.getItemList().size());
+            removeItem(0); //Always remove to first item, (list will get smaller)
         }
         Log.d("SynchronizationManager", "Adding Articles  = " +  list.size());
         for (Article a: list)

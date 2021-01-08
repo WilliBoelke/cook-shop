@@ -1,12 +1,18 @@
-package com.example.cookshop.items;
+package cookshop.items;
+
+import com.example.cookshop.items.Article;
+import com.example.cookshop.items.Category;
+
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 
 public class ArticleTest
 {
+
+
     Article testArticle1;
     Article testArticle2;
     Article testArticle3;

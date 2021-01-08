@@ -1,7 +1,13 @@
-package com.example.cookshop.items;
+package cookshop.items;
+
+import com.example.cookshop.items.Article;
+import com.example.cookshop.items.Category;
+import com.example.cookshop.items.Recipe;
+import com.example.cookshop.items.Step;
 
 import org.junit.Before;
 import org.junit.Test;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
