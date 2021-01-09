@@ -46,4 +46,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_article">Add Article</string>
     <string name="synchronize">Synchronisze</string>
+    <string name="synchronize_articles">"Syncchroniziere deine Einkaufs- und Lagerliste via Bluetooth "</string>
+    <string name="synchronize_recipes">Synchronisiere alle deine Rezepte via Bluetooth</string>
 </resources>
