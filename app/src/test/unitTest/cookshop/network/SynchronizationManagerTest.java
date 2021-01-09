@@ -15,6 +15,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,7 +30,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+/**
+ * Tests for the {@link SynchronizationManager}
+ * The {@link BluetoothConnection} is replaces here with mock implementations
+ * of {@link com.example.cookshop.controller.network.NetworkConnection} interface
+ */
 public class SynchronizationManagerTest
 {
 
@@ -46,14 +52,18 @@ public class SynchronizationManagerTest
     private ArrayList<Article> testArticleArrayList2;
     private ArrayList<Article> testArticleArrayList3;
 
+    private String dateString = "09-1-2021 07:50:40";
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    private Date date;
+
+
     @Before
     public void setUp() throws Exception
     {
-         Date date = Calendar.getInstance().getTime();
-
-         testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0, date, date);
-         testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0,date, date);
-         testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13, date,date);
+        date = simpleDateFormat.parse(dateString);
+        testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0, date, date);
+        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0,date, date);
+        testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13, date,date);
         testArticleArrayList1 = new ArrayList<>();
         testArticleArrayList1.add(testArticle1);
         testArticleArrayList1.add(testArticle2);
@@ -84,6 +94,8 @@ public class SynchronizationManagerTest
     };
 
 
+
+
     /**
      * An OnReceive Callback should be set to the BTConnection
      * in the SynchronisationManagers Constructor
@@ -101,6 +113,8 @@ public class SynchronizationManagerTest
     }
 
 
+
+
     /**
      * The BtConnections .startServer method should be called in the Constructor
      */
@@ -115,6 +129,8 @@ public class SynchronizationManagerTest
 
         verify(mockBtConnection).startServer();
     }
+
+
 
 
     /**
@@ -167,16 +183,16 @@ public class SynchronizationManagerTest
 
 
     /**
-     * Starting as Server
-     * We send first (the test Articles)
-     * all 3 test Articles should be send to the NetWorkConnection
-     *
-     * our own list should be overridden completely with the received list
-     */
+     * Starting as the Server.
+     * Just testing the "fist stage" here, the client wont return anything
+     * (that will be tested in the next tests)
+     * */
     @Test
     public void startAsClient1()
     {
         //TestSetup
+
+
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList3);
         testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
@@ -198,6 +214,14 @@ public class SynchronizationManagerTest
     public void startAsClient2()
     {
         //TestSetup
+        date = Calendar.getInstance().getTime();
+        testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0, date, date);
+        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0,date, date);
+        testArticleArrayList2 = new ArrayList<>();
+        testArticleArrayList2.add(testArticle1);
+        testArticleArrayList2.add(testArticle2);
+
+
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
         testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
@@ -208,6 +232,47 @@ public class SynchronizationManagerTest
         verify(mockDataAccess, times(0)).addArticleToShoppingList(any(Article.class));
         verify(mockDataAccess, times(0)).deleteArticleShoppingList(anyInt());
         Assert.assertTrue(2 == mockNetworkConnectionClient.getReceivedArticles().size());
+
+    }
+
+
+    /**
+     * Articles whit newer lastUpdateDates should be saved and the older ones should be deleted
+     */
+    @Test
+    public void verifyDateCheck() throws ParseException
+    {
+        //TestSetup
+
+        //changing one article description and update date
+        Date newDate = simpleDateFormat.parse( "10-1-2021 07:50:40");
+        Article updatedTestArticle3 = new Article("Gurke", "neue beschreibung", Category.VEGETABLE, 1, 13, date, newDate);
+
+        //Setting up 2 ArrayLists and changing article 3 in one of them
+        testArticleArrayList1 = new ArrayList<>();
+        testArticleArrayList1.add(testArticle1);
+        testArticleArrayList1.add(testArticle2);
+        testArticleArrayList1.add(testArticle3);
+        testArticleArrayList2 = new ArrayList<>();
+        testArticleArrayList2.add(testArticle1);
+        testArticleArrayList2.add(testArticle2);
+        testArticleArrayList2.add(updatedTestArticle3);
+
+        //Injecting both lists
+        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
+        MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
+
+        //Run
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        testSyncManager.doInBackground();
+
+        // Verifying Results
+        verify(mockDataAccess, atLeast(1)).getBuyingList();
+        verify(mockDataAccess, times(1)).addArticleToShoppingList(any(Article.class));
+        verify(mockDataAccess, times(1)).deleteArticleShoppingList(anyInt());
+        Assert.assertTrue(3 == mockNetworkConnectionClient.getReceivedArticles().size());
+
+        Assert.assertEquals("neue beschreibung", mockNetworkConnectionClient.getReceivedArticles().get(2).getDescription());
 
     }
 

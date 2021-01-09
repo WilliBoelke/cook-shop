@@ -419,6 +419,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                         Log.d(TAG, "synchronize: comparing " + a.getName());
                         if (trimmedArticleName.equals(trimmedTempArticleName))
                         {
+                            matched = true;
                             Log.d(TAG, "synchronize: found match");
                             // local article is older then received article
                             if (!tempArticle.getDateOfUpdate().after(a.getDateOfUpdate()))
@@ -427,7 +428,6 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                                 toDeleteIndex.add(index);
                                 toAddArticles.add(a);
                             }
-                            matched = true;
                         }
                     }
                 }
