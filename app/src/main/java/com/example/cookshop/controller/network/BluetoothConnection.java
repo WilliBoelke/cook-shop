@@ -78,6 +78,7 @@ public class BluetoothConnection  implements NetworkConnection
      */
     private OnReceiveCallback mOnReceiveCallback;
 
+
     /**
      * is true when the AcceptThread finishes before the connect thread
      * finished
@@ -262,7 +263,8 @@ public class BluetoothConnection  implements NetworkConnection
             //Blocking Call :
             //Accept thread waits here till another device connects (or canceled)
             Log.d(TAG, "AcceptThread: run : RFCOM server socket started, waiting for connections ...");
-            try {
+            try
+            {
                 socket = mmServerSocket.accept();
                 Log.d(TAG, "AcceptThread: run : RFCOM server socket accepted connection.");
             }
@@ -539,4 +541,9 @@ public class BluetoothConnection  implements NetworkConnection
         mConnectedThread.start();
     }
 
+
+    public void triggerOnReceiveCallbackManually(String msg)
+    {
+        this.mOnReceiveCallback.onIncomingMessage(msg);
+    }
 }

@@ -7,11 +7,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cookshop.items.Article;
-import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -71,7 +69,15 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      * Activity to get a callback on certain events
      * (just on post execute at the moment)
      */
-    private OnReceiveCallback onReceiveCallback;
+    private OnReceiveCallback externOnReceiveCallback;
+
+    /**
+     * Thats the onReceive callback which will be set tom the BluetoothConnection
+     * For testing (where we just have a mock BtConnection)
+     * we can get this onReceiveCallback through the getter
+     * and call its onIncomingMessage method manually
+     */
+    private OnReceiveCallback thisOnReceiveCallback;
 
     /**
      * Array list of articles
@@ -129,7 +135,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      */
     private int stateChanged = 1;
 
-
+    /**
+     * Stops the doInBackground method
+     */
+    private boolean isCancelled = false;
 
 
 
@@ -142,11 +151,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.networkConnection = networkConnection;
         this.receivedArticles =  new ArrayList<>();
         this.mDevice = device;
-        this.onReceiveCallback = onReceiveCallback;
+        this.externOnReceiveCallback = onReceiveCallback;
         Log.d(TAG, "Starting NetworkConnection as server");
         networkConnection.startServer();
         this.dataAccessInstance = dataAccess;
-
         networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
@@ -159,12 +167,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
 
 
-
     //------------AsyncTask------------
 
 
     @Override
-    protected void onPreExecute()
+    public void onPreExecute()
     {
         Log.d(TAG, "onPreExecute:");
         //Starting as a Server, waiting for incoming connections
@@ -172,15 +179,15 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     }
 
     @Override
-    protected void onPostExecute(String s)
+    public void onPostExecute(String s)
     {
         Log.d(TAG, "onPostExecute:");
         super.onPostExecute(s);
-        this.onReceiveCallback.onIncomingMessage(s);
+        this.externOnReceiveCallback.onIncomingMessage(s);
     }
 
     @Override
-    protected String doInBackground(String...values)
+    public String doInBackground(String...values)
     {
 
         Log.d(TAG, "doingInBackground :  checking if connected ");
@@ -194,6 +201,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         while (stateChanged<3)
         {
             Log.d(TAG, "doingInBackground :  state  = " + stateChanged);
+
+            if(isCancelled)
+            {
+                break;
+            }
 
             if (networkConnection.isConnected())
             {
@@ -234,6 +246,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     }
 
 
+    public void cancelTask()
+    {
+        isCancelled = true;
+    }
 
 
     //------------Send and Receive------------
@@ -245,31 +261,34 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private void receivedArticles()
     {
         Log.d(TAG, "Set onReceiveListener");
-        this.networkConnection.setOnReceiveListener(new OnReceiveCallback()
+
+        this.thisOnReceiveCallback = new OnReceiveCallback()
         {
             @Override
-            public   void onIncomingMessage(String Message)
+            public void onIncomingMessage(String Message)
             {
-                Log.d(TAG, "Received message = " + Message);
-                if(Message.equals(FINISHED))
-                {
-                    Log.d(TAG, "Sender finished transmission, going to send mode");
-                    sender = !sender;
-                    stateChanged++;
-                    synchronized (SynchronizationManager.this)
+                    Log.d(TAG, "Received message = " + Message);
+                    if(Message.equals(FINISHED))
                     {
-                        SynchronizationManager.this.notify();
+                        Log.d(TAG, "Sender finished transmission, going to send mode");
+                        sender = !sender;
+                        stateChanged++;
+                        synchronized (SynchronizationManager.this)
+                        {
+                            SynchronizationManager.this.notify();
+                        }
                     }
-                }
-                else
-                {
-                    Article newArticle = new Article();
-                    newArticle.setObjectFromMementoPattern(Message);
-                    receivedArticles.add(newArticle);
-                    networkConnection.write(ACKNOWLEDGED);
-                }
+                    else
+                    {
+                        Article newArticle = new Article();
+                        newArticle.setObjectFromMementoPattern(Message);
+                        receivedArticles.add(newArticle);
+                        networkConnection.write(ACKNOWLEDGED);
+                    }
             }
-        });
+        };
+
+        this.networkConnection.setOnReceiveListener(thisOnReceiveCallback);
 
         try
         {
@@ -314,7 +333,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
         //SEND
 
-        ArrayList<Article> shoppingList = DataAccess.getInstance().getBuyingList();
+        ArrayList<Article> shoppingList =dataAccessInstance.getBuyingList();
         for (Article a: shoppingList)
         {
             networkConnection.write(a.getMementoPattern());
@@ -361,7 +380,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             //It then will send the complete list, including our article back to here.
             //so we can just replace the whole list without the nned of comparing it again
             Log.d(TAG, "synchronize: started as sender, saving articles ");
-            DataAccess.getInstance().overrideShoppingListCompletely(receivedArticles);
+            dataAccessInstance.overrideShoppingListCompletely(receivedArticles);
         }
         else
         {
@@ -386,10 +405,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                  */
                 for (int index = 0; index < dataAccessInstance.getBuyingList().size(); index++)
                 {
+
                     if(!matched)
                     {
                         // Get the Article once to minimize method calls
-                        Article tempArticle = dataAccessInstance.getArticleFromShoppingList(index);
+                        Article tempArticle = dataAccessInstance.getBuyingList().get(index);
 
                         //save the names of both articles / trimmed and in lowercase
                         String trimmedArticleName = a.getName().trim().toLowerCase();
@@ -406,8 +426,8 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                                 Log.d(TAG, "synchronize: local article is older then received article ...replacing");
                                 toDeleteIndex.add(index);
                                 toAddArticles.add(a);
-                                matched = true;
                             }
+                            matched = true;
                         }
                     }
                 }
@@ -429,5 +449,14 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                 dataAccessInstance.addArticleToShoppingList(a);
             }
         }
+    }
+
+
+
+    //------------Getter------------
+
+    public OnReceiveCallback getOnReceiveCallback()
+    {
+        return this.thisOnReceiveCallback;
     }
 }
