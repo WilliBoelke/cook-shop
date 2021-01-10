@@ -6,17 +6,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.Spinner;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookshop.R;
-import com.example.cookshop.controller.viewController.ArticleController;
+
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.items.Category;
+
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
 import com.example.cookshop.model.listManagement.DataAccess;
@@ -108,7 +107,8 @@ public class AddRecipeActivity extends AppCompatActivity {
 
     switch (requestCode){
       case NEW_ARTICLE:
-        if (resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK)
+        {
           Article newArticle = (Article) data.getExtras().getSerializable("newArticle");
           articleList.add(newArticle);
           articleListAdapter.notifyDataSetChanged();
@@ -125,7 +125,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
   }
 
-  public void onAddArticleButtonClick(View view){
+  public void onAddArticleButtonClick(View view)
+  {
     Intent addArticleIntent = new Intent (this, AddArticleActivity.class);
     addArticleIntent.putExtra("belonging", "newRecipe");
     startActivityForResult(addArticleIntent, NEW_ARTICLE);
@@ -151,7 +152,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
   }
 
-  protected Recipe getRecipe(){
+  protected Recipe getRecipe()
+  {
     String name = this.nameTextView.getText().toString();
     String description = this.descriptionTextView.getText().toString();
     return new Recipe(name, description, articleList, stepList);

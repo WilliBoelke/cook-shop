@@ -25,7 +25,10 @@ public class RecipeController {
   }
 
 
-  public void addRecipe(Recipe recipe){ DataAccess.getInstance().addRecipe(recipe);}
+  public void addRecipe(Recipe recipe)
+  {
+    DataAccess.getInstance().addRecipe(recipe);
+  }
 
 
 
