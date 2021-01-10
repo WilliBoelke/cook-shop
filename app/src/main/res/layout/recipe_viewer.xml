@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
-    android:backgroundTint="@color/background_dark"
+    android:backgroundTint="?attr/backgroundColor"
     android:backgroundTintMode="src_in"
     android:fitsSystemWindows="true">
 
@@ -13,7 +13,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-          android:fitsSystemWindows="true"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -38,7 +38,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        layout="@layout/recipe_viewer_conent" />
+    <include layout="@layout/recipe_viewer_conent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

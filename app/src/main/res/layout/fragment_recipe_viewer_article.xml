@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="?attr/backgroundColor">
+    android:background="@drawable/recycler_item_article_gradient">
 
     <TextView
         android:id="@+id/name_textview"
@@ -31,38 +31,37 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:fontFamily="@font/comfortaa"
         android:text="TextView"
+        android:textColor="?attr/textColorPrimary"
+        android:textStyle="normal"
         app:layout_constraintBottom_toTopOf="@+id/weight_textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_textview"
-        android:textColor="?attr/textColorPrimary"
-        android:fontFamily="@font/comfortaa"
-        android:textStyle="normal"/>
+        app:layout_constraintTop_toBottomOf="@+id/name_textview" />
 
     <TextView
         android:id="@+id/amount_textview"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         android:fontFamily="@font/comfortaa"
         android:text="TextView"
         android:textColor="?attr/textColorPrimary"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/weight_textview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/weight_textview"
+        app:layout_constraintTop_toTopOf="@+id/weight_textview"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/weight_textview"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/comfortaa"
@@ -70,7 +69,7 @@
         android:textColor="?attr/textColorPrimary"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/amount_textview"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/description_textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

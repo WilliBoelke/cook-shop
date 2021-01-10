@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_dark"
-    android:backgroundTint="@color/background_dark"
+    android:background="?attr/backgroundColor"
+    android:backgroundTint="?attr/backgroundColor"
     android:backgroundTintMode="add"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/recipe_viewer">
@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_dark"
-        android:backgroundTint="@color/background_dark"
+        android:background="?attr/backgroundColor"
+        android:backgroundTint="?attr/backgroundColor"
         android:backgroundTintMode="src_in">
 
         <androidx.cardview.widget.CardView
@@ -140,6 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="24dp"
             android:text="@string/step"
             android:textColor="?attr/textColorPrimary"
             app:layout_constraintStart_toStartOf="@+id/content_card_articles"
@@ -150,6 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="16dp"
             android:text="@string/article"
             android:textColor="?attr/textColorPrimary"
             app:layout_constraintStart_toStartOf="@+id/content_card_articles"
