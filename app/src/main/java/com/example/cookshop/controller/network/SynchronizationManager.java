@@ -69,7 +69,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      * Activity to get a callback on certain events
      * (just on post execute at the moment)
      */
-    private OnReceiveCallback externOnReceiveCallback;
+    private OnSyncFinishedCallback<Article>  onSyncFinished;
 
     /**
      * Thats the onReceive callback which will be set tom the BluetoothConnection
@@ -141,17 +141,16 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private boolean isCancelled = false;
 
 
-
     //------------Constructors------------
 
 
-    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnReceiveCallback onReceiveCallback, DataAccess dataAccess)
+    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnSyncFinishedCallback<Article> onSyncFinished, DataAccess dataAccess)
     {
         Log.d(TAG, "Initialize SyncManager");
         this.networkConnection = networkConnection;
         this.receivedArticles =  new ArrayList<>();
         this.mDevice = device;
-        this.externOnReceiveCallback = onReceiveCallback;
+        this.onSyncFinished = onSyncFinished;
         Log.d(TAG, "Starting NetworkConnection as server");
         networkConnection.startServer();
         this.dataAccessInstance = dataAccess;
@@ -183,7 +182,8 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     {
         Log.d(TAG, "onPostExecute:");
         super.onPostExecute(s);
-        this.externOnReceiveCallback.onIncomingMessage(s);
+        this.networkConnection.closeConnection();
+        this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_OKAY);
     }
 
     @Override
@@ -240,8 +240,6 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         {
             synchronize();
         }
-        networkConnection.closeConnection();
-
         return null;
     }
 
@@ -280,8 +278,9 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                     }
                     else
                     {
-                        Article newArticle = new Article();
-                        newArticle.setObjectFromMementoPattern(Message);
+                        Log.d(TAG, "Received Patter = " + Message);
+                        Article newArticle = new Article(Message);
+                        Log.e(TAG, " Date 00 " + newArticle.getDateOfUpdate());
                         receivedArticles.add(newArticle);
                         networkConnection.write(ACKNOWLEDGED);
                     }
@@ -336,6 +335,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         ArrayList<Article> shoppingList =dataAccessInstance.getBuyingList();
         for (Article a: shoppingList)
         {
+            Log.d(TAG, "sendArticles: pattern" + a.getMementoPattern() );
             networkConnection.write(a.getMementoPattern());
             Log.d(TAG, "sendArticles: sending: Article send");
             try
@@ -395,8 +395,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             boolean matched = false;
             for (Article a: receivedArticles)
             {
-
-
+                matched = false;
 
                 /**
                  * Okay so... here i compare both lists, the local ne and the transferred one:
@@ -420,11 +419,13 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                         if (trimmedArticleName.equals(trimmedTempArticleName))
                         {
                             matched = true;
+
                             Log.d(TAG, "synchronize: found match");
                             // local article is older then received article
-                            if (!tempArticle.getDateOfUpdate().after(a.getDateOfUpdate()))
+                            if (a.getDateOfUpdate().after(tempArticle.getDateOfUpdate()))
                             {
-                                Log.d(TAG, "synchronize: local article is older then received article ...replacing");
+                                Log.d(TAG, "synchronize: local article is older then received article ...replacing " + a.getName() );
+
                                 toDeleteIndex.add(index);
                                 toAddArticles.add(a);
                             }
@@ -434,7 +435,6 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                 if(!matched)
                 {
                     toAddArticles.add(a);
-                    matched = false;
                 }
             }
 
@@ -446,17 +446,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             for (Article a: toAddArticles)
             {
                 Log.d(TAG, "Add article with name  "+ a.getName());
+                Log.d(TAG, "Add article with date  "+ a.getDateOfUpdate());
                 dataAccessInstance.addArticleToShoppingList(a);
             }
         }
     }
 
 
-
-    //------------Getter------------
-
-    public OnReceiveCallback getOnReceiveCallback()
-    {
-        return this.thisOnReceiveCallback;
-    }
 }

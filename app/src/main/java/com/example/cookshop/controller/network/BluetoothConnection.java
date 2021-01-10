@@ -201,6 +201,11 @@ public class BluetoothConnection  implements NetworkConnection
             Log.d(TAG, "closeConnection: ConnectThread was null");
         }
 
+        this.isConnected = false;
+        this.mConnectThread = null;
+        this.mAcceptThread = null;
+        this.mConnectThread = null;
+
     }
 
 

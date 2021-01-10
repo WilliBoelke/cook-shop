@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 
 import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
+import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
@@ -14,12 +15,18 @@ import com.example.cookshop.model.listManagement.DataAccess;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mockito;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static kotlin.text.Typography.times;
 import static org.mockito.ArgumentMatchers.any;
@@ -62,8 +69,8 @@ public class SynchronizationManagerTest
     {
         date = simpleDateFormat.parse(dateString);
         testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0, date, date);
-        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0,date, date);
-        testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13, date,date);
+        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0, date, date);
+        testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13, date, date);
         testArticleArrayList1 = new ArrayList<>();
         testArticleArrayList1.add(testArticle1);
         testArticleArrayList1.add(testArticle2);
@@ -82,18 +89,14 @@ public class SynchronizationManagerTest
     }
 
 
-
-
-    private OnReceiveCallback notNeededReceiveCallback = new OnReceiveCallback()
+    private OnSyncFinishedCallback<Article> notNeededReceiveCallback = new OnSyncFinishedCallback()
     {
         @Override
-        public void onIncomingMessage(String Message)
+        public void onSyncFinished(ArrayList syncedList, String result)
         {
             // using that if i dont need one , if i need one it will be implemented in the test itself
         }
     };
-
-
 
 
     /**
@@ -105,14 +108,12 @@ public class SynchronizationManagerTest
     {
         //TestSetup
 
-        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
 
         // Verifying Results
 
         verify(mockBtConnection).setOnReceiveListener(any(OnReceiveCallback.class));
     }
-
-
 
 
     /**
@@ -123,7 +124,7 @@ public class SynchronizationManagerTest
     {
         //TestSetup
 
-        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
 
         // Verifying Results
 
@@ -131,13 +132,11 @@ public class SynchronizationManagerTest
     }
 
 
-
-
     /**
      * Starting as Server
      * We send first (the test Articles)
      * all 3 test Articles should be send to the NetWorkConnection
-     *
+     * <p>
      * our own list should be overridden completely with the received list
      */
     @Test
@@ -145,8 +144,8 @@ public class SynchronizationManagerTest
     {
         //TestSetup
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
-        mockNetworkConnection = new MockNetworkConnectionServer( );
-        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        mockNetworkConnection = new MockNetworkConnectionServer();
+        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
         testSyncManager.doInBackground();
 
         // Verifying Results
@@ -161,7 +160,7 @@ public class SynchronizationManagerTest
      * Starting as Server
      * We send first (the test Articles)
      * all 3 test Articles should be send to the NetWorkConnection
-     *
+     * <p>
      * our own list should be overridden completely with the received list
      */
     @Test
@@ -169,8 +168,8 @@ public class SynchronizationManagerTest
     {
         //TestSetup
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
-        mockNetworkConnection = new MockNetworkConnectionServer( );
-        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        mockNetworkConnection = new MockNetworkConnectionServer();
+        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
         testSyncManager.doInBackground();
 
         // Verifying Results
@@ -181,21 +180,18 @@ public class SynchronizationManagerTest
     }
 
 
-
     /**
      * Starting as the Server.
      * Just testing the "fist stage" here, the client wont return anything
      * (that will be tested in the next tests)
-     * */
+     */
     @Test
     public void startAsClient1()
     {
         //TestSetup
-
-
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList3);
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
         testSyncManager.doInBackground();
 
         // Verifying Results
@@ -216,7 +212,7 @@ public class SynchronizationManagerTest
         //TestSetup
         date = Calendar.getInstance().getTime();
         testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0, date, date);
-        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0,date, date);
+        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0, date, date);
         testArticleArrayList2 = new ArrayList<>();
         testArticleArrayList2.add(testArticle1);
         testArticleArrayList2.add(testArticle2);
@@ -224,7 +220,7 @@ public class SynchronizationManagerTest
 
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
         testSyncManager.doInBackground();
 
         // Verifying Results
@@ -236,16 +232,103 @@ public class SynchronizationManagerTest
     }
 
 
+
+
     /**
      * Articles whit newer lastUpdateDates should be saved and the older ones should be deleted
      */
     @Test
-    public void verifyDateCheck() throws ParseException
+    public void verifyUpdatedArticles() throws ParseException
     {
         //TestSetup
 
+        ArgumentCaptor<Article> articleCaptor = ArgumentCaptor.forClass(Article.class);
+
         //changing one article description and update date
-        Date newDate = simpleDateFormat.parse( "10-1-2021 07:50:40");
+        Date newDate = simpleDateFormat.parse("10-1-2021 07:50:40");
+        Article updatedTestArticle3 = new Article("Gurke", "neue beschreibung", Category.VEGETABLE, 1, 13, date, newDate);
+
+        //Setting up 2 ArrayLists and changing article 3 in one of them
+        testArticleArrayList1 = new ArrayList<>();
+        testArticleArrayList1.add(testArticle1);
+        testArticleArrayList1.add(testArticle2);
+        testArticleArrayList1.add(testArticle3);
+        testArticleArrayList2 = new ArrayList<>();
+        testArticleArrayList2.add(testArticle1);
+        testArticleArrayList2.add(testArticle2);
+        testArticleArrayList2.add(updatedTestArticle3);
+
+        //Injecting both lists
+        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
+        MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
+
+        //Run
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager.doInBackground();
+
+        // Verifying Results
+        verify(mockDataAccess, atLeast(1)).getBuyingList();
+        verify(mockDataAccess, times(1)).addArticleToShoppingList(articleCaptor.capture());
+
+        List<Article> savedArticles = articleCaptor.getAllValues();
+
+        //verify that the newest Article will be stored and n ot the older version
+        Assert.assertEquals(savedArticles.get(0).getName(), updatedTestArticle3.getName());
+        Assert.assertEquals(savedArticles.get(0).getDateOfUpdate(), updatedTestArticle3.getDateOfUpdate());
+
+    }
+
+
+    /**
+     * Articles whit newer lastUpdateDates should be saved and the older ones should be deleted
+     */
+    @Test
+    public void verifyThatOldArticleWillBeDeleted() throws ParseException
+    {
+        //TestSetup
+
+        ArgumentCaptor<Article> articleCaptor = ArgumentCaptor.forClass(Article.class);
+
+        //changing one article description and update date
+        Date newDate = simpleDateFormat.parse("10-1-2021 07:50:40");
+        Article updatedTestArticle3 = new Article("Gurke", "neue beschreibung", Category.VEGETABLE, 1, 13, date, newDate);
+
+        //Setting up 2 ArrayLists and changing article 3 in one of them
+        testArticleArrayList1 = new ArrayList<>();
+        testArticleArrayList1.add(testArticle1);
+        testArticleArrayList1.add(testArticle2);
+        testArticleArrayList1.add(testArticle3);
+        testArticleArrayList2 = new ArrayList<>();
+        testArticleArrayList2.add(testArticle1);
+        testArticleArrayList2.add(testArticle2);
+        testArticleArrayList2.add(updatedTestArticle3);
+
+        //Injecting both lists
+        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
+        MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
+
+        //Run
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager.doInBackground();
+
+        // Verifying Results
+        verify(mockDataAccess, atLeast(1)).getBuyingList();
+        verify(mockDataAccess, times(1)).deleteArticleShoppingList(2); // old testArticle3 is at index 2
+
+    }
+
+
+
+    /**
+     * Now, we have the newest venison of the article in "our" list
+     * no articles should be added or deleted
+     */
+    @Test
+    public void noChangesWhenNoNewerArticles() throws ParseException
+    {
+        //TestSetup
+        //changing one article description and update date
+        Date newDate = simpleDateFormat.parse("10-1-2021 07:50:40");
         Article updatedTestArticle3 = new Article("Gurke", "neue beschreibung", Category.VEGETABLE, 1, 13, date, newDate);
 
         //Setting up 2 ArrayLists and changing article 3 in one of them
@@ -260,19 +343,18 @@ public class SynchronizationManagerTest
 
         //Injecting both lists
         when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
-        MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
+        MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList1);
 
         //Run
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess );
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
         testSyncManager.doInBackground();
 
         // Verifying Results
         verify(mockDataAccess, atLeast(1)).getBuyingList();
-        verify(mockDataAccess, times(1)).addArticleToShoppingList(any(Article.class));
-        verify(mockDataAccess, times(1)).deleteArticleShoppingList(anyInt());
-        Assert.assertTrue(3 == mockNetworkConnectionClient.getReceivedArticles().size());
+        verify(mockDataAccess, times(0)).addArticleToShoppingList(any(Article.class));
+        verify(mockDataAccess, times(0)).deleteArticleShoppingList(anyInt());
 
-        Assert.assertEquals("neue beschreibung", mockNetworkConnectionClient.getReceivedArticles().get(2).getDescription());
+
 
     }
 

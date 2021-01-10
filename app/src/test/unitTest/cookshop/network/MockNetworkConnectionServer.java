@@ -1,6 +1,7 @@
 package cookshop.network;
 
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
 
 import com.example.cookshop.controller.network.NetworkConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
@@ -48,8 +49,7 @@ public class MockNetworkConnectionServer implements NetworkConnection
             sendThread.start();
           return;
         }
-        Article article = new Article();
-        article.setObjectFromMementoPattern(message);
+        Article article = new Article(message);
         this.receivedArticles.add(article);
         this.receiveThread = new ReceiveThread();
         receiveThread.start();

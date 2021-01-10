@@ -1,7 +1,6 @@
 package com.example.cookshop.items;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
@@ -27,23 +26,10 @@ import java.util.StringTokenizer;
  */
 public class Article extends Item implements Comparable<Article>, Cloneable
 {
-    /**
-     * Parcelable creator
-     */
-    public static final Creator<Article> CREATOR = new Creator<Article>()
-    {
-        @Override
-        public Article createFromParcel(Parcel in)
-        {
-            return new Article(in);
-        }
 
-        @Override
-        public Article[] newArray(int size)
-        {
-            return new Article[size];
-        }
-    };
+
+    private final String TAG = getClass().getSimpleName();
+
     /**
      * The {@link Category} of the article
      */
@@ -59,7 +45,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     /**
      * Date of last update
      */
-    private Date dateOfUpdate;
+    public Date dateOfUpdate;
 
     //....Constructor..........
 
@@ -127,29 +113,17 @@ public class Article extends Item implements Comparable<Article>, Cloneable
 
     public Date getDateOfCreation()
     {
-        return dateOfCreation;
+        return this.dateOfCreation;
     }
 
     public Date getDateOfUpdate()
     {
-        return dateOfUpdate;
+        return this.dateOfUpdate;
     }
 
     //....Methods..........
 
 
-    /**
-     * Constructor to set an Article from a {@link Parcel}
-     */
-    public Article(Parcel in)
-    {
-        this.name = in.readString();
-        this.amount = in.readInt();
-        this.category = (Category) in.readSerializable();
-        this.weight = in.readDouble();
-        this.description = in.readString();
-        this.dateOfCreation =  Calendar.getInstance().getTime();
-    }
 
     /**
      * Adds to the existing amount
@@ -328,7 +302,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         sb.append(this.weight + DELIMITER_ARTICLES);
         sb.append(this.amount + DELIMITER_ARTICLES);
         sb.append(simpleDateFormat.format(this.dateOfCreation) + DELIMITER_ARTICLES);
-        sb.append(simpleDateFormat.format(this.dateOfCreation) + DELIMITER_ARTICLES);
+        sb.append(simpleDateFormat.format(this.dateOfUpdate) + DELIMITER_ARTICLES);
         if (this.category != null) // This if statement prevents some NullPointerExceptions
         {
             switch (this.category)
@@ -381,9 +355,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         }
         catch (ParseException e)
         {
-            Log.e("Article", "error dateOfCreation date " + e.getMessage());
-            dateOfCreation =new Date(12);
-            // this.dateOfCreation = Calendar.getInstance().getTime();
+            e.printStackTrace();
         }
         try
         {
@@ -391,9 +363,9 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         }
         catch (ParseException e)
         {
-            Log.e("Article", "error update date " + e.getMessage());
-          this.dateOfUpdate =new Date(12);
+            e.printStackTrace();
         }
+
         switch (st.nextToken(DELIMITER_ARTICLES))
         {
             case "Fruit":
@@ -426,9 +398,42 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         dest.writeInt(amount);
         dest.writeSerializable(category);
         dest.writeDouble(weight);
+        dest.writeSerializable(dateOfCreation);
+        dest.writeSerializable(dateOfUpdate);
         dest.writeString(description);
     }
 
+
+    /**
+     * Constructor to set an Article from a {@link Parcel}
+     */
+    public Article(Parcel in)
+    {
+        this.name = in.readString();
+        this.amount = in.readInt();
+        this.category = (Category) in.readSerializable();
+        this.weight = in.readDouble();
+        this.dateOfCreation = (Date) in.readSerializable();
+        this.dateOfUpdate = (Date)in.readSerializable();
+        this.description = in.readString();
+    }
+    /**
+     * Parcelable creator
+     */
+    public static final Creator<Article> CREATOR = new Creator<Article>()
+    {
+        @Override
+        public Article createFromParcel(Parcel in)
+        {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size)
+        {
+            return new Article[size];
+        }
+    };
     public static Article deserialize(byte[] bytes) throws IOException, ClassNotFoundException
     {
         ByteArrayInputStream b      = new ByteArrayInputStream(bytes);

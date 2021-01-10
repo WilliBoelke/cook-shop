@@ -21,7 +21,9 @@ import android.widget.TextView;
 import com.example.cookshop.R;
 import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
+import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
+import com.example.cookshop.items.Article;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.recyclerViews.DeviceListAdapter;
 
@@ -136,10 +138,10 @@ public class SynchronizeActivity extends AppCompatActivity
     private void startSyncManager()
     {
         Log.d(TAG, "startSynchronization: starting synchronization manager");
-        synchronizationManager= new SynchronizationManager(new BluetoothConnection(mBluetoothAdapter), bondedBluetoothDevice, new OnReceiveCallback()
+        synchronizationManager= new SynchronizationManager(new BluetoothConnection(mBluetoothAdapter), bondedBluetoothDevice, new OnSyncFinishedCallback<Article>()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onSyncFinished(ArrayList<Article> syncedList, String result)
             {
                 progressBar.setVisibility(View.INVISIBLE);
                 msgTextView.setText("The lists are synchronized");
