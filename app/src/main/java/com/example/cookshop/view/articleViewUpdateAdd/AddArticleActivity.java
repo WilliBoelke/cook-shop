@@ -258,6 +258,7 @@ public class AddArticleActivity extends AppCompatActivity
             }
             else if (belonging.equals("newRecipe"))
             {
+                Log.d(TAG, "onAddArticleFabClick: in else if(new Recipe)");
                 //Return the article to the AddRecipe Activity via resultIntent
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("newArticle", (Serializable) newArticle);

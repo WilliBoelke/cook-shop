@@ -57,6 +57,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                 COLUMN_STEP_POSITION + " INTEGER, " +
                 COLUMN_STEP_TIMER + " INTEGER, " +
                 COLUMN_STEP_BELONGING + " TEXT NOT NULL );";
+
         db.execSQL(createRecipeTable);
         db.execSQL(createArticleTable);
         db.execSQL(createStepTable);
