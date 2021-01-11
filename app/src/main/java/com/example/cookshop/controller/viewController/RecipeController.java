@@ -7,6 +7,7 @@ import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
 import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
 
 import java.util.ArrayList;
 
@@ -14,14 +15,16 @@ public class RecipeController {
 
   private static RecipeController ourInstance;
 
-  public Recipe generateRecipeFromInput(TextView name,TextView description){
+  public Recipe generateRecipeFromInput(TextView name, TextView description,
+                                        ListItemWithDeleteButtonAdapter<Article> articleListAdapter,
+                                        ListItemWithDeleteButtonAdapter<Step> stepListAdapter){
     String nameString = name.getText().toString();
     String descriptionString = "default description";
 
     if (!description.getText().toString().trim().equals("")){
       descriptionString =description.getText().toString();
     }
-    return new Recipe(nameString, descriptionString, new ArrayList<Article>(), new ArrayList<Step>() );
+    return new Recipe(nameString, descriptionString, articleListAdapter.getList(), stepListAdapter.getList() );
   }
 
 

@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.example.cookshop.R;
 import com.example.cookshop.controller.viewController.RecipeController;
+import com.example.cookshop.items.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 
 public class EditRecipe extends AddRecipeActivity {
@@ -24,10 +25,14 @@ public class EditRecipe extends AddRecipeActivity {
 
   @Override
   public void onSaveButtonClick(View view){
+
+    Recipe updatedValues =
+      RecipeController.getInstance().generateRecipeFromInput(nameTextView, descriptionTextView, articleListAdapter, stepListAdapter);
+
     if (!nameTextView.getText().toString().equals(""))
     {
 
-      RecipeController.getInstance().updateRecipe(this.position, getRecipe());
+      RecipeController.getInstance().updateRecipe(this.position, updatedValues);
       finish();
 
     }

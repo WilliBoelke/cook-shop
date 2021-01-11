@@ -23,7 +23,11 @@ public class ListItemWithDeleteButtonAdapter<T extends Item> extends BaseAdapter
     private       Context                     context;
     private       OnDeleteButtonClickListener onDeleteButtonClickListener;
 
-    public ListItemWithDeleteButtonAdapter(ArrayList<T> list, Context context)
+  public ArrayList<T> getList() {
+    return list;
+  }
+
+  public ListItemWithDeleteButtonAdapter(ArrayList<T> list, Context context)
     {
         this.context = context;
         this.list = list;
