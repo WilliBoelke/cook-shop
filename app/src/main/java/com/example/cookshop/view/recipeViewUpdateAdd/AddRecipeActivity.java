@@ -45,7 +45,7 @@ public class AddRecipeActivity extends AppCompatActivity {
   protected Recipe editRecipe;
   protected ArrayList<Article> articleList = new ArrayList();
   protected ArrayList<Step> stepList = new ArrayList<>();
-
+  protected RecipeController recipeController;
   protected ListItemWithDeleteButtonAdapter<Article> articleListAdapter;
   protected ListItemWithDeleteButtonAdapter<Step> stepListAdapter;
 
@@ -56,12 +56,14 @@ public class AddRecipeActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.recipe_add_edit);
     processIntent();
-    {
+    recipeController = new RecipeController(DataAccess.getInstance());
+
       nameTextView = findViewById(R.id.name_edittext);
       descriptionTextView = findViewById(R.id.description_edittext);
       articles = findViewById(R.id.articles_listview);
       steps = findViewById(R.id.steps_listview);
-    }
+
+
 
       articleListAdapter = new ListItemWithDeleteButtonAdapter(articleList, this);
       articleListAdapter.setOnDeleteButtonClickListener((position) -> {
@@ -145,7 +147,7 @@ public class AddRecipeActivity extends AppCompatActivity {
   {
     if (!nameTextView.getText().toString().equals("") && !descriptionTextView.getText().toString().equals(""))
     {
-      RecipeController.getInstance().addRecipe(this.getRecipe());
+     this.recipeController.addRecipe(this.getRecipe());
       finish();
     }
     else

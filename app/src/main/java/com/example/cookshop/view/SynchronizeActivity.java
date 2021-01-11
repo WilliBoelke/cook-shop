@@ -24,7 +24,7 @@ import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.view.recyclerViews.DeviceListAdapter;
+import com.example.cookshop.view.adapter.DeviceListAdapter;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

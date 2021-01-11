@@ -1,10 +1,9 @@
-package com.example.cookshop.view.recyclerViews;
+package com.example.cookshop.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.cookshop.R;
-import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Recipe;
 
 import java.util.ArrayList;

@@ -330,6 +330,7 @@ public class DataAccess implements Observabel
         ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
         this.shoppingListService.addSeveralArticlesIntelligent(notAvailableArticles);
         this.onShoppingListChange();
+        this.onRecipeListChange(); // To Reset the swipe
     }
 
     @Override

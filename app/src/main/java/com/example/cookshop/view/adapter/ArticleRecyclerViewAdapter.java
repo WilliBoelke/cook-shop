@@ -1,4 +1,4 @@
-package com.example.cookshop.view.recyclerViews;
+package com.example.cookshop.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

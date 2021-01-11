@@ -1,4 +1,4 @@
-package cookshop;
+package cookshop.controller;
 
 import android.widget.TextView;
 
@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,12 +20,11 @@ import static org.mockito.Mockito.when;
 public class ArticleControllerTest
 {
 
-    ArticleController testArticleController;
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
-    TextView textView4;
-    TextView textView5;
+    private ArticleController testArticleController;
+    private TextView textView1;
+    private TextView textView2;
+    private TextView textView3;
+    private TextView textView4;
 
 
     @Before
@@ -33,7 +35,6 @@ public class ArticleControllerTest
         textView2 = mock(TextView.class);
         textView3 = mock(TextView.class);
         textView4 = mock(TextView.class);
-        textView5 = mock(TextView.class);
     }
 
 
@@ -82,12 +83,16 @@ public class ArticleControllerTest
         when(textView3.getText()).thenReturn("13");
         when(textView4.getText()).thenReturn("12");
 
-        Article result =  testArticleController.generateArticleFromInput(textView1, textView2, Category.FRUIT, textView3, textView4);
+        Date date = Calendar.getInstance().getTime();
+        Article result =  testArticleController.generateArticleFromInput(textView1, textView2, Category.FRUIT, textView3, textView4, date);
 
         assertEquals("aName", result.getName());
         assertEquals("Description", result.getDescription());
         assertTrue(13 ==  result.getWeight());
         assertTrue(12 ==  result.getAmount());
         assertEquals(Category.FRUIT, result.getCategory());
+        assertEquals(date, result.getDateOfCreation());
+        assertNotEquals(date, result.getDateOfUpdate());
+        assertTrue(result.getDateOfUpdate().after(date));
     }
 }

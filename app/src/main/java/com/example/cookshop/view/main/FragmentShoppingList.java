@@ -15,7 +15,7 @@ import com.example.cookshop.items.Article;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
-import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.ArticleRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

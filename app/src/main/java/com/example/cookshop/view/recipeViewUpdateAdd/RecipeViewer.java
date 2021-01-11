@@ -14,6 +14,7 @@ import com.example.cookshop.R;
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
+import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.adapter.ArticleSectionPagerAdapter;
 import com.example.cookshop.view.adapter.StepsSectionPagerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,7 +31,7 @@ public class RecipeViewer extends AppCompatActivity {
   private TextView description;
   private ViewPager stepsViewPager;
   private ViewPager articlesViewPager;
-
+  private RecipeController recipeController;
   private String belonging;
 
   private FloatingActionButton editFab;
@@ -40,12 +41,12 @@ public class RecipeViewer extends AppCompatActivity {
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.recipe_viewer);
-
     Intent intent = getIntent();
     belonging = intent.getStringExtra("belonging");
     position = intent.getIntExtra("position", -1);
 
-    this.viewedRecipe = RecipeController.getInstance().getRecipe(position);
+    recipeController = new RecipeController(DataAccess.getInstance());
+    this.viewedRecipe = recipeController.getRecipe(position);
     this.toolbar = findViewById(R.id.toolbar);
     this.description = findViewById(R.id.description_textview);
     this.stepsViewPager = findViewById(R.id.steps_viewpager);
@@ -146,6 +147,6 @@ public class RecipeViewer extends AppCompatActivity {
 
   private void setRecipe()
   {
-    this.viewedRecipe = RecipeController.getInstance().getRecipe(position);
+    this.viewedRecipe = recipeController.getRecipe(position);
   }
 }

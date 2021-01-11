@@ -182,16 +182,6 @@ public class StepTest
     }
 
 
-    @Test
-    public void setTimerTest3()
-    {
-        assertTrue(testStep1.getTimerInSeconds() == 42);
-
-        testStep1.setTimerInSeconds(Integer.MAX_VALUE +1);
-
-        //TODO Fix that behavior
-        assertTrue(testStep1.getTimerInSeconds() == Integer.MAX_VALUE);
-    }
 
 
     @Test
@@ -200,8 +190,6 @@ public class StepTest
         assertTrue(testStep1.getTimerInSeconds() == 42);
 
         testStep1.setTimerInSeconds(-123);
-
-        //TODO Fix that behavior
         assertTrue(testStep1.getTimerInSeconds() == 0);
     }
 

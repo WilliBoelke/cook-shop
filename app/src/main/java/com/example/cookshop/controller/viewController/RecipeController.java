@@ -8,9 +8,15 @@ import com.example.cookshop.items.Step;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
 
-public class RecipeController {
+public class RecipeController
+{
 
-  private static RecipeController ourInstance;
+  DataAccess dataAccessInstance;
+
+  public RecipeController(DataAccess dataAccess)
+  {
+    dataAccessInstance = dataAccess;
+  }
 
   public Recipe generateRecipeFromInput(TextView name, TextView description,
                                         ListItemWithDeleteButtonAdapter<Article> articleListAdapter,
@@ -30,15 +36,6 @@ public class RecipeController {
     DataAccess.getInstance().addRecipe(recipe);
   }
 
-
-
-  public static RecipeController getInstance(){
-
-    if (ourInstance == null){
-      ourInstance = new RecipeController();
-    }
-    return ourInstance;
-  }
 
   public void updateRecipe(int position, Recipe recipe) {
     DataAccess.getInstance().updateRecipe(position, recipe);

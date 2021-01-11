@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cookshop.R;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.model.Observer;
-import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
-import com.example.cookshop.view.recyclerViews.RecipeRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
 
 import java.util.ArrayList;
 
