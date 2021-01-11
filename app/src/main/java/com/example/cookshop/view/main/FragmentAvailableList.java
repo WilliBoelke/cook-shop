@@ -128,7 +128,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     {
          Intent displayIntent = new Intent(getActivity(), ArticleViewer.class);
          displayIntent.putExtra("position", position);
-         displayIntent.putExtra("belonging", "buy");
+         displayIntent.putExtra("belonging", "available");
          startActivity(displayIntent);
     }
 
@@ -142,7 +142,7 @@ public class FragmentAvailableList extends FragmentArticleList {
             public void onClick(View v)
             {
                 Intent newBuyArticle = new Intent(getContext(), AddArticleActivity.class);
-                newBuyArticle.putExtra("belonging", "buy");
+                newBuyArticle.putExtra("belonging", "available");
                 startActivity(newBuyArticle);
             }
         });

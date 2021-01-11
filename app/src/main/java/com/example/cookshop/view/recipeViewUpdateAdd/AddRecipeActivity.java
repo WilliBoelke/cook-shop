@@ -77,6 +77,8 @@ public class AddRecipeActivity extends AppCompatActivity {
       stepListAdapter.notifyDataSetChanged();
     });
 
+      steps.setAdapter(stepListAdapter);
+
   }
 
   private void processIntent() {
@@ -109,13 +111,15 @@ public class AddRecipeActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK)
         {
           Article newArticle = (Article) data.getExtras().getSerializable("newArticle");
+          Log.d(TAG, "onActivityResult: new article =" + newArticle.getName());
           articleList.add(newArticle);
           articleListAdapter.notifyDataSetChanged();
           }
         break;
-      case NEW_STEP:
+      case NEW_STEP: ;
         if (resultCode == RESULT_OK){
           Step newStep = (Step) data.getExtras().getSerializable("newStep");
+          Log.d(TAG, "onActivityResult: new step =" + newStep.getName());
           newStep.setOrderPosition(stepList.size()+1);
           stepList.add(newStep);
           stepListAdapter.notifyDataSetChanged();

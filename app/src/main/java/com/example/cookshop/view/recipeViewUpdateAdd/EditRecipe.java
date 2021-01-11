@@ -1,6 +1,7 @@
 package com.example.cookshop.view.recipeViewUpdateAdd;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.cookshop.R;
@@ -9,6 +10,8 @@ import com.example.cookshop.items.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 
 public class EditRecipe extends AddRecipeActivity {
+
+  private String TAG = this.getClass().getSimpleName();
 
   @Override
   protected void onCreate(Bundle savedInstanceState){
@@ -31,7 +34,7 @@ public class EditRecipe extends AddRecipeActivity {
 
     if (!nameTextView.getText().toString().equals(""))
     {
-
+      Log.d(TAG, " onSaveButtonclick: Position: "+position);
       RecipeController.getInstance().updateRecipe(this.position, updatedValues);
       finish();
 

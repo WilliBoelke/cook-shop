@@ -158,7 +158,7 @@ public class DataAccess implements Observabel
     public void addArticleToShoppingList(Article article)
     {
         this.shoppingListService.addArticleIntelligent(article);
-        this.onBuyingListChange();
+        this.onShoppingListChange();
     }
 
     /**
@@ -170,7 +170,7 @@ public class DataAccess implements Observabel
     public void deleteArticleShoppingList(int index)
     {
         this.shoppingListService.removeItem(index);
-        this.onBuyingListChange();
+        this.onShoppingListChange();
     }
 
     /**
@@ -215,7 +215,7 @@ public class DataAccess implements Observabel
     public void updateArticleFromBuyingList(int index, Article newArticle)
     {
         this.shoppingListService.updateArticle(index, newArticle);
-        this.onBuyingListChange();
+        this.onShoppingListChange();
     }
 
     //....exchange between the article list..........
@@ -232,6 +232,7 @@ public class DataAccess implements Observabel
         Article transferredArticle = (Article) this.shoppingListService.getItem(index);
         this.shoppingListService.removeItem(index);
         this.availableListService.addArticleIntelligent(transferredArticle);
+        this.onShoppingListChange();
         this.onAvailableListChange();
     }
 
@@ -246,7 +247,8 @@ public class DataAccess implements Observabel
         Article transferredArticle = (Article) this.availableListService.getItem(index);
         this.availableListService.removeItem(index);
         this.shoppingListService.addArticleIntelligent(transferredArticle);
-        this.onBuyingListChange();
+        this.onShoppingListChange();
+        this.onAvailableListChange();
     }
 
 
@@ -297,7 +299,7 @@ public class DataAccess implements Observabel
 
     public void updateRecipe(int index, Recipe newRecipe)
     {
-       // this.recipeListService.updateRecipe(index, newRecipe);
+        this.recipeListService.updateRecipe(index, newRecipe);
         this.onRecipeListChange();
     }
 
@@ -327,7 +329,7 @@ public class DataAccess implements Observabel
         ArrayList neededArticles = recipe.getArticles();
         ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
         this.shoppingListService.addSeveralArticlesIntelligent(notAvailableArticles);
-        this.onBuyingListChange();
+        this.onShoppingListChange();
     }
 
     @Override
@@ -383,7 +385,7 @@ public class DataAccess implements Observabel
     }
 
     @Override
-    public void onBuyingListChange()
+    public void onShoppingListChange()
     {
         for (int i = 0; i < this.onBuyingListChangeListener.size(); i++)
         {
