@@ -18,7 +18,8 @@
         android:onClick="onEditButtonClick"
         app:layout_constraintBottom_toBottomOf="@+id/app_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        android:src="@drawable/icon_edit"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

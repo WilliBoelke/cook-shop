@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:clickable="false"
         android:focusable="false"
-        android:background="@drawable/recycler_item_article_gradient">
+        android:background="@drawable/gradient_article">
 
 
         <TextView

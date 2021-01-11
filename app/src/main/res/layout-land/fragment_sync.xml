@@ -27,7 +27,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/recycler_item_recipe_gradient"
+            android:background="@drawable/gradient_recipe"
             android:clickable="true"
             android:elevation="20dp"
             android:onClick="shoppingListSyncOnClick"
@@ -71,7 +71,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/recycler_item_recipe_gradient"
+            android:background="@drawable/gradient_recipe"
             android:clickable="true"
             android:elevation="20dp"
             android:onClick="recipeListSyncOnClick"

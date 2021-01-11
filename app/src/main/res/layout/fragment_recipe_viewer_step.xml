@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@drawable/recycler_item_recipe_gradient">
+    android:background="@drawable/gradient_step">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/timer_fab"

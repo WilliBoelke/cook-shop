@@ -182,7 +182,8 @@
             android:translationZ="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
+            android:src="@drawable/icon_edit"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

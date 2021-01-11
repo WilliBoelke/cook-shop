@@ -30,6 +30,7 @@
         android:backgroundTint="?attr/colorPrimary"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/article_recycler"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/icon_add"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

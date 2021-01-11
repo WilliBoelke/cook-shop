@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/recycler_item_article_gradient">
+        android:background="@drawable/gradient_article">
 
 
         <TextView
