@@ -15,7 +15,34 @@ import java.util.Date;
  */
 public class ArticleController
 {
-private final String TAG = getClass().getSimpleName();
+
+    /**
+     * Checks the userInput, returns a integer as feedback
+     * 1 means everything is okay, 2 means the name is missing
+     *
+     * @param name
+     * @return
+     */
+    public int checkUserInput(TextView name)
+    {
+
+        if(name.getText().toString().trim().equals(""))
+        {
+            return 2;
+        }
+
+        return 1;
+    }
+
+    /**
+     * Generates and article from the UserInput
+     * @param name
+     * @param description
+     * @param category
+     * @param weight
+     * @param amount
+     * @return
+     */
     public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount)
     {
         // Declaring  standard values for the Article
@@ -44,7 +71,18 @@ private final String TAG = getClass().getSimpleName();
         return newArticle;
     }
 
-    public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount, Date creation, Date changed)
+
+    /**
+     * Generates and article from the UserInput
+     * Used for editing an Article, here we need the Creation date, which should stay the same after editing
+     * @param name
+     * @param description
+     * @param category
+     * @param weight
+     * @param amount
+     * @return
+     */
+    public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount, Date creation)
     {
         // Declaring  standard values for the Article
         String nameString        = name.getText().toString(); // must always be != null so we can get it right here
@@ -69,6 +107,4 @@ private final String TAG = getClass().getSimpleName();
 
         return new Article(nameString, descriptionString, category, amountI, weightD, creation);
     }
-
-
 }
