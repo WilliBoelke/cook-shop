@@ -31,6 +31,7 @@ public class RecipeViewer extends AppCompatActivity {
   private ViewPager stepsViewPager;
   private ViewPager articlesViewPager;
 
+  private String belonging;
 
   private FloatingActionButton editFab;
 
@@ -41,7 +42,8 @@ public class RecipeViewer extends AppCompatActivity {
     setContentView(R.layout.recipe_viewer);
 
     Intent intent = getIntent();
-    this.position = intent.getIntExtra("position", -1);
+    belonging = intent.getStringExtra("belonging");
+    position = intent.getIntExtra("position", -1);
 
     this.viewedRecipe = RecipeController.getInstance().getRecipe(position);
     this.toolbar = findViewById(R.id.toolbar);
@@ -82,12 +84,13 @@ public class RecipeViewer extends AppCompatActivity {
     return fragments;
   }
 
-  public void onEditFabClick(View view)
+  public void onEditButtonClick(View view)
   {
     Log.e(TAG,"onEditFabClick");
     Intent intent = new Intent(getApplicationContext(), EditRecipe.class);
     intent.putExtra("belonging", "edit");
     intent.putExtra("position", position);
+    intent.putExtra("editBelonging", belonging);
     startActivity(intent);
 
   }
