@@ -20,6 +20,16 @@
             android:label="@string/add_article"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".view.stepViewUpdateAdd.AddStepActivity"
+            android:label="@string/add_step"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".view.recipeViewUpdateAdd.EditRecipe"></activity>
+        <activity android:name=".view.recipeViewUpdateAdd.RecipeViewer" />
+        <activity
+          android:name=".view.recipeViewUpdateAdd.AddRecipeActivity"
+          android:label="@string/add_article"
+          android:theme="@style/AppTheme" />
+        <activity
             android:name=".view.main.MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>

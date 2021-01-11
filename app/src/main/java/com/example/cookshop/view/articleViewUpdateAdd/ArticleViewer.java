@@ -32,11 +32,6 @@ import java.text.SimpleDateFormat;
  */
 public class ArticleViewer extends AppCompatActivity {
 
-
-
-    //------------Static Variables------------
-
-
     //------------Instance Variables------------
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");

@@ -57,6 +57,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                 COLUMN_STEP_POSITION + " INTEGER, " +
                 COLUMN_STEP_TIMER + " INTEGER, " +
                 COLUMN_STEP_BELONGING + " TEXT NOT NULL );";
+
         db.execSQL(createRecipeTable);
         db.execSQL(createArticleTable);
         db.execSQL(createStepTable);
@@ -396,7 +397,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
         contentValues.put(COLUMN_ARTICLE_WEIGHT, article.getWeight());
         contentValues.put(COLUMN_ARTICLE_CATEGORY, article.getCategory().toString());
         contentValues.put(COLUMN_ARTICLE_CREATION_DATE, simpleDateFormat.format(article.getDateOfCreation()));
-       contentValues.put(COLUMN_ARTICLE_UPDATE_DATE, simpleDateFormat.format(article.getDateOfUpdate()));
+       contentValues.put(COLUMN_ARTICLE_UPDATE_DATE, simpleDateFormat.format(article.dateOfUpdate));
         contentValues.put(COLUMN_ARTICLE_BELONGING, belonging);
         return contentValues;
     }
@@ -458,7 +459,6 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                 COLUMN_STEP_POSITION + " INTEGER, " +
                 COLUMN_STEP_TIMER + " INTEGER, " +
                 COLUMN_STEP_BELONGING + " TEXT NOT NULL );";
-
         database.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPES);
         database.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLE);
         database.execSQL("DROP TABLE IF EXISTS " + TABLE_STEPS);

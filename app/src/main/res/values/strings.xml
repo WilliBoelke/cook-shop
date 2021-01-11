@@ -26,6 +26,7 @@
 
     <!--warnings-->
     <string name="no_name_warning">Es muss mindestens ein Name eingeben werden</string>
+    <string name="string_timer_warning">Der Timer muss in Sekunden angegeben werden!</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
@@ -48,4 +49,6 @@
     <string name="synchronize">Synchronisze</string>
     <string name="synchronize_articles">"Syncchroniziere deine Einkaufs- und Lagerliste via Bluetooth "</string>
     <string name="synchronize_recipes">Synchronisiere alle deine Rezepte via Bluetooth</string>
+    <string name="add_step">Add Step</string>
 </resources>
+

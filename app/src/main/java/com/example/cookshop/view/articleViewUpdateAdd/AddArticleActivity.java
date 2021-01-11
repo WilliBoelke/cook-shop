@@ -1,3 +1,4 @@
+
 package com.example.cookshop.view.articleViewUpdateAdd;
 
 import android.content.Intent;
@@ -58,7 +59,6 @@ public class AddArticleActivity extends AppCompatActivity
     protected ArticleController controller;
 
 
-
     //------------Activity/Fragment Lifecycle------------
 
     @Override
@@ -69,22 +69,21 @@ public class AddArticleActivity extends AppCompatActivity
         controller = new ArticleController();
         processIntent();
 
-            nameTextView = findViewById(R.id.name_edittext);
-            descriptionTextView = findViewById(R.id.description_edittext);
-            amountTextView = findViewById(R.id.amount_edittext);
-            amountSeekBar = findViewById(R.id.amount_seekbar);
-            weightTextView = findViewById(R.id.weight_edittext);
-            weightSeekbar = findViewById(R.id.weight_seekbar);
-            categorySpinner = findViewById(R.id.category_spinner);
-            addFab = findViewById(R.id.add_fab);
+        nameTextView = findViewById(R.id.name_edittext);
+        descriptionTextView = findViewById(R.id.description_edittext);
+        amountTextView = findViewById(R.id.amount_edittext);
+        amountSeekBar = findViewById(R.id.amount_seekbar);
+        weightTextView = findViewById(R.id.weight_edittext);
+        weightSeekbar = findViewById(R.id.weight_seekbar);
+        categorySpinner = findViewById(R.id.category_spinner);
+        addFab = findViewById(R.id.add_fab);
 
 
-            setupCategorySpinner();
-            setupAmountInput();
-            setupWeightInput();
+        setupCategorySpinner();
+        setupAmountInput();
+        setupWeightInput();
 
     }
-
 
 
     //------------Setup views------------
@@ -184,9 +183,6 @@ public class AddArticleActivity extends AppCompatActivity
 
     }
 
-
-
-
     private void processIntent()
     {
         intent = getIntent();
@@ -236,7 +232,6 @@ public class AddArticleActivity extends AppCompatActivity
             }
         }
     }
-
 
 
     public void onAddArticleFabClick(View view)
