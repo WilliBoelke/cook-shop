@@ -47,6 +47,7 @@
                 android:inputType="textPersonName"
                 android:textColor="?attr/textColorPrimary"
                 android:textColorHint="?attr/textColorSecondary"
+                android:textSize="@dimen/primary_font_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +96,7 @@
                 android:textAlignment="viewStart"
                 android:textColor="?attr/textColorPrimary"
                 android:textColorHint="?attr/textColorSecondary"
-                android:textSize="14sp"
+                android:textSize="@dimen/primary_font_size"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +131,7 @@
 
             <EditText
                 android:id="@+id/amount_edittext"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/edit_text_background"
@@ -140,9 +141,10 @@
                 android:inputType="numberDecimal"
                 android:textColor="?attr/textColorPrimary"
                 android:textColorHint="?attr/textColorSecondary"
-                android:textSize="10sp"
+                android:textSize="@dimen/primary_font_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/amount_seekbar"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <SeekBar
@@ -188,7 +190,7 @@
 
             <EditText
                 android:id="@+id/weight_edittext"
-                android:layout_width="60dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:background="?attr/edit_text_background"
@@ -198,7 +200,7 @@
                 android:inputType="textPersonName"
                 android:textColor="?attr/textColorPrimary"
                 android:textColorHint="?attr/textColorSecondary"
-                android:textSize="10sp"
+                android:textSize="@dimen/primary_font_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

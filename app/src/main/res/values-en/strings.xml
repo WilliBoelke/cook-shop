@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cook &amp; Shop</string>
+    <string name="title_activity_main" translatable="false">Cook &amp; Shop</string>
+    <string name="fruit">Fruit</string>
+    <string name="vegetable">Vegetable</string>
+    <string name="drink" translatable="false">Drink</string>
+    <string name="meat">Meat</string>
+    <string name="other" translatable="false">Other</string>
+    <string name="no_name_warning" translatable="false">You need to insert at least the name</string>
+    <string name="string_timer_warning" translatable="false">The timer needs to be given in seconds</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="name" translatable="false">Name</string>
+    <string name="description" translatable="false">Description</string>
+    <string name="amount" translatable="false">Amount</string>
+    <string name="weight">Weight</string>
+    <string name="new_article">Add new Article</string>
+    <string name="new_step" translatable="false">Add new Step</string>
+    <string name="timer">Timer</string>
+    <string name="timer_descriptional_text">you can insert a timer here. when you cook the recipe you can easily set a timer for the step</string>
+    <string name="step">Steps</string>
+    <string name="article">Articles</string>
+    <string name="add_article">Add Article</string>
+    <string name="synchronize">Synchronisze</string>
+    <string name="synchronize_articles">Snchronize your shopping- and storage list via Bluetooth</string>
+    <string name="synchronize_recipes">Snchronize your recipe list list via Bluetooth</string>
+    <string name="add_step">Add Step</string>
+</resources>

@@ -65,6 +65,7 @@
                         android:textColor="?attr/textColorPrimary"
                         android:textColorHint="?attr/textColorSecondary"
 
+                        android:textSize="@dimen/primary_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -115,7 +116,7 @@
                         android:textAlignment="gravity"
                         android:textColor="?attr/textColorPrimary"
                         android:textColorHint="?attr/textColorSecondary"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/primary_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -162,6 +163,7 @@
                         android:onClick="onAddArticleButtonClick"
                         android:text="@string/new_article"
                         android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -219,6 +221,7 @@
                         android:onClick="onAddStepButtonClick"
                         android:text="@string/new_step"
                         android:textColor="?attr/textColorPrimary"
+                        android:textSize="@dimen/primary_font_size"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"

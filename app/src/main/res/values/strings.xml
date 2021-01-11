@@ -1,19 +1,13 @@
 <resources>
     <string name="app_name">Cook &amp; Shop</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Cook &amp; Shop</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
 
     <!--categories-->
-    <string name="fruit">Obst</string>
-    <string name="vegetable">Gemüse</string>
-    <string name="drink">Getränke</string>
-    <string name="meat">Fleisch</string>
-    <string name="other">Sonstiges</string>
+    <string name="fruit">Fruit</string>
+    <string name="drink">Drink</string>
+    <string name="meat">Meat</string>
+    <string name="other">Other</string>
 
     <!--Array used for teh category spinner-->
     <string-array name="categories">
@@ -25,30 +19,25 @@
     </string-array>
 
     <!--warnings-->
-    <string name="no_name_warning">Es muss mindestens ein Name eingeben werden</string>
-    <string name="string_timer_warning">Der Timer muss in Sekunden angegeben werden!</string>
+    <string name="no_name_warning">You need to insert at least the name</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="name">name</string>
-    <string name="description">describtion</string>
-    <string name="amount">amount</string>
-    <string name="weight">weight</string>
-    <string name="new_article">add new article</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="amount">Amount</string>
+    <string name="weight">Weight</string>
+    <string name="new_article">Add new Article</string>
     <string name="new_step">"Add new Step "</string>
-    <string name="timer">timer</string>
-    <string name="timer_descriptional_text">Du kannst für jeden         Schritt einen Timer (in Sekunden) angeben. Wenn du         Später das Rezept nachkochst, kannst du den Timer         nutzen um dir mit einem Click eine Erinnerung zu erstellen</string>
+    <string name="timer">Timer</string>
+    <string name="timer_descriptional_text">you can insert a timer here. when you cook the recipe you can easily set a timer for the step</string>
     <string name="step">Steps</string>
     <string name="article">Articles</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_article">Add Article</string>
     <string name="synchronize">Synchronisze</string>
-    <string name="synchronize_articles">"Syncchroniziere deine Einkaufs- und Lagerliste via Bluetooth "</string>
-    <string name="synchronize_recipes">Synchronisiere alle deine Rezepte via Bluetooth</string>
+    <string name="synchronize_recipes">Snchronize your recipe list list via Bluetooth</string>
     <string name="add_step">Add Step</string>
+    <string name="vegetable">Vegetable</string>
+    <string name="string_timer_warning">The timer needs to be given in seconds</string>
+    <string name="synchronize_articles">Snchronize your shopping- and storage list via Bluetooth</string>
 </resources>
 
