@@ -32,6 +32,24 @@ public class ArticleListService extends ItemListService
     //....Methods..........
 
 
+    protected void overrideListCompletely(ArrayList<Article> list)
+    {
+        int size = this.getItemList().size();
+        for (int i = 0; i < size; i++)
+        {
+            Log.d("SynchronizationManager", "itemList size =  " + this.getItemList().size());
+            removeItem(0); //Always remove to first item, (list will get smaller)
+        }
+        Log.d("SynchronizationManager", "Adding Articles  = " +  list.size());
+        for (Article a: list)
+        {
+
+            addItem(a);
+        }
+    }
+
+
+
     protected Article searchForArticle(String name)
     {
         ArrayList<Article> toSearch = (ArrayList<Article>) this.getItemList();

@@ -32,10 +32,10 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
             Log.d(TAG, "Instantiate : FragmentAvailableList");
             return new FragmentAvailableList();
         }
-        if (className.equals(FragmentRecommendedList.class.getName()))
+        if (className.equals(FragmentSyc.class.getName()))
         {
             Log.d(TAG, "Instantiate : FragmentRecommendedList");
-            return new FragmentRecommendedList();
+            return new FragmentSyc();
         }
         if (className.equals(FragmentToCookList.class.getName()))
         {

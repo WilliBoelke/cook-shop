@@ -11,8 +11,8 @@ android {
 
     sourceSets {
         main { java.srcDirs = ['src/main/java'] }
-        test { java.srcDirs = ['src/test/unitTests/java'] }
-        androidTest { java.srcDirs = ['src/test/androidTest/java'] }
+        test { java.srcDirs = ['src/test/unitTest'] }
+        androidTest { java.srcDirs = ['src/test/androidTest'] }
     }
 
     compileSdkVersion 28
@@ -41,17 +41,69 @@ dependencies {
 
     //Glide -- for the Header images
     implementation 'com.github.bumptech.glide:glide:3.7.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0-alpha03'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    
+    // androidx.test
+    def androidx_test = "1.1.0"
+    androidTestImplementation "androidx.test:runner:$androidx_test"
+    androidTestImplementation "androidx.test:core:$androidx_test"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidx_test"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    testImplementation 'androidx.test.ext:junit:1.1.0'
+
+    //lifecycle Components
+    def arch_lifecycle_version = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$arch_lifecycle_version"
+    implementation group: "android.arch.lifecycle", name: "compiler", version: "$arch_lifecycle_version"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+
+    // Test helpers for LiveData
+    androidTestImplementation "android.arch.core:core-testing:1.1.0"
+
+    // Assertions
+    androidTestImplementation 'androidx.test.ext:junit:1.0.0'
+    androidTestImplementation 'androidx.test.ext:truth:1.0.0'
+    androidTestImplementation 'com.google.truth:truth:0.42'
+
+    // Espresso dependencies
+    def espresso_version = "3.1.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espresso_version"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espresso_version"
+
+    // The following Espresso dependency can be either "implementation"
+    // or "androidTestImplementation", depending on whether you want the
+    // dependency to appear on your APK's compile classpath or the test APK
+    // classpath.
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.1.0'
+
+    // androidx.fragment
+    def fragment_version = "1.2.4"
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    implementation "androidx.fragment:fragment:$fragment_version"
+
+    //mockito
+    def mockito_version ="3.3.3"
+    implementation "org.mockito:mockito-core:$mockito_version"
+
+
+    //JUnit
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testImplementation 'junit:junit:4.12'
+
+
+
 }

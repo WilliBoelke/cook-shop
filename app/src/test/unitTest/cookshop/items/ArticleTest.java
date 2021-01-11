@@ -1,22 +1,39 @@
-package com.example.cookshop.items;
+package cookshop.items;
+
+import android.provider.ContactsContract;
+
+import com.example.cookshop.items.Article;
+import com.example.cookshop.items.Category;
+
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class ArticleTest
 {
-    Article testArticle1;
-    Article testArticle2;
-    Article testArticle3;
+
+
+    private Article testArticle1;
+    private Article testArticle2;
+    private Article testArticle3;
+    private String dateString = "09-1-2021 07:50:40";
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    private Date date;
 
 
     @Before
-    public void setUp() throws Exception {
-        testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0);
-        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0);
-        testArticle3 = new Article("Gurke", "Eine Gurke", Category.VEGETABLE, 1, 13);
+    public void setUp() throws Exception
+    {
+        date = simpleDateFormat.parse(dateString);
+        testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0, date, date);
+        testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0, date, date);
+        testArticle3 = new Article("Gurke", "Eine Gurke", Category.VEGETABLE, 1, 13, date, date);
     }
 
 
@@ -225,15 +242,21 @@ public class ArticleTest
                 testArticle2.compareTo(testArticle1) == 0);
     }
 
+
+
+
+
     @Test
-    public void getMementoPatterTest1() {
-        assertTrue(testArticle1.getMementoPattern().equals("Apfel||4 Äpfel||1.0||4||Fruit||"));
-        assertTrue(testArticle2.getMementoPattern().equals("Birne||3 Birnen||1.0||3||Fruit||"));
+    public void getMementoPatterTest1()
+    {
+        System.out.println(testArticle1.getMementoPattern());
+        assertTrue(testArticle1.getMementoPattern().equals("Apfel||4 Äpfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||" ));
+        assertTrue(testArticle2.getMementoPattern().equals("Birne||3 Birnen||1.0||3||"+ dateString + "||" + dateString + "||Fruit||"));
     }
 
     @Test
     public void setObjectFromMementoPatternTest1() {
-        testArticle1.setObjectFromMementoPattern("Melone||Wassermelone||1||2||Fruit||");
+        testArticle1.setObjectFromMementoPattern("Melone||Wassermelone||1||2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getName().equals("Melone") &&
                 testArticle1.getDescription().equals("Wassermelone") &&
                 testArticle1.getWeight() == 1.0 &&
@@ -244,7 +267,7 @@ public class ArticleTest
 
     @Test
     public void setObjectFromMementoPatternTest2() {
-        testArticle1.setObjectFromMementoPattern("   Melone||    Wassermelone    || 1   ||   2||Fruit||");
+        testArticle1.setObjectFromMementoPattern("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getName().equals("Melone") &&
                 testArticle1.getDescription().equals("Wassermelone") &&
                 testArticle1.getWeight() == 1.0 &&
@@ -254,7 +277,7 @@ public class ArticleTest
 
     @Test
     public void setObjectFromMementoPatternTest3() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||Fruit||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getName().equals("Melone") &&
                 testArticle1.getDescription().equals("Wassermelone") &&
                 testArticle1.getWeight() == 1.0 &&
@@ -264,37 +287,37 @@ public class ArticleTest
 
     @Test
     public void setObjectFromMementoPatternTest4() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||Fruit||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getCategory().equals(Category.FRUIT));
     }
 
     @Test
     public void setObjectFromMementoPatternTest5() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||Vegetable||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Vegetable||");
         assertTrue(testArticle1.getCategory().equals(Category.VEGETABLE));
     }
 
     @Test
     public void setObjectFromMementoPatternTest6() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||Meat||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Meat||");
         assertTrue(testArticle1.getCategory().equals(Category.MEAT));
     }
 
     @Test
     public void setObjectFromMementoPatternTest7() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||Drink||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Drink||");
         assertTrue(testArticle1.getCategory().equals(Category.DRINK));
     }
 
     @Test
     public void setObjectFromMementoPatternTest8() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||Others||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Others||");
         assertTrue(testArticle1.getCategory().equals(Category.OTHERS));
     }
 
     @Test
     public void setObjectFromMementoPatternTest9() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2|| ||");
+        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||   ||");
         assertTrue(testArticle1.getCategory().equals(Category.OTHERS));
     }
 
