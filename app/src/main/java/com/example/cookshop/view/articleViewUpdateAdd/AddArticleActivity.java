@@ -242,7 +242,7 @@ public class AddArticleActivity extends AppCompatActivity
             if (belonging.equals("buy"))
             {
                 //Add Article to Database and ListServices
-                DataAccess.getInstance().addArticleToshopingList(newArticle);
+                DataAccess.getInstance().addArticleToShoppingList(newArticle);
                 finish();
             }
             else if (belonging.equals("available"))

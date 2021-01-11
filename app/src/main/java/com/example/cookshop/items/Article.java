@@ -356,9 +356,8 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         }
         catch (ParseException e)
         {
-            Log.e("Article", "error dateOfCreation date " + e.getMessage());
-            dateOfCreation =new Date(12);
-            // this.dateOfCreation = Calendar.getInstance().getTime();
+            e.printStackTrace();
+
         }
         try
         {
@@ -366,9 +365,9 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         }
         catch (ParseException e)
         {
-            Log.e("Article", "error update date " + e.getMessage());
-            this.dateOfUpdate =new Date(12);
+            e.printStackTrace();
         }
+
         switch (st.nextToken(DELIMITER_ARTICLES))
         {
             case "Fruit":

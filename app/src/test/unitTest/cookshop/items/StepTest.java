@@ -1,4 +1,6 @@
-package com.example.cookshop.items;
+package cookshop.items;
+
+import com.example.cookshop.items.Step;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <!--  android:icon="?attr/icon" -->
-    <item
-          android:id="@+id/nav_available"
-        android:icon="@drawable/ic_notifications_black_24dp"
-          android:title="Storage" />
 
     <item
         android:id="@+id/nav_shopping"
@@ -12,17 +8,23 @@
         android:title="Shopping" />
 
     <item
+          android:id="@+id/nav_available"
+          android:icon="@drawable/ic_notifications_black_24dp"
+          android:title="Storage" />
+
+    <item
         android:id="@+id/nav_recipes"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="Recipes" />
 
     <item
-        android:id="@+id/nav_recommended"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Recommended" />
-
-    <item
         android:id="@+id/nav_to_cook"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="To Cook" />
+
+    <item
+        android:id="@+id/nav_sync"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Synchronisieren" />
+
 </menu>

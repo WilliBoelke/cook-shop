@@ -1,6 +1,10 @@
-package com.example.cookshop.items;
+package cookshop.items;
+
+import com.example.cookshop.items.Category;
 
 import org.junit.Test;
+
+
 
 import static org.junit.Assert.*;
 

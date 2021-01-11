@@ -42,6 +42,7 @@ public class DataAccess implements Observabel
 
     //....Constructor..........
 
+
     /**
      * Private constructor
      */
@@ -76,8 +77,6 @@ public class DataAccess implements Observabel
         }
         return ourInstance;
     }
-
-
 
 
     /**
@@ -156,7 +155,7 @@ public class DataAccess implements Observabel
      * @param article
      *         the article to be added
      */
-    public void addArticleToshopingList(Article article)
+    public void addArticleToShoppingList(Article article)
     {
         this.shoppingListService.addArticleIntelligent(article);
         this.onBuyingListChange();
@@ -401,4 +400,12 @@ public class DataAccess implements Observabel
         }
     }
 
+
+    //....Synchronization..........
+
+
+    public void overrideShoppingListCompletely(ArrayList<Article> synchronizedList)
+    {
+        this.shoppingListService.overrideListCompletely(synchronizedList);
+    }
 }
