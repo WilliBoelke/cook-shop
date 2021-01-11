@@ -64,16 +64,16 @@ public class AddRecipeActivity extends AppCompatActivity {
       steps = findViewById(R.id.steps_listview);
     }
 
-    articleListAdapter = new ListItemWithDeleteButtonAdapter(articleList, this);
-    articleListAdapter.setOnDeleteButtonClickListener((position) -> {
+      articleListAdapter = new ListItemWithDeleteButtonAdapter(articleList, this);
+      articleListAdapter.setOnDeleteButtonClickListener((position) -> {
       articleList.remove(position);
       articleListAdapter.notifyDataSetChanged();
     });
 
-    articles.setAdapter(articleListAdapter);
+      articles.setAdapter(articleListAdapter);
 
-    stepListAdapter = new ListItemWithDeleteButtonAdapter( stepList, this);
-    stepListAdapter.setOnDeleteButtonClickListener((position) -> {
+      stepListAdapter = new ListItemWithDeleteButtonAdapter( stepList, this);
+      stepListAdapter.setOnDeleteButtonClickListener((position) -> {
       stepList.remove(position);
       stepListAdapter.notifyDataSetChanged();
     });

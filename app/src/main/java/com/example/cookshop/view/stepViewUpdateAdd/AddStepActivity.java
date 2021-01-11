@@ -49,14 +49,19 @@ public class AddStepActivity extends AppCompatActivity{
     return new Step(name.getText().toString(), description.getText().toString(), tempTimer);
   }
 
-
   public void onAddStepFabClick(View view)
   {
     if (!name.getText().toString().equals("") && !description.getText().toString().equals(""))
     {
       //Return the article to the AddRecipe Activity via resultIntent
       Intent resultIntent = new Intent();
-      resultIntent.putExtra("newStep", (Serializable) getStep());
+      try{
+        resultIntent.putExtra("newStep", (Serializable) getStep());
+      }catch(NumberFormatException | NullPointerException e){
+        Snackbar.make(view, R.string.string_timer_warning, Snackbar.LENGTH_LONG)
+          .setAction("Action", null).show();
+      }
+
       setResult(RESULT_OK, resultIntent);
       finish();
     }
