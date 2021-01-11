@@ -5,15 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
-    android:backgroundTint="@color/background_dark"
+    android:backgroundTint="?attr/backgroundColor"
     android:backgroundTintMode="src_in"
     android:fitsSystemWindows="true">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/add_fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="346dp"
+      android:layout_marginEnd="@dimen/fab_margin"
+      android:backgroundTint="?attr/colorPrimary"
+      android:clickable="true"
+      android:onClick="onEditButtonClick"
+      app:layout_constraintBottom_toBottomOf="@+id/app_bar"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/app_bar" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-          android:fitsSystemWindows="true"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -21,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:onClick="onShareFabClick"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
@@ -38,7 +50,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        layout="@layout/recipe_viewer_conent" />
+    <include layout="@layout/recipe_viewer_conent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

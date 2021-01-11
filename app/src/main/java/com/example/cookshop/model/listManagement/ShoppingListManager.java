@@ -7,13 +7,13 @@ import com.example.cookshop.model.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class ShoppingListService extends ArticleListService
+public class ShoppingListManager extends ArticleListManager
 {
     private final String TAG           = "BuyingListService";
     public static final String BELONGING_TAG = "buy";
 
 
-    public ShoppingListService(DatabaseHelper databaseService)
+    public ShoppingListManager(DatabaseHelper databaseService)
     {
         super(databaseService);
         this.loadData();

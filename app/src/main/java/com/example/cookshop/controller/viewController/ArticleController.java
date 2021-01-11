@@ -4,9 +4,7 @@ import android.widget.TextView;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
-import com.example.cookshop.model.listManagement.DataAccess;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -17,7 +15,7 @@ import java.util.Date;
  */
 public class ArticleController
 {
-
+private final String TAG = getClass().getSimpleName();
     public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount)
     {
         // Declaring  standard values for the Article
@@ -41,7 +39,9 @@ public class ArticleController
             amountI = Integer.parseInt(amount.getText().toString());
         }
 
-        return new Article(nameString, descriptionString, category, amountI, weightD);
+        Article newArticle =  new Article(nameString, descriptionString, category, amountI, weightD);
+
+        return newArticle;
     }
 
     public Article generateArticleFromInput(TextView name, TextView description, Category category, TextView weight, TextView amount, Date creation, Date changed)

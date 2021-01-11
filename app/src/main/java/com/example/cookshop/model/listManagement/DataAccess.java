@@ -1,6 +1,7 @@
 package com.example.cookshop.model.listManagement;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Recipe;
@@ -22,19 +23,21 @@ import java.util.ArrayList;
  */
 public class DataAccess implements Observabel
 {
-    /**
+  private final String TAG = this.getClass().getSimpleName();
+  /**
      * The saved instance of this class
      * (singleton design Pattern)
      */
     private static DataAccess ourInstance;
 
-    private AvailableListService availableListService;
-    private RecipeListService recipeListService;
-    private ShoppingListService shoppingListService;
+    private AvailableListManager availableListService;
+    private RecipeListManager recipeListService;
+    private ShoppingListManager shoppingListService;
 
     private static ArrayList<Observer> onRecipeListChangeListener;
     private static ArrayList<Observer> onAvailableListChangeListener;
     private static ArrayList<Observer> onBuyingListChangeListener;
+
 
 
     //....Constructor..........
@@ -48,7 +51,7 @@ public class DataAccess implements Observabel
 
     }
 
-    public void initialize(Context context, RecipeListService recipeListService, ShoppingListService shoppingListService, AvailableListService availableListService)
+    public void initialize(Context context, RecipeListManager recipeListService, ShoppingListManager shoppingListService, AvailableListManager availableListService)
     {
             DatabaseHelper databaseService = new DatabaseHelper(context);
 
@@ -60,6 +63,10 @@ public class DataAccess implements Observabel
             onAvailableListChangeListener = new ArrayList<>();
             onBuyingListChangeListener = new ArrayList<>();
             onRecipeListChangeListener = new ArrayList<>();
+
+            if(onRecipeListChangeListener==null){
+              Log.e(TAG,"onRecipeListChangeListener is null (initialize)");
+            }
     }
 
     public static DataAccess getInstance()
@@ -326,7 +333,14 @@ public class DataAccess implements Observabel
     @Override
     public void registerOnRecipeListChangeListener(Observer observer)
     {
-        onRecipeListChangeListener.add(observer);
+      if(observer==null){
+        Log.e(TAG,"Observer is null");
+      }
+      if(onRecipeListChangeListener==null){
+        Log.e(TAG,"onRecipeListChangeListener is null");
+      }
+
+      onRecipeListChangeListener.add(observer);
     }
 
     @Override

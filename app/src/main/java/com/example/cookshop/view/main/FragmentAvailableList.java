@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;

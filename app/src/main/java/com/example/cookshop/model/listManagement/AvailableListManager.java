@@ -2,9 +2,7 @@ package com.example.cookshop.model.listManagement;
 
 import com.example.cookshop.model.database.DatabaseHelper;
 
-import java.util.ArrayList;
-
-public class AvailableListService extends ArticleListService
+public class AvailableListManager extends ArticleListManager
 {
     /**
      * Log tag for this class
@@ -17,7 +15,7 @@ public class AvailableListService extends ArticleListService
     public static final String BELONGING_TAG = "avail";
 
 
-    public AvailableListService(DatabaseHelper databaseService) {
+    public AvailableListManager(DatabaseHelper databaseService) {
         super(databaseService);
     }
 }

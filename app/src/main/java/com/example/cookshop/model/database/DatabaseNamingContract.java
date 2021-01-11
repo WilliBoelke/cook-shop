@@ -85,7 +85,7 @@ public interface DatabaseNamingContract
     /**
      *
      */
-    String COLUMN_ARTICLE_UPDATE_DATE ="UPDATE_DATE";
+    String COLUMN_ARTICLE_UPDATE_DATE ="CHANGED_DATE";
     /**
      * column category of the article table
      */

@@ -1,3 +1,4 @@
+
 package com.example.cookshop.items;
 
 import android.os.Parcel;
@@ -356,6 +357,7 @@ public class Article extends Item implements Comparable<Article>, Cloneable
         catch (ParseException e)
         {
             e.printStackTrace();
+
         }
         try
         {

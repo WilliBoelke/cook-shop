@@ -1,4 +1,6 @@
-package com.example.cookshop.model.listManager;
+package com.example.cookshop.model.listManagement;
+
+import android.util.Log;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
@@ -7,19 +9,45 @@ import com.example.cookshop.model.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
+/**
+ * Subclass of {@link ItemListManager} and Superclass of {@link AvailableListManager} and {@link ShoppingListManager}
+ * Adds more Article specific functionality to the {@link ItemListManager}
+ *
+ * @author WilliBoelke
+ * @version 1.0
+ */
 public class ArticleListManager extends ItemListManager
 {
 
     //....Constructor..........
 
 
-    protected ArticleListManager(DatabaseHelper databaseHelper)
+    protected ArticleListManager(DatabaseHelper databaseService)
     {
-        super(databaseHelper);
+        super(databaseService);
     }
 
+    private final String TAG = this.getClass().getSimpleName();
 
     //....Methods..........
+
+
+    protected void overrideListCompletely(ArrayList<Article> list)
+    {
+        int size = this.getItemList().size();
+        for (int i = 0; i < size; i++)
+        {
+            Log.d("SynchronizationManager", "itemList size =  " + this.getItemList().size());
+            removeItem(0); //Always remove to first item, (list will get smaller)
+        }
+        Log.d("SynchronizationManager", "Adding Articles  = " +  list.size());
+        for (Article a: list)
+        {
+
+            addItem(a);
+        }
+    }
+
 
 
     protected Article searchForArticle(String name)
@@ -75,11 +103,11 @@ public class ArticleListManager extends ItemListManager
 
                 //merging the values of both articles
 
-                String   name     = article.getName();
+                String name     = article.getName();
                 int      amount   = article.getAmount() + tempArticle.getAmount();
                 double   weight   = article.getWeight() + tempArticle.getWeight();
                 Category category = tempArticle.getCategory(); // category should say as it was
-                String   description;
+                String description;
 
                 if (!article.getDescription().equals(tempArticle.getDescription()))
                 {
@@ -114,6 +142,7 @@ public class ArticleListManager extends ItemListManager
         Article oldArticle = (Article) this.getItem(index);
 
         this.getItemList().set(index, newArticle);
+        Log.d(TAG, "updateArticle :  oldArticle  = " +oldArticle.getName() + " new article = " + newArticle.getName());
         this.getDatabase().updateArticle(oldArticle.getName(), getBELONGING_TAG(), newArticle);
     }
 
@@ -217,4 +246,6 @@ public class ArticleListManager extends ItemListManager
         // No functionality on this layer, implemented in BuyingListService and AvailableListService
     }
 
+
 }
+
