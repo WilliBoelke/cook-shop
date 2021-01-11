@@ -137,7 +137,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     startActivityForResult(addArticleIntent, NEW_ARTICLE);
   }
 
-  public void onAddStepButtonClick(View view){
+  public void onAddStepButtonClick(View view)
+  {
     Intent addStepIntent = new Intent(this, AddStepActivity.class);
     addStepIntent.putExtra("belonging", "newRecipe");
     startActivityForResult(addStepIntent, NEW_STEP);
@@ -145,9 +146,10 @@ public class AddRecipeActivity extends AppCompatActivity {
 
   public void onSaveButtonClick(View view)
   {
-    if (!nameTextView.getText().toString().equals("") && !descriptionTextView.getText().toString().equals(""))
+    if (recipeController.checkUserInput(nameTextView.getText().toString(), descriptionTextView.getText().toString()))
     {
-     this.recipeController.addRecipe(this.getRecipe());
+      Recipe recipe = recipeController.generateRecipeFromInput(nameTextView.getText().toString(), descriptionTextView.getText().toString(), articleList, stepList);
+     this.recipeController.addRecipe(recipe);
       finish();
     }
     else
@@ -157,10 +159,4 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
   }
 
-  protected Recipe getRecipe()
-  {
-    String name = this.nameTextView.getText().toString();
-    String description = this.descriptionTextView.getText().toString();
-    return new Recipe(name, description, articleList, stepList);
-  }
 }

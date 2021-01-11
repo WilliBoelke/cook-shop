@@ -29,8 +29,7 @@ public class EditRecipe extends AddRecipeActivity {
   @Override
   public void onSaveButtonClick(View view){
 
-    Recipe updatedValues =
-            this.recipeController.generateRecipeFromInput(nameTextView, descriptionTextView, articleListAdapter, stepListAdapter);
+    Recipe updatedValues = this.recipeController.generateRecipeFromInput(nameTextView.getText().toString(), descriptionTextView.getText().toString(), articleList, stepList);
 
     if (!nameTextView.getText().toString().equals(""))
     {

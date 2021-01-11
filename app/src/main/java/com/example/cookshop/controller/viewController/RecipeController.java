@@ -1,5 +1,6 @@
 package com.example.cookshop.controller.viewController;
 
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.cookshop.items.Article;
@@ -7,6 +8,8 @@ import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
+
+import java.util.ArrayList;
 
 public class RecipeController
 {
@@ -18,36 +21,50 @@ public class RecipeController
     dataAccessInstance = dataAccess;
   }
 
-  public Recipe generateRecipeFromInput(TextView name, TextView description,
-                                        ListItemWithDeleteButtonAdapter<Article> articleListAdapter,
-                                        ListItemWithDeleteButtonAdapter<Step> stepListAdapter){
-    String nameString = name.getText().toString();
-    String descriptionString = "default description";
+  public Recipe generateRecipeFromInput(String name, String description, ArrayList<Article> articles, ArrayList<Step> steps)
+  {
+      String descriptionString = "default description";
 
-    if (!description.getText().toString().trim().equals("")){
-      descriptionString =description.getText().toString();
-    }
-    return new Recipe(nameString, descriptionString, articleListAdapter.getList(), stepListAdapter.getList() );
+      if (!description.trim().equals(""))
+      {
+          descriptionString =description;
+      }
+      return new Recipe(name, descriptionString, articles, steps);
   }
 
 
   public void addRecipe(Recipe recipe)
   {
-    DataAccess.getInstance().addRecipe(recipe);
+      dataAccessInstance.addRecipe(recipe);
   }
 
 
-  public void updateRecipe(int position, Recipe recipe) {
-    DataAccess.getInstance().updateRecipe(position, recipe);
+  public void updateRecipe(int position, Recipe recipe)
+  {
+      dataAccessInstance.updateRecipe(position, recipe);
   }
 
   public Recipe getRecipe(int index)
   {
-    return DataAccess.getInstance().getRecipe(index);
+    return dataAccessInstance.getRecipe(index);
   }
 
   public Recipe getRecipe(String name)
   {
-    return DataAccess.getInstance().getRecipe(name);
+    return dataAccessInstance.getRecipe(name);
+  }
+
+  public boolean checkUserInput(String name, String description)
+  {
+
+    if(name.trim().equals(""))
+    {
+      return false;
+    }
+    if(description.trim().equals(""))
+    {
+      return false;
+    }
+    return true;
   }
 }
