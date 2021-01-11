@@ -2,7 +2,6 @@ package com.example.cookshop.view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import com.example.cookshop.items.Recipe;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.recipeViewUpdateAdd.AddRecipeActivity;
 import com.example.cookshop.view.recipeViewUpdateAdd.RecipeViewer;
-import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
 import com.example.cookshop.view.recyclerViews.RecipeRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

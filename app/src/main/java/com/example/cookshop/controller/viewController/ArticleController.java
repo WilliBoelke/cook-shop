@@ -1,13 +1,10 @@
 package com.example.cookshop.controller.viewController;
 
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
-import com.example.cookshop.model.listManagement.DataAccess;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 /**

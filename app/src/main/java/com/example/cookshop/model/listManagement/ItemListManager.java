@@ -12,13 +12,13 @@ import java.util.ArrayList;
  * Its Loads its content from the {@link DatabaseHelper} at the start of the App
  * to make it accessible at runtime.
  *
- * Example {@link ArticleListService} and its subclasses
+ * Example {@link ArticleListManager} and its subclasses
  *
  *
  * @param <T> an {@link Article} or {@link Recipe}
  * @author WilliBoelke
  */
-public abstract class ItemListService<T extends Item & Comparable<T>>
+public abstract class ItemListManager<T extends Item & Comparable<T>>
 {
 
     /**
@@ -35,7 +35,7 @@ public abstract class ItemListService<T extends Item & Comparable<T>>
     //....Constructor..........
 
 
-    public ItemListService(DatabaseHelper databaseService)
+    public ItemListManager(DatabaseHelper databaseService)
     {
         this.itemList = new ArrayList<>();
         this.databaseService = databaseService;
@@ -102,8 +102,8 @@ public abstract class ItemListService<T extends Item & Comparable<T>>
     /**
      * This method removes the Item from the ItemList
      * and calls the  abstract method {@link #removeItemFromDatabase(String)}
-     * which is overridden in {@link AvailableListService} , {@link ShoppingListService}
-     * and {@link RecipeListService}, to delete the article not only from the ItemList but also from the database
+     * which is overridden in {@link AvailableListManager} , {@link ShoppingListManager}
+     * and {@link RecipeListManager}, to delete the article not only from the ItemList but also from the database
      * (Implemented as:  template method design pattern)
      *
      * @param position
@@ -118,7 +118,7 @@ public abstract class ItemListService<T extends Item & Comparable<T>>
     /**
      * This method adds one Item from the  item from the ItemList
      * and calls the  abstract method {@link #addItemToDatabase(T +Object)}
-     * which is overridden in {@link AvailableListService} , {@link ShoppingListService}
+     * which is overridden in {@link AvailableListManager} , {@link ShoppingListManager}
      * and RecipeListService, o add the items to the Database
      * (Implemented as:  template method design pattern)
      *

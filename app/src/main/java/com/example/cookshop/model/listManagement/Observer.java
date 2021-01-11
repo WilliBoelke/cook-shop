@@ -1,4 +1,4 @@
-package com.example.cookshop.model.listManager;
+package com.example.cookshop.model.listManagement;
 
 public interface Observer
 {

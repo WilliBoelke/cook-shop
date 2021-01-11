@@ -30,9 +30,9 @@ public class DataAccess implements Observabel
      */
     private static DataAccess ourInstance;
 
-    private AvailableListService availableListService;
-    private RecipeListService recipeListService;
-    private ShoppingListService shoppingListService;
+    private AvailableListManager availableListService;
+    private RecipeListManager recipeListService;
+    private ShoppingListManager shoppingListService;
 
     private static ArrayList<Observer> onRecipeListChangeListener;
     private static ArrayList<Observer> onAvailableListChangeListener;
@@ -51,7 +51,7 @@ public class DataAccess implements Observabel
 
     }
 
-    public void initialize(Context context, RecipeListService recipeListService, ShoppingListService shoppingListService, AvailableListService availableListService)
+    public void initialize(Context context, RecipeListManager recipeListService, ShoppingListManager shoppingListService, AvailableListManager availableListService)
     {
             DatabaseHelper databaseService = new DatabaseHelper(context);
 

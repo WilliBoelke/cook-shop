@@ -9,10 +9,10 @@ import android.widget.Toast;
 
 import com.example.cookshop.R;
 import com.example.cookshop.model.database.DatabaseHelper;
-import com.example.cookshop.model.listManagement.AvailableListService;
+import com.example.cookshop.model.listManagement.AvailableListManager;
 import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.model.listManagement.RecipeListService;
-import com.example.cookshop.model.listManagement.ShoppingListService;
+import com.example.cookshop.model.listManagement.RecipeListManager;
+import com.example.cookshop.model.listManagement.ShoppingListManager;
 import com.example.cookshop.view.SynchronizeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(false);
         //
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        DataAccess.getInstance().initialize(this.getApplicationContext(), new RecipeListService(db), new ShoppingListService(db), new AvailableListService(db) );
+        DataAccess.getInstance().initialize(this.getApplicationContext(), new RecipeListManager(db), new ShoppingListManager(db), new AvailableListManager(db) );
 
         //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
