@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:clickable="false"
         android:focusable="false"
-        android:background="?attr/small_gradient_rounded_corner">
+        android:background="@drawable/recycler_item_article_gradient">
 
 
         <ImageView
