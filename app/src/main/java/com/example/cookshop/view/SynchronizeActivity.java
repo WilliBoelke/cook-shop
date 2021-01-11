@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.example.cookshop.R;
 import com.example.cookshop.controller.network.BluetoothConnection;
-import com.example.cookshop.controller.network.OnReceiveCallback;
 import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;

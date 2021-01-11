@@ -49,7 +49,7 @@ public class EditArticle extends  AddArticleActivity
 
         if (!nameTextView.getText().toString().equals(""))
         {
-            Article updatedValues = controller.generateArticleFromInput(nameTextView, descriptionTextView, category, weightTextView, amountTextView, editArticle.getDateOfCreation(), editArticle.getDateOfUpdate());
+            Article updatedValues = controller.generateArticleFromInput(nameTextView, descriptionTextView, category, weightTextView, amountTextView, editArticle.getDateOfCreation());
             // this method is used in EditArticle
             if (this.belonging.equals("edit"))
             {

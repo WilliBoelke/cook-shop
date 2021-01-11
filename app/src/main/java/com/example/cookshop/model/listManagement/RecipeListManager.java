@@ -1,16 +1,14 @@
 package com.example.cookshop.model.listManagement;
 
-import com.example.cookshop.items.Article;
-import com.example.cookshop.items.Category;
 import com.example.cookshop.items.Item;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.model.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class RecipeListService extends ItemListService
+public class RecipeListManager extends ItemListManager
 {
-    public RecipeListService(DatabaseHelper databaseService) {
+    public RecipeListManager(DatabaseHelper databaseService) {
       super(databaseService);
       this.loadData();
     }

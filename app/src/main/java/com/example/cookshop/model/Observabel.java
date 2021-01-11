@@ -22,7 +22,7 @@ public interface Observabel
 
         void onAvailableListChange();
 
-        void onBuyingListChange();
+        void onShoppingListChange();
 
         void onRecipeListChange();
 }

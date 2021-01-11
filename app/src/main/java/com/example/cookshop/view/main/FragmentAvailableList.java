@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.items.Category;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
@@ -129,7 +128,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     {
          Intent displayIntent = new Intent(getActivity(), ArticleViewer.class);
          displayIntent.putExtra("position", position);
-         displayIntent.putExtra("belonging", "buy");
+         displayIntent.putExtra("belonging", "available");
          startActivity(displayIntent);
     }
 
@@ -143,7 +142,7 @@ public class FragmentAvailableList extends FragmentArticleList {
             public void onClick(View v)
             {
                 Intent newBuyArticle = new Intent(getContext(), AddArticleActivity.class);
-                newBuyArticle.putExtra("belonging", "buy");
+                newBuyArticle.putExtra("belonging", "available");
                 startActivity(newBuyArticle);
             }
         });

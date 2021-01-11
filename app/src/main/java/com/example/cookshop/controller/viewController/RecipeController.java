@@ -1,6 +1,5 @@
 package com.example.cookshop.controller.viewController;
 
-import android.provider.ContactsContract;
 import android.widget.TextView;
 
 import com.example.cookshop.items.Article;
@@ -8,8 +7,6 @@ import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
 import com.example.cookshop.model.listManagement.DataAccess;
 import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
-
-import java.util.ArrayList;
 
 public class RecipeController {
 
