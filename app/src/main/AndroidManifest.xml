@@ -15,6 +15,10 @@
             android:name=".view.articleViewUpdateAdd.AddArticleActivity"
             android:label="@string/add_article"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.stepViewUpdateAdd.AddStepActivity"
+            android:label="@string/add_step"
+            android:theme="@style/AppTheme" />
         <activity android:name=".view.recipeViewUpdateAdd.EditRecipe"></activity>
         <activity android:name=".view.recipeViewUpdateAdd.RecipeViewer" />
         <activity
