@@ -61,7 +61,7 @@ public class RecipeViewerArticleFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recipe_viewer_article, container, false);
 
-        TextView name = view.findViewById(R.id.name_textview);
+        TextView name = view.findViewById(R.id.fragment_article_name_textview);
         name.setText(this.article.getName());
 
         TextView description = view.findViewById(R.id.description_textview);
