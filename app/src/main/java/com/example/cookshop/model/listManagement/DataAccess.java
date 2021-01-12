@@ -8,9 +8,7 @@ import com.example.cookshop.items.Recipe;
 import com.example.cookshop.model.Observabel;
 import com.example.cookshop.model.Observer;
 import com.example.cookshop.model.database.DatabaseHelper;
-import com.example.cookshop.view.main.FragmentToCookList;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
@@ -329,17 +327,23 @@ public class DataAccess implements Observabel
         return this.recipeListService.getItemList();
     }
 
-    public void addRecipeFromRecipeToToCookList(int index){
+    public void addRecipeFromRecipeToToCookList(int index)
+    {
       Recipe recipe = (Recipe) this.recipeListService.getItem(index);
       ArrayList neededArticles = recipe.getArticles();
       ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
+
       Log.d(TAG, ": addRecipeFromRecipeToToCookList: before if-clause");
-      if(notAvailableArticles.size()!=0){
+
+      if(notAvailableArticles.size()!=0)
+      {
         Article article = (Article) notAvailableArticles.get(0);
         Log.d(TAG, ": addRecipeFromRecipeToToCookList: neededArticles!=null: " + article.getName());
-        recipeToBuyingList(index);
+        recipeToShoppingList(index);
         this.onShoppingListChange();
-      }else{
+      }
+      else
+          {
         Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, before we set up!");
         recipe.setOnToCook(true);
         Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, after setOnToCook(true)");
@@ -366,7 +370,7 @@ public class DataAccess implements Observabel
     }
 
 
-  public void recipeToBuyingList(int index)
+  public void recipeToShoppingList(int index)
     {
         Recipe  recipe   = (Recipe) this.recipeListService.getItem(index);
         ArrayList neededArticles = recipe.getArticles();
