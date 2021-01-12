@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -227,11 +228,87 @@ public class ArticleListTests
         onView(withId(R.id.article_amount_textview)).check(matches(isDisplayed()));
         onView(withId(R.id.article_weight_textview)).check(matches(isDisplayed()));
 
-        //Delete Article
+        //Click on Recycler item
         onView(withId(R.id.article_recycler_constraint)).perform(click());
 
 
+        //Arrticle viewer in view
+        onView(withId(R.id.description_textview)).check(matches(withText("test article description")));
+        onView(withId(R.id.amount_textview)).check(matches(withText("2")));
+        onView(withId(R.id.weight_textview)).check(matches(withText("3.0")));
+
     }
+
+
+    @Test
+    public void editArticle()
+    {
+        activityTestRule.getActivity().getApplicationContext().deleteDatabase(DatabaseNamingContract.DATABASE_NAME);
+
+        // Adding Article
+        onView(withId(R.id.add_item_fab)).perform(click());
+        onView(withId(R.id.name_edittext)).perform(typeText("testArticle"));
+        onView(withId(R.id.description_edittext)).perform(typeText("test article description"));
+        Espresso.pressBack();// HideKeyboard
+        onView(withId(R.id.amount_edittext)).perform(typeText("2"));
+        Espresso.pressBack();// HideKeyboard
+        onView(withId(R.id.weight_edittext)).perform(typeText("3"));
+        Espresso.pressBack();// HideKeyboard
+        onView(withId(R.id.add_article_fab)).perform(click());
+
+        //back in shoppingListFragment
+        onView(withId(R.id.article_recycler)).check(matches(isDisplayed()));
+        onView(withId(R.id.add_item_fab)).check(matches(isDisplayed()));
+
+        //Recycler item Test
+        onView(withId(R.id.article_recycler_constraint)).check(matches(isDisplayed()));
+        onView(withId(R.id.article_name_textview)).check(matches(isDisplayed()));
+        onView(withId(R.id.article_amount_textview)).check(matches(isDisplayed()));
+        onView(withId(R.id.article_weight_textview)).check(matches(isDisplayed()));
+
+       //Click Article
+        onView(withId(R.id.article_recycler_constraint)).perform(click());
+
+        //Article Viewer  in view
+
+
+        //Click edit Button
+        onView(withId(R.id.edit_article_fab)).perform(click());
+
+        //Edit Article in view
+        onView(withId(R.id.content_card_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.content_card_description)).check(matches(isDisplayed()));
+        onView(withId(R.id.content_card_amount)).check(matches(isDisplayed()));
+        onView(withId(R.id.content_card_weight)).check(matches(isDisplayed()));
+        onView(withId(R.id.name_edittext)).check(matches(isDisplayed()));
+        onView(withId(R.id.description_edittext)).check(matches(isDisplayed()));
+        onView(withId(R.id.amount_edittext)).check(matches(isDisplayed()));
+        onView(withId(R.id.weight_edittext)).check(matches(isDisplayed()));
+
+
+        //Editing Article
+        onView(withId(R.id.name_edittext)).perform(replaceText("bearbeited"));
+        onView(withId(R.id.description_edittext)).perform(replaceText("neue beschreibung"));
+        onView(withId(R.id.amount_edittext)).perform(replaceText("3"));
+        onView(withId(R.id.weight_edittext)).perform(typeText("4"));
+        Espresso.pressBack();// HideKeyboard
+        onView(withId(R.id.add_article_fab)).perform(click());
+
+        //Article viewer in view
+        onView(withId(R.id.description_textview)).check(matches(withText("neue beschreibung")));
+        onView(withId(R.id.amount_textview)).check(matches(withText("3")));
+        onView(withId(R.id.weight_textview)).check(matches(withText("34.0")));
+
+        Espresso.pressBack();// Go back to list fragment
+
+        //Recycler item Test
+        onView(withId(R.id.article_recycler_constraint)).check(matches(isDisplayed()));
+        onView(withId(R.id.article_name_textview)).check(matches(withText("bearbeited")));
+        onView(withId(R.id.article_amount_textview)).check(matches(isDisplayed()));
+        onView(withId(R.id.article_weight_textview)).check(matches(isDisplayed()));
+    }
+
+
 
 
 }
