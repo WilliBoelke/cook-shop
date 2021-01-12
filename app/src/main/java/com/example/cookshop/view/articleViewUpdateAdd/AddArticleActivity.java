@@ -76,7 +76,7 @@ public class AddArticleActivity extends AppCompatActivity
         weightTextView = findViewById(R.id.weight_edittext);
         weightSeekbar = findViewById(R.id.weight_seekbar);
         categorySpinner = findViewById(R.id.category_spinner);
-        addFab = findViewById(R.id.add_fab);
+        addFab = findViewById(R.id.add_article_fab);
 
 
         setupCategorySpinner();

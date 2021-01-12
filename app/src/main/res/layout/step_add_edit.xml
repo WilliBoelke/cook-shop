@@ -178,7 +178,7 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/add_fab"
+      android:id="@+id/add_article_fab"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="@dimen/fab_margin"
