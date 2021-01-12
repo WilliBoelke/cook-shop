@@ -31,7 +31,7 @@ public class ArticleListTests
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-            public void areTheViewsDisplayed()
+    public void areTheViewsDisplayed()
     {
         activityTestRule.getActivity().getApplicationContext().deleteDatabase(DatabaseNamingContract.DATABASE_NAME);
         onView(withId(R.id.add_item_fab)).perform(click());
