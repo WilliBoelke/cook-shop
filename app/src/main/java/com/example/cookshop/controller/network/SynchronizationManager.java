@@ -332,7 +332,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
         //SEND
 
-        ArrayList<Article> shoppingList = applicationControllerInstance.getBuyingList();
+        ArrayList<Article> shoppingList = applicationControllerInstance.getShoppingList();
         for (Article a: shoppingList)
         {
             Log.d(TAG, "sendArticles: pattern" + a.getMementoPattern() );
@@ -402,13 +402,13 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                  * I will compare the Articles name Name if they are in both lists i will take the one with the more recent "lastUpdateDate"
                  * And write a information about it into the description.
                  */
-                for (int index = 0; index < applicationControllerInstance.getBuyingList().size(); index++)
+                for (int index = 0; index < applicationControllerInstance.getShoppingList().size(); index++)
                 {
 
                     if(!matched)
                     {
                         // Get the Article once to minimize method calls
-                        Article tempArticle = applicationControllerInstance.getBuyingList().get(index);
+                        Article tempArticle = applicationControllerInstance.getShoppingList().get(index);
 
                         //save the names of both articles / trimmed and in lowercase
                         String trimmedArticleName = a.getName().trim().toLowerCase();
@@ -441,7 +441,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             for (Integer i : toDeleteIndex)
             {
                 Log.d(TAG, "Delete article at " + i);
-                applicationControllerInstance.deleteArticleShoppingList(i.intValue());
+                applicationControllerInstance.deleteArticleFromShoppingList(i.intValue());
             }
             for (Article a: toAddArticles)
             {

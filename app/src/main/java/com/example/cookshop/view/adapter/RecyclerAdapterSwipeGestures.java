@@ -1,4 +1,4 @@
-package com.example.cookshop.view.main;
+package com.example.cookshop.view.adapter;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

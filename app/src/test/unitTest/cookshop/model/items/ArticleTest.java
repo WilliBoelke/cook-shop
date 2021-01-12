@@ -1,6 +1,4 @@
-package cookshop.items;
-
-import android.provider.ContactsContract;
+package cookshop.model.items;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
@@ -11,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -37,40 +34,59 @@ public class ArticleTest
     }
 
 
+
+    //....Getter..........
+
+
     @Test
-    public void getNameTest1() {
+    public void getNameTest() {
         assertTrue(testArticle1.getName().equals("Apfel") &&
                 testArticle2.getName().equals("Birne") &&
                 testArticle3.getName().equals("Gurke"));
     }
 
     @Test
-    public void getDescriptionTest1() {
+    public void getDescriptionTest() {
         assertTrue(testArticle1.getDescription().equals("4 Äpfel") &&
                 testArticle2.getDescription().equals("3 Birnen") &&
                 testArticle3.getDescription().equals("Eine Gurke"));
     }
 
     @Test
-    public void getAmountTest1() {
+    public void getAmountTest() {
         assertTrue(testArticle1.getAmount() == 4 &&
                 testArticle2.getAmount() == 3 &&
                 testArticle3.getAmount() == 1);
     }
 
     @Test
-    public void getWeightTest1() {
+    public void getWeightTest() {
         assertTrue(testArticle1.getWeight() == 1 &&
                 testArticle2.getWeight() == 1.0 &&
                 testArticle3.getWeight() == 13);
     }
 
     @Test
-    public void getCategoryTest1() {
+    public void getCategoryTest() {
         assertTrue(testArticle1.getCategory() == Category.FRUIT &&
                 testArticle2.getCategory() == Category.FRUIT &&
                 testArticle3.getCategory() == Category.VEGETABLE);
     }
+
+    @Test
+    public void getDateOfCreationTest() {
+        assertTrue(testArticle1.getDateOfCreation() ==date &&
+                testArticle2.getDateOfCreation()== date&&
+                testArticle3.getDateOfCreation()== date);
+    }
+
+    @Test
+    public void getDateOfUpdateTest() {
+        assertTrue(testArticle1.getDateOfUpdate() ==date &&
+                testArticle2.getDateOfUpdate()== date&&
+                testArticle3.getDateOfUpdate()== date);
+    }
+
 
     @Test
     public void getCategoryToStringTest1() {
@@ -78,6 +94,9 @@ public class ArticleTest
                 testArticle2.getCategory().toString().equals("Fruit") &&
                 testArticle3.getCategory().toString().equals("Vegetable"));
     }
+
+
+    //....Getter..........
 
     @Test
     public void setNameTest1() {
@@ -94,6 +113,9 @@ public class ArticleTest
 
     }
 
+    /**
+     * Testing if the name will be trimmed
+     */
     @Test
     public void setNameTest2() {
         assertTrue(testArticle1.getName().equals("Apfel") &&
@@ -200,7 +222,6 @@ public class ArticleTest
 
         testArticle1.setAmount(Integer.MAX_VALUE + 1);
 
-
         assertTrue(testArticle1.getAmount() == 0);
     }
 
@@ -220,19 +241,19 @@ public class ArticleTest
     }
 
     @Test
-    public void compareToTest1() {
+    public void compareToTestGreater() {
         assertTrue(testArticle1.compareTo(testArticle2) == 1 &&
                 testArticle2.compareTo(testArticle3) == 1);
     }
 
     @Test
-    public void compareToTest2() {
+    public void compareToTestSmaller() {
         assertTrue(testArticle3.compareTo(testArticle2) == -1 &&
                 testArticle2.compareTo(testArticle1) == -1);
     }
 
     @Test
-    public void compareToTest3() {
+    public void compareToTestEqual() {
         String name = "name";
         testArticle1.setName(name);
         testArticle2.setName(name);
@@ -255,7 +276,7 @@ public class ArticleTest
     }
 
     @Test
-    public void setObjectFromMementoPatternTest1() {
+    public void setObjectFromMementoPatternTest() {
         testArticle1.setObjectFromMementoPattern("Melone||Wassermelone||1||2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getName().equals("Melone") &&
                 testArticle1.getDescription().equals("Wassermelone") &&
@@ -266,7 +287,7 @@ public class ArticleTest
     }
 
     @Test
-    public void setObjectFromMementoPatternTest2() {
+    public void setObjectFromMementoPatternTrim() {
         testArticle1.setObjectFromMementoPattern("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getName().equals("Melone") &&
                 testArticle1.getDescription().equals("Wassermelone") &&
@@ -276,41 +297,31 @@ public class ArticleTest
     }
 
     @Test
-    public void setObjectFromMementoPatternTest3() {
-        testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Fruit||");
-        assertTrue(testArticle1.getName().equals("Melone") &&
-                testArticle1.getDescription().equals("Wassermelone") &&
-                testArticle1.getWeight() == 1.0 &&
-                testArticle1.getAmount() == 2 &&
-                testArticle1.getCategory().equals(Category.FRUIT));
-    }
-
-    @Test
-    public void setObjectFromMementoPatternTest4() {
+    public void setObjectFromMementoPatternTestCategoryFruit() {
         testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Fruit||");
         assertTrue(testArticle1.getCategory().equals(Category.FRUIT));
     }
 
     @Test
-    public void setObjectFromMementoPatternTest5() {
+    public void setObjectFromMementoPatternTestCategoryVegetable() {
         testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Vegetable||");
         assertTrue(testArticle1.getCategory().equals(Category.VEGETABLE));
     }
 
     @Test
-    public void setObjectFromMementoPatternTest6() {
+    public void setObjectFromMementoPatternTestCategoryMeat() {
         testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Meat||");
         assertTrue(testArticle1.getCategory().equals(Category.MEAT));
     }
 
     @Test
-    public void setObjectFromMementoPatternTest7() {
+    public void setObjectFromMementoPatternTestCategoryDrink() {
         testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Drink||");
         assertTrue(testArticle1.getCategory().equals(Category.DRINK));
     }
 
     @Test
-    public void setObjectFromMementoPatternTest8() {
+    public void setObjectFromMementoPatternTestCategoryOthers() {
         testArticle1 = new Article("   Melone||    Wassermelone    || 1   ||   2||"+ dateString + "||" + dateString + "||Others||");
         assertTrue(testArticle1.getCategory().equals(Category.OTHERS));
     }

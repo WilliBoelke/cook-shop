@@ -55,7 +55,7 @@ public class EditArticle extends  AddArticleActivity
             {
                 if (this.editBelonging.equals("buy"))
                 {
-                    ApplicationController.getInstance().updateArticleFromBuyingList(this.position, updatedValues);
+                    ApplicationController.getInstance().updateArticleFromShoppingList(this.position, updatedValues);
                 }
                 else if (this.editBelonging.equals("available"))
                 {

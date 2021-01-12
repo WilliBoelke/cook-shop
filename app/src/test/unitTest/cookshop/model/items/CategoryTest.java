@@ -1,4 +1,4 @@
-package cookshop.items;
+package cookshop.model.items;
 
 import com.example.cookshop.items.Category;
 

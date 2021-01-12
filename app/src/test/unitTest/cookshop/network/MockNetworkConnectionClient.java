@@ -4,14 +4,11 @@ import android.bluetooth.BluetoothDevice;
 
 import com.example.cookshop.controller.network.NetworkConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
-import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import kotlinx.coroutines.channels.Send;
 
 public class MockNetworkConnectionClient implements NetworkConnection
 {

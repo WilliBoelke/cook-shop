@@ -1,4 +1,4 @@
-package com.example.cookshop.model;
+package com.example.cookshop.controller;
 
 public interface Observer {
     void onChange();

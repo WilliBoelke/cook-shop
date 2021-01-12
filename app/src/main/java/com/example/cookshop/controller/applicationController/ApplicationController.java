@@ -5,8 +5,8 @@ import android.util.Log;
 
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.model.Observabel;
-import com.example.cookshop.model.Observer;
+import com.example.cookshop.controller.Observabel;
+import com.example.cookshop.controller.Observer;
 import com.example.cookshop.model.database.DatabaseHelper;
 import com.example.cookshop.model.listManagement.AvailableListManager;
 import com.example.cookshop.model.listManagement.RecipeListManager;
@@ -16,16 +16,13 @@ import com.example.cookshop.model.listManagement.ToCookListManager;
 import java.util.ArrayList;
 
 /**
- * This class is firstly the Controller of the application.
+ * This class is  the Controller of the application.
  * -It is the only objects which communicates with the model (namely the ListServices and the DatabaseService)
  * -It sets/updates the Views via the implemented ObserverPattern (see {@link Observer } and {@link Observabel})
  * and the implemented methods in here and in the Activities.
- * <p>
- * Secondly it is the only Object which Provides Access to all Model interactions
  *
- * @author WilliBoelke
  */
-public class ApplicationController implements Observabel
+public class ApplicationController implements Observabel, Controller
 {
   private final String TAG = this.getClass().getSimpleName();
   /**
@@ -41,7 +38,7 @@ public class ApplicationController implements Observabel
 
     private static ArrayList<Observer> onRecipeListChangeListener;
     private static ArrayList<Observer> onAvailableListChangeListener;
-    private static ArrayList<Observer> onBuyingListChangeListener;
+    private static ArrayList<Observer> onShoppingListChangeListener;
     private static ArrayList<Observer> onToCookListChangeListener;
 
 
@@ -56,10 +53,10 @@ public class ApplicationController implements Observabel
 
     }
 
+
     public void initialize(Context context, RecipeListManager recipeListService, ShoppingListManager shoppingListService, AvailableListManager availableListService,
                            ToCookListManager toCookListService)
     {
-            DatabaseHelper databaseService = new DatabaseHelper(context);
 
             this.availableListManager = availableListService;
             this.shoppingListManager = shoppingListService;
@@ -68,7 +65,7 @@ public class ApplicationController implements Observabel
 
             //Observer Lists :
             onAvailableListChangeListener = new ArrayList<>();
-            onBuyingListChangeListener = new ArrayList<>();
+            onShoppingListChangeListener = new ArrayList<>();
             onRecipeListChangeListener = new ArrayList<>();
             onToCookListChangeListener = new ArrayList<>();
 
@@ -86,156 +83,134 @@ public class ApplicationController implements Observabel
         return ourInstance;
     }
 
-
     /**
-     * Adds one article to the availableList (and database)
-     *
-     * @param article
-     *         the article to be added
+     * Constructor to set a mockDatabaseService.
+     * To test the ListServices
+     * @param
      */
+    public void initialize(DatabaseHelper mockDatabaseHelper)
+    {
+        this.availableListManager = new AvailableListManager(mockDatabaseHelper);
+        this.shoppingListManager = new ShoppingListManager(mockDatabaseHelper);
+        this.recipeListManager = new RecipeListManager(mockDatabaseHelper);
+        this.toCookListManager = new ToCookListManager(mockDatabaseHelper);
+
+        //Observer Lists :
+        onAvailableListChangeListener = new ArrayList<>();
+        onShoppingListChangeListener = new ArrayList<>();
+        onToCookListChangeListener = new ArrayList<>();
+        onRecipeListChangeListener = new ArrayList<>();
+    }
+
+
+    @Override
     public void addArticleToAvailableList(Article article)
     {
         this.availableListManager.addArticleIntelligent(article);
         this.onAvailableListChange();
     }
 
-    /**
-     * deletes the article at index from the availableList (and database)
-     *
-     * @param index
-     *         the index of the article
-     */
+
+    @Override
     public void deleteArticleFromAvailableList(int index)
     {
         this.availableListManager.removeItem(index);
         this.onAvailableListChange();
     }
 
-    /**
-     * returns the article at index
-     *
-     * @param index
-     *         the list index
-     * @return teh article at index
-     */
+
+    @Override
     public Article getArticleFromAvailableList(int index)
     {
         return (Article) this.availableListManager.getItem(index);
     }
 
-    //....BuyingListAccess..........
 
-    /**
-     * Returns the article  with the name from the availableList
-     *
-     * @param name
-     * @return
-     */
+
+
+    //....shoppingList..........
+
+    @Override
     public Article getArticleFromAvailableList(String name)
     {
         return this.availableListManager.searchForArticle(name);
     }
 
-    /**
-     * return the complete ItemList from the availableLists service
-     * mainly used for the representation of the complete list in and Recycler- or LisView
-     *
-     * @return the ItemList of the availableList
-     */
+
+    @Override
     public ArrayList<Article> getAvailableList()
     {
         return this.availableListManager.getItemList();
     }
 
-    /**
-     * @param index
-     * @param newArticle
-     */
+
+    @Override
     public void updateArticleFromAvailableList(int index, Article newArticle)
     {
         this.availableListManager.updateArticle(index, newArticle);
         this.onAvailableListChange();
     }
 
-    /**
-     * Adds one article to the shopping(and database)
-     *
-     * @param article
-     *         the article to be added
-     */
+
+    @Override
     public void addArticleToShoppingList(Article article)
     {
         this.shoppingListManager.addArticleIntelligent(article);
         this.onShoppingListChange();
     }
 
-    /**
-     * deletes the article at index from the shopping list (and database)
-     *
-     * @param index
-     *         the index of the article
-     */
-    public void deleteArticleShoppingList(int index)
+
+    @Override
+    public void deleteArticleFromShoppingList(int index)
     {
         this.shoppingListManager.removeItem(index);
         this.onShoppingListChange();
     }
 
-    /**
-     * returns the article at index
-     *
-     * @param index
-     *         the list index
-     * @return the article at index
-     */
+
+    @Override
     public Article getArticleFromShoppingList(int index)
     {
         return (Article) this.shoppingListManager.getItem(index);
     }
 
-    /**
-     * Returns the article  with the name from the buyingList
-     *
-     * @param name
-     * @return
-     */
+
+    @Override
     public Article getArticleFromShoppingList(String name)
     {
         return this.shoppingListManager.searchForArticle(name);
     }
 
-    /**
-     * return the complete ItemList from the buyingListService
-     * mainly used for the representation of the complete list in and Recycler- or LisView
-     *
-     * @return the ItemList of the buyingListService
-     */
-    public ArrayList<Article> getBuyingList()
+
+    @Override
+    public ArrayList<Article> getShoppingList()
     {
         return this.shoppingListManager.getItemList();
     }
 
 
-    /**
-     * @param index
-     * @param newArticle
-     */
-    public void updateArticleFromBuyingList(int index, Article newArticle)
+    @Override
+    public void updateArticleFromShoppingList(int index, Article newArticle)
     {
         this.shoppingListManager.updateArticle(index, newArticle);
         this.onShoppingListChange();
     }
 
+
+    @Override
+    public void overrideShoppingListCompletely(ArrayList<Article> synchronizedList)
+    {
+        this.shoppingListManager.overrideListCompletely(synchronizedList);
+    }
+
+
+
+
     //....exchange between the article list..........
 
 
-    /**
-     * Transfers one article from the buying- to the availableList
-     * i guess there is a better way /willi
-     *
-     * @param index
-     */
-    public void transferArticleFromBuyingToAvailableList(int index)
+    @Override
+    public void transferArticleFromShoppingToAvailableList(int index)
     {
         Article transferredArticle = (Article) this.shoppingListManager.getItem(index);
         this.shoppingListManager.removeItem(index);
@@ -244,13 +219,9 @@ public class ApplicationController implements Observabel
         this.onAvailableListChange();
     }
 
-    /**
-     * Transfers one article from the available- to the buyingList
-     * again i guess there is a better way /willi
-     *
-     * @param index
-     */
-    public void transferArticleFromAvailableToBuyingList(int index)
+
+    @Override
+    public void transferArticleFromAvailableToShoppingList(int index)
     {
         Article transferredArticle = (Article) this.availableListManager.getItem(index);
         this.availableListManager.removeItem(index);
@@ -260,51 +231,41 @@ public class ApplicationController implements Observabel
     }
 
 
+
+
     //....Recipe List Access..........
 
-    /**
-     * Adds one recipe to the recipeList(and database)
-     *
-     * @param recipe
-     *         the recipe to be added
-     */
+    @Override
     public void addRecipe(Recipe recipe)
     {
         this.recipeListManager.addItem(recipe);
         this.onRecipeListChange();
     }
 
-    /**
-     * deletes the recipe at index from the recipeList (and database)
-     *
-     * @param index
-     *         the index of the recipe
-     */
+
+    @Override
     public void deleteRecipe(int index)
     {
         this.recipeListManager.removeItem(index);
         this.onRecipeListChange();
     }
 
-    /**
-     * returns the recipe at index
-     *
-     * @param index
-     *         the list index
-     * @return the recipe at index
-     */
+
+    @Override
     public Recipe getRecipe(int index)
     {
         return (Recipe) this.recipeListManager.getItem(index);
     }
 
 
+    @Override
     public Recipe getRecipe(String name)
     {
         return (Recipe) this.recipeListManager.getItem(name);
     }
 
 
+    @Override
     public void updateRecipe(int index, Recipe newRecipe)
     {
         this.recipeListManager.updateRecipe(index, newRecipe);
@@ -312,24 +273,24 @@ public class ApplicationController implements Observabel
     }
 
 
-    //....Observer..........
-
+    @Override
     public Article getArticleFromRecipe(String recipeName, int articleIndex)
     {
         Recipe recipe = (Recipe) recipeListManager.getItem(recipeName);
         return recipe.getArticles().get(articleIndex);
     }
 
-    /**
-     * returns the complete ItemList from the recipeListService
-     * mainly used for the representation of the complete list in and Recycler- or LisView
-     *
-     * @return the ItemList of the recipeListService
-     */
+
+    @Override
     public ArrayList<Recipe> getRecipeList()
     {
         return this.recipeListManager.getItemList();
     }
+
+
+    @Override
+    public ArrayList<Recipe> getToCookList(){ return this.toCookListManager.getItemList();}
+
 
     public void addRecipeFromRecipeToToCookList(int index)
     {
@@ -359,6 +320,7 @@ public class ApplicationController implements Observabel
 
     }
 
+
     public void deleteArticlesWhenCooked(int position)
     {
       Recipe recipe = (Recipe) this.toCookListManager.getItem(position);
@@ -371,6 +333,7 @@ public class ApplicationController implements Observabel
     }
 
 
+    @Override
   public void recipeToShoppingList(int index)
     {
         Recipe  recipe   = (Recipe) this.recipeListManager.getItem(index);
@@ -381,6 +344,8 @@ public class ApplicationController implements Observabel
         this.onRecipeListChange();
     }
 
+
+    @Override
     public void deleteFromToCook(int position)
     {
       Recipe recipe = (Recipe) this.toCookListManager.getItem(position);
@@ -400,6 +365,7 @@ public class ApplicationController implements Observabel
       this.onRecipeListChange();
     }
 
+
     @Override
     public void registerOnRecipeListChangeListener(Observer observer)
     {
@@ -413,23 +379,27 @@ public class ApplicationController implements Observabel
       onRecipeListChangeListener.add(observer);
     }
 
+
     @Override
     public void unregisterOnRecipeListChangeListener(Observer observer)
     {
         onRecipeListChangeListener.remove(observer);
     }
 
-    @Override
-    public void registerOnBuyingListChangeListener(Observer observer)
-    {
-        onBuyingListChangeListener.add(observer);
-    }
 
     @Override
-    public void unregisterOnBuyingListChangeListener(Observer observer)
+    public void registerOnShoppingListChangeListener(Observer observer)
     {
-        onBuyingListChangeListener.remove(observer);
+        onShoppingListChangeListener.add(observer);
     }
+
+
+    @Override
+    public void unregisterOnShoppingListChangeListener(Observer observer)
+    {
+        onShoppingListChangeListener.remove(observer);
+    }
+
 
     @Override
     public void registerOnAvailableListChangeListener(Observer observer)
@@ -437,11 +407,13 @@ public class ApplicationController implements Observabel
         onAvailableListChangeListener.add(observer);
     }
 
+
     @Override
     public void unregisterOnAvailableListChangeListener(Observer observer)
     {
         onAvailableListChangeListener.remove(observer);
     }
+
 
     @Override
     public void registerOnToCookListChangeListener(Observer observer)
@@ -459,11 +431,13 @@ public class ApplicationController implements Observabel
         onToCookListChangeListener.add(observer);
     }
 
+
     @Override
     public void unregisterOnToCookListChangeListener(Observer observer)
     {
         onToCookListChangeListener.remove(observer);
     }
+
 
   @Override
     public void onAvailableListChange()
@@ -474,14 +448,16 @@ public class ApplicationController implements Observabel
         }
     }
 
+
     @Override
     public void onShoppingListChange()
     {
-        for (int i = 0; i < this.onBuyingListChangeListener.size(); i++)
+        for (int i = 0; i < this.onShoppingListChangeListener.size(); i++)
         {
-            this.onBuyingListChangeListener.get(i).onChange();
+            this.onShoppingListChangeListener.get(i).onChange();
         }
     }
+
 
     @Override
     public void onRecipeListChange()
@@ -492,6 +468,7 @@ public class ApplicationController implements Observabel
         }
     }
 
+
     @Override
     public void onToCookListChange()
     {
@@ -500,16 +477,5 @@ public class ApplicationController implements Observabel
         this.onToCookListChangeListener.get(i).onChange();
       }
     }
-
-
-  //....Synchronization..........
-
-
-    public void overrideShoppingListCompletely(ArrayList<Article> synchronizedList)
-    {
-        this.shoppingListManager.overrideListCompletely(synchronizedList);
-    }
-
-    public ArrayList<Recipe> getToCookList(){ return this.toCookListManager.getItemList();}
 
 }

@@ -101,7 +101,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     {
 
         swipeCallbackLeft = position -> {
-            ApplicationController.getInstance().transferArticleFromAvailableToBuyingList(position);
+            ApplicationController.getInstance().transferArticleFromAvailableToShoppingList(position);
         };
 
         swipeCallbackRight = position ->

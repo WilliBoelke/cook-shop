@@ -69,7 +69,7 @@ public class DatabaseHelperTest
      * Test if 3 different recipes will be added to the Database
      */
     @Test
-    public void addRecipesToDatabaseTest1()
+    public void addRecipesToDatabase()
     {
         database.reset();
         assertEquals(0, database.retrieveAllRecipes().size());
@@ -84,7 +84,7 @@ public class DatabaseHelperTest
      * (unique constraint)
      */
     @Test
-    public void addRecipesToDatabaseTest2()
+    public void addRecipesToDatabaseTestSameName()
     {
         database.reset();
         assertEquals(0, database.retrieveAllRecipes().size());
@@ -153,7 +153,7 @@ public class DatabaseHelperTest
      * Test if 3 different articles will be added to the Database
      */
     @Test
-    public void addArticlesToDatabaseAvailableTableTest1()
+    public void saveArticleToDatabase()
     {
         database.reset();
         assertEquals(0, database.retrieveAllArticlesFrom("BelongingOne").size());
@@ -167,7 +167,7 @@ public class DatabaseHelperTest
      * Articles with the same name can be stored in the database
      */
     @Test
-    public void addArticlesToDatabaseAvailableTableTest2()
+    public void addArticlesToDatabaseTest2()
     {
         database.reset();
         assertEquals(0, database.retrieveAllArticlesFrom("BelongingOne").size());
@@ -194,7 +194,7 @@ public class DatabaseHelperTest
      * Verify that the article was saved correctly
      */
     @Test
-    public void verifySavedArticleDescriptionTest()
+    public void verifySavedArticleDescription()
     {
         database.reset();
         assertEquals(0, database.retrieveAllArticlesFrom("BelongingOne").size());
@@ -356,4 +356,8 @@ public class DatabaseHelperTest
 
         assertEquals(1, database.retrieveAllArticlesFrom("BelongingOne").size());
     }
+
+
+
+
 }

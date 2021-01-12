@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.model.Observer;
+import com.example.cookshop.controller.Observer;
 import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.RecyclerAdapterSwipeGestures;
+import com.example.cookshop.view.adapter.SwipeCallbackLeft;
+import com.example.cookshop.view.adapter.SwipeCallbackRight;
 
 import java.util.ArrayList;
 

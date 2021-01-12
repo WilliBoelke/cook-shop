@@ -54,7 +54,7 @@ public class FragmentShoppingList extends FragmentArticleList
          *    register at onBuyingChangeListener, so the
          *    DataAccess will call this {@link #onChange()} method
          */
-        ApplicationController.getInstance().registerOnBuyingListChangeListener(this);
+        ApplicationController.getInstance().registerOnShoppingListChangeListener(this);
 
     }
 
@@ -77,7 +77,7 @@ public class FragmentShoppingList extends FragmentArticleList
     public void onDestroy()
     {
         super.onDestroy();
-        ApplicationController.getInstance().unregisterOnBuyingListChangeListener(this);
+        ApplicationController.getInstance().unregisterOnShoppingListChangeListener(this);
     }
 
 
@@ -93,7 +93,7 @@ public class FragmentShoppingList extends FragmentArticleList
     @Override
     protected ArrayList<Article> getCorrespondingList()
     {
-        return ApplicationController.getInstance().getBuyingList();
+        return ApplicationController.getInstance().getShoppingList();
     }
 
 
@@ -102,12 +102,12 @@ public class FragmentShoppingList extends FragmentArticleList
     {
 
         swipeCallbackLeft = position -> {
-            ApplicationController.getInstance().transferArticleFromBuyingToAvailableList(position);
+            ApplicationController.getInstance().transferArticleFromShoppingToAvailableList(position);
         };
 
         swipeCallbackRight = position ->
         {
-            ApplicationController.getInstance().deleteArticleShoppingList(position);
+            ApplicationController.getInstance().deleteArticleFromShoppingList(position);
         };
     }
 

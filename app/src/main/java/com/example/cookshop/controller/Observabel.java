@@ -1,9 +1,4 @@
-package com.example.cookshop.model;
-
-import com.example.cookshop.items.Recipe;
-import com.example.cookshop.view.main.FragmentToCookList;
-
-import java.util.ArrayList;
+package com.example.cookshop.controller;
 
 public interface Observabel
 {
@@ -13,10 +8,10 @@ public interface Observabel
         void unregisterOnRecipeListChangeListener(Observer observer);
 
 
-        void registerOnBuyingListChangeListener(Observer observer);
+        void registerOnShoppingListChangeListener(Observer observer);
 
 
-        void unregisterOnBuyingListChangeListener(Observer observer);
+        void unregisterOnShoppingListChangeListener(Observer observer);
 
 
         void registerOnAvailableListChangeListener(Observer observer);
