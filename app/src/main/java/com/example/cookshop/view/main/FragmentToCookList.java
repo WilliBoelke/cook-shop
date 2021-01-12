@@ -2,7 +2,6 @@ package com.example.cookshop.view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
 import com.example.cookshop.view.recipeViewUpdateAdd.RecipeViewer;
 
@@ -36,7 +35,7 @@ public class FragmentToCookList extends FragmentRecipeTypeAbstract {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DataAccess.getInstance().registerOnToCookListChangeListener(this);
+        ApplicationController.getInstance().registerOnToCookListChangeListener(this);
     }
 
     @Override
@@ -65,15 +64,15 @@ public class FragmentToCookList extends FragmentRecipeTypeAbstract {
     @Override
     public void onDestroy(){
       super.onDestroy();
-      DataAccess.getInstance().unregisterOnToCookListChangeListener(this);
+      ApplicationController.getInstance().unregisterOnToCookListChangeListener(this);
     }
 
     @Override
     protected ArrayList<Recipe> getCorrespondingList(){
-      if(DataAccess.getInstance().getToCookList().size()==0){
+      if(ApplicationController.getInstance().getToCookList().size()==0){
         Log.e(TAG, ": getCorrespondingList(): ToCookList empty!");
       }
-      return DataAccess.getInstance().getToCookList();
+      return ApplicationController.getInstance().getToCookList();
     }
 
     @Override
@@ -88,10 +87,10 @@ public class FragmentToCookList extends FragmentRecipeTypeAbstract {
     protected void setupSwipeGestures()
     {
       swipeCallbackLeft = position -> {
-        DataAccess.getInstance().deleteArticlesWhenCooked(position);
+        ApplicationController.getInstance().deleteArticlesWhenCooked(position);
       };
       swipeCallbackRight = position -> {
-        DataAccess.getInstance().deleteFromToCook(position);
+        ApplicationController.getInstance().deleteFromToCook(position);
       };
     }
 

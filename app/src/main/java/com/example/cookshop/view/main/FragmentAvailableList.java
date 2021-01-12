@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
 import com.example.cookshop.view.adapter.ArticleRecyclerViewAdapter;
@@ -52,7 +52,7 @@ public class FragmentAvailableList extends FragmentArticleList {
          *    register at onBuyingChangeListener, so the
          *    DataAccess will call this {@link #onChange()} method
          */
-        DataAccess.getInstance().registerOnAvailableListChangeListener(this);
+        ApplicationController.getInstance().registerOnAvailableListChangeListener(this);
 
     }
 
@@ -75,7 +75,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     public void onDestroy()
     {
         super.onDestroy();
-        DataAccess.getInstance().unregisterOnAvailableListChangeListener(this);
+        ApplicationController.getInstance().unregisterOnAvailableListChangeListener(this);
     }
 
 
@@ -92,7 +92,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     @Override
     protected ArrayList<Article> getCorrespondingList()
     {
-        return DataAccess.getInstance().getAvailableList();
+        return ApplicationController.getInstance().getAvailableList();
     }
 
 
@@ -101,12 +101,12 @@ public class FragmentAvailableList extends FragmentArticleList {
     {
 
         swipeCallbackLeft = position -> {
-            DataAccess.getInstance().transferArticleFromAvailableToBuyingList(position);
+            ApplicationController.getInstance().transferArticleFromAvailableToBuyingList(position);
         };
 
         swipeCallbackRight = position ->
         {
-            DataAccess.getInstance().deleteArticleFromAvailableList(position);
+            ApplicationController.getInstance().deleteArticleFromAvailableList(position);
         };
     }
 

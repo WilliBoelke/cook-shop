@@ -1,24 +1,20 @@
 package com.example.cookshop.controller.viewController;
 
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
-import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 
 import java.util.ArrayList;
 
 public class RecipeController
 {
 
-  DataAccess dataAccessInstance;
+  ApplicationController applicationControllerInstance;
 
-  public RecipeController(DataAccess dataAccess)
+  public RecipeController(ApplicationController applicationController)
   {
-    dataAccessInstance = dataAccess;
+    applicationControllerInstance = applicationController;
   }
 
   public Recipe generateRecipeFromInput(String name, String description, ArrayList<Article> articles, ArrayList<Step> steps)
@@ -35,23 +31,23 @@ public class RecipeController
 
   public void addRecipe(Recipe recipe)
   {
-      dataAccessInstance.addRecipe(recipe);
+      applicationControllerInstance.addRecipe(recipe);
   }
 
 
   public void updateRecipe(int position, Recipe recipe)
   {
-      dataAccessInstance.updateRecipe(position, recipe);
+      applicationControllerInstance.updateRecipe(position, recipe);
   }
 
   public Recipe getRecipe(int index)
   {
-    return dataAccessInstance.getRecipe(index);
+    return applicationControllerInstance.getRecipe(index);
   }
 
   public Recipe getRecipe(String name)
   {
-    return dataAccessInstance.getRecipe(name);
+    return applicationControllerInstance.getRecipe(name);
   }
 
   public boolean checkUserInput(String name, String description)

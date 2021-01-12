@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.example.cookshop.R;
 import com.example.cookshop.model.database.DatabaseHelper;
 import com.example.cookshop.model.listManagement.AvailableListManager;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.model.listManagement.RecipeListManager;
 import com.example.cookshop.model.listManagement.ShoppingListManager;
 import com.example.cookshop.model.listManagement.ToCookListManager;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(false);
         //
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        DataAccess.getInstance().initialize(this.getApplicationContext(), new RecipeListManager(db), new ShoppingListManager(db), new AvailableListManager(db), new ToCookListManager(db));
+        ApplicationController.getInstance().initialize(this.getApplicationContext(), new RecipeListManager(db), new ShoppingListManager(db), new AvailableListManager(db), new ToCookListManager(db));
 
         //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory());

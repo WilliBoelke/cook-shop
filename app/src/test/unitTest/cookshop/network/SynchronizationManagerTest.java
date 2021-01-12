@@ -9,7 +9,7 @@ import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 
 
 import org.junit.Assert;
@@ -43,7 +43,7 @@ public class SynchronizationManagerTest
     private MockNetworkConnectionServer mockNetworkConnection;
     private BluetoothConnection mockBtConnection;
     private BluetoothDevice mockBtDevice;
-    private DataAccess mockDataAccess;
+    private ApplicationController mockApplicationController;
     private SynchronizationManager testSyncManager;
 
     private Article testArticle1;
@@ -79,7 +79,7 @@ public class SynchronizationManagerTest
         testArticleArrayList3.add(testArticle3);
 
         mockBtDevice = mock(BluetoothDevice.class);
-        mockDataAccess = mock(DataAccess.class);
+        mockApplicationController = mock(ApplicationController.class);
         mockBtConnection = mock(BluetoothConnection.class);
     }
 
@@ -103,7 +103,7 @@ public class SynchronizationManagerTest
     {
         //TestSetup
 
-        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
 
         // Verifying Results
 
@@ -119,7 +119,7 @@ public class SynchronizationManagerTest
     {
         //TestSetup
 
-        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockBtConnection, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
 
         // Verifying Results
 
@@ -138,14 +138,14 @@ public class SynchronizationManagerTest
     public void methodCalls()
     {
         //TestSetup
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList1);
         mockNetworkConnection = new MockNetworkConnectionServer();
-        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess).getBuyingList();
-        verify(mockDataAccess).overrideShoppingListCompletely(any(ArrayList.class));
+        verify(mockApplicationController).getBuyingList();
+        verify(mockApplicationController).overrideShoppingListCompletely(any(ArrayList.class));
         Assert.assertTrue(testArticleArrayList1.size() == mockNetworkConnection.getReceivedArticles().size());
 
     }
@@ -162,14 +162,14 @@ public class SynchronizationManagerTest
     public void startAsServer()
     {
         //TestSetup
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList1);
         mockNetworkConnection = new MockNetworkConnectionServer();
-        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnection, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess).getBuyingList();
-        verify(mockDataAccess).overrideShoppingListCompletely(any(ArrayList.class));
+        verify(mockApplicationController).getBuyingList();
+        verify(mockApplicationController).overrideShoppingListCompletely(any(ArrayList.class));
         Assert.assertTrue(testArticleArrayList1.size() == mockNetworkConnection.getReceivedArticles().size());
 
     }
@@ -184,15 +184,15 @@ public class SynchronizationManagerTest
     public void startAsClient1()
     {
         //TestSetup
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList3);
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess, times(6)).getBuyingList();
-        verify(mockDataAccess, times(1)).addArticleToShoppingList(any(Article.class));
-        verify(mockDataAccess, times(0)).deleteArticleShoppingList(anyInt());
+        verify(mockApplicationController, times(6)).getBuyingList();
+        verify(mockApplicationController, times(1)).addArticleToShoppingList(any(Article.class));
+        verify(mockApplicationController, times(0)).deleteArticleShoppingList(anyInt());
         Assert.assertTrue(2 == mockNetworkConnectionClient.getReceivedArticles().size());
 
     }
@@ -213,15 +213,15 @@ public class SynchronizationManagerTest
         testArticleArrayList2.add(testArticle2);
 
 
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess, atLeast(1)).getBuyingList();
-        verify(mockDataAccess, times(0)).addArticleToShoppingList(any(Article.class));
-        verify(mockDataAccess, times(0)).deleteArticleShoppingList(anyInt());
+        verify(mockApplicationController, atLeast(1)).getBuyingList();
+        verify(mockApplicationController, times(0)).addArticleToShoppingList(any(Article.class));
+        verify(mockApplicationController, times(0)).deleteArticleShoppingList(anyInt());
         Assert.assertTrue(2 == mockNetworkConnectionClient.getReceivedArticles().size());
 
     }
@@ -254,16 +254,16 @@ public class SynchronizationManagerTest
         testArticleArrayList2.add(updatedTestArticle3);
 
         //Injecting both lists
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList1);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
 
         //Run
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess, atLeast(1)).getBuyingList();
-        verify(mockDataAccess, times(1)).addArticleToShoppingList(articleCaptor.capture());
+        verify(mockApplicationController, atLeast(1)).getBuyingList();
+        verify(mockApplicationController, times(1)).addArticleToShoppingList(articleCaptor.capture());
 
         List<Article> savedArticles = articleCaptor.getAllValues();
 
@@ -299,16 +299,16 @@ public class SynchronizationManagerTest
         testArticleArrayList2.add(updatedTestArticle3);
 
         //Injecting both lists
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList1);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList1);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList2);
 
         //Run
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess, atLeast(1)).getBuyingList();
-        verify(mockDataAccess, times(1)).deleteArticleShoppingList(2); // old testArticle3 is at index 2
+        verify(mockApplicationController, atLeast(1)).getBuyingList();
+        verify(mockApplicationController, times(1)).deleteArticleShoppingList(2); // old testArticle3 is at index 2
 
     }
 
@@ -337,17 +337,17 @@ public class SynchronizationManagerTest
         testArticleArrayList2.add(updatedTestArticle3);
 
         //Injecting both lists
-        when(mockDataAccess.getBuyingList()).thenReturn(testArticleArrayList2);
+        when(mockApplicationController.getBuyingList()).thenReturn(testArticleArrayList2);
         MockNetworkConnectionClient mockNetworkConnectionClient = new MockNetworkConnectionClient(testArticleArrayList1);
 
         //Run
-        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockDataAccess);
+        testSyncManager = new SynchronizationManager(mockNetworkConnectionClient, mockBtDevice, notNeededReceiveCallback, mockApplicationController);
         testSyncManager.doInBackground();
 
         // Verifying Results
-        verify(mockDataAccess, atLeast(1)).getBuyingList();
-        verify(mockDataAccess, times(0)).addArticleToShoppingList(any(Article.class));
-        verify(mockDataAccess, times(0)).deleteArticleShoppingList(anyInt());
+        verify(mockApplicationController, atLeast(1)).getBuyingList();
+        verify(mockApplicationController, times(0)).addArticleToShoppingList(any(Article.class));
+        verify(mockApplicationController, times(0)).deleteArticleShoppingList(anyInt());
 
 
 

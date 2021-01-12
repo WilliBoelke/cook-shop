@@ -17,7 +17,7 @@ import com.example.cookshop.R;
 import com.example.cookshop.controller.viewController.ArticleController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -219,16 +219,16 @@ public class AddArticleActivity extends AppCompatActivity
             // now lets get the article
             if (editBelonging.equals("buy"))
             {
-                editArticle = DataAccess.getInstance().getArticleFromShoppingList(position);
+                editArticle = ApplicationController.getInstance().getArticleFromShoppingList(position);
             }
             else if (editBelonging.equals("available"))
             {
-                editArticle = DataAccess.getInstance().getArticleFromAvailableList(position);
+                editArticle = ApplicationController.getInstance().getArticleFromAvailableList(position);
             }
             //if its an article from a recipe
             else
             {
-                editArticle = DataAccess.getInstance().getRecipe(editBelonging).getArticles().get(position);
+                editArticle = ApplicationController.getInstance().getRecipe(editBelonging).getArticles().get(position);
             }
         }
     }
@@ -242,13 +242,13 @@ public class AddArticleActivity extends AppCompatActivity
             if (belonging.equals("buy"))
             {
                 //Add Article to Database and ListServices
-                DataAccess.getInstance().addArticleToShoppingList(newArticle);
+                ApplicationController.getInstance().addArticleToShoppingList(newArticle);
                 finish();
             }
             else if (belonging.equals("available"))
             {
                 //Add Article to Database and ListServices
-                DataAccess.getInstance().addArticleToAvailableList(newArticle);
+                ApplicationController.getInstance().addArticleToAvailableList(newArticle);
                 finish();
             }
             else if (belonging.equals("newRecipe"))

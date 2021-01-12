@@ -1,16 +1,12 @@
 package cookshop.controller;
 
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +26,7 @@ public class RecipeControllerTest
 {
 
     private RecipeController testRecipeController;
-    private DataAccess mockDataAccess;
+    private ApplicationController mockApplicationController;
 
 
     private Article testArticle1;
@@ -51,12 +47,12 @@ public class RecipeControllerTest
     @Before
     public void setUp() throws Exception
     {
-        mockDataAccess = mock(DataAccess.class);
-        testRecipeController = new RecipeController(mockDataAccess);
+        mockApplicationController = mock(ApplicationController.class);
+        testRecipeController = new RecipeController(mockApplicationController);
 
 
-        mockDataAccess = mock(DataAccess.class);
-        testRecipeController = new RecipeController(mockDataAccess);
+        mockApplicationController = mock(ApplicationController.class);
+        testRecipeController = new RecipeController(mockApplicationController);
         date = simpleDateFormat.parse(dateString);
 
         testArticle1 = new Article("Apfel", "Beschreibung Apfel", Category.FRUIT, 4, 1.0 , date,  date);
@@ -117,38 +113,38 @@ public class RecipeControllerTest
     @Test
     public void getRecipeTest()
     {
-        mockDataAccess = mock(DataAccess.class);
-        when(mockDataAccess.getRecipe(anyInt())).thenReturn(testRecipe);
-        testRecipeController = new RecipeController(mockDataAccess);
+        mockApplicationController = mock(ApplicationController.class);
+        when(mockApplicationController.getRecipe(anyInt())).thenReturn(testRecipe);
+        testRecipeController = new RecipeController(mockApplicationController);
 
         testRecipeController.getRecipe(1);
-        verify(mockDataAccess).getRecipe(1);
+        verify(mockApplicationController).getRecipe(1);
         testRecipeController.getRecipe(2);
-        verify(mockDataAccess).getRecipe(2);
+        verify(mockApplicationController).getRecipe(2);
     }
 
 
     @Test
     public void addRecipe()
     {
-        mockDataAccess = mock(DataAccess.class);
-        testRecipeController = new RecipeController(mockDataAccess);
+        mockApplicationController = mock(ApplicationController.class);
+        testRecipeController = new RecipeController(mockApplicationController);
 
         testRecipeController.addRecipe(testRecipe);
-        verify(mockDataAccess).addRecipe(testRecipe);
+        verify(mockApplicationController).addRecipe(testRecipe);
     }
 
     @Test
     public void updateRecipe()
     {
-        mockDataAccess = mock(DataAccess.class);
-        testRecipeController = new RecipeController(mockDataAccess);
+        mockApplicationController = mock(ApplicationController.class);
+        testRecipeController = new RecipeController(mockApplicationController);
 
         testRecipeController.updateRecipe(2, testRecipe);
-        verify(mockDataAccess).updateRecipe(2, testRecipe);
+        verify(mockApplicationController).updateRecipe(2, testRecipe);
 
         testRecipeController.updateRecipe(3, testRecipe);
-        verify(mockDataAccess).updateRecipe(3, testRecipe);
+        verify(mockApplicationController).updateRecipe(3, testRecipe);
 
     }
 
@@ -156,11 +152,11 @@ public class RecipeControllerTest
     @Test
     public void getRecipeByName()
     {
-        mockDataAccess = mock(DataAccess.class);
-        testRecipeController = new RecipeController(mockDataAccess);
+        mockApplicationController = mock(ApplicationController.class);
+        testRecipeController = new RecipeController(mockApplicationController);
 
         testRecipeController.getRecipe("name");
-        verify(mockDataAccess).getRecipe("name");
+        verify(mockApplicationController).getRecipe("name");
 
 
     }

@@ -18,7 +18,7 @@ import com.example.cookshop.items.Article;
 
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.stepViewUpdateAdd.AddStepActivity;
@@ -56,7 +56,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.recipe_add_edit);
     processIntent();
-    recipeController = new RecipeController(DataAccess.getInstance());
+    recipeController = new RecipeController(ApplicationController.getInstance());
 
       nameTextView = findViewById(R.id.name_edittext);
       descriptionTextView = findViewById(R.id.description_edittext);
@@ -99,7 +99,7 @@ public class AddRecipeActivity extends AppCompatActivity {
       }
 
       if (editBelonging.equals("recipe")){
-        editRecipe = DataAccess.getInstance().getRecipe(position);
+        editRecipe = ApplicationController.getInstance().getRecipe(position);
       }
     }
   }

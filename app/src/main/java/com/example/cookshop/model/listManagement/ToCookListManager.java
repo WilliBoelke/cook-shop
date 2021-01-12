@@ -48,7 +48,7 @@ public class ToCookListManager extends ItemListManager{
     //this.getDatabase().insertSeveralRecipes(list);
   }
 
-  protected void addRecipeIntelligent(Recipe recipe)
+  public void addRecipeIntelligent(Recipe recipe)
   {
 
     if(this.getItemList().size()==0)

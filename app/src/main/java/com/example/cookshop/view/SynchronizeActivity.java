@@ -23,7 +23,7 @@ import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.adapter.DeviceListAdapter;
 
 import java.lang.reflect.Method;
@@ -145,7 +145,7 @@ public class SynchronizeActivity extends AppCompatActivity
                 progressBar.setVisibility(View.INVISIBLE);
                 msgTextView.setText("The lists are synchronized");
             }
-        }, DataAccess.getInstance());
+        }, ApplicationController.getInstance());
 
     }
 

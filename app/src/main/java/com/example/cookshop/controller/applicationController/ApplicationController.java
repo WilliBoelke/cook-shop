@@ -1,4 +1,4 @@
-package com.example.cookshop.model.listManagement;
+package com.example.cookshop.controller.applicationController;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,6 +8,10 @@ import com.example.cookshop.items.Recipe;
 import com.example.cookshop.model.Observabel;
 import com.example.cookshop.model.Observer;
 import com.example.cookshop.model.database.DatabaseHelper;
+import com.example.cookshop.model.listManagement.AvailableListManager;
+import com.example.cookshop.model.listManagement.RecipeListManager;
+import com.example.cookshop.model.listManagement.ShoppingListManager;
+import com.example.cookshop.model.listManagement.ToCookListManager;
 
 import java.util.ArrayList;
 
@@ -21,19 +25,19 @@ import java.util.ArrayList;
  *
  * @author WilliBoelke
  */
-public class DataAccess implements Observabel
+public class ApplicationController implements Observabel
 {
   private final String TAG = this.getClass().getSimpleName();
   /**
      * The saved instance of this class
      * (singleton design Pattern)
      */
-    private static DataAccess ourInstance;
+    private static ApplicationController ourInstance;
 
-    private AvailableListManager availableListService;
-    private RecipeListManager recipeListService;
-    private ShoppingListManager shoppingListService;
-    private ToCookListManager toCookListService;
+    private AvailableListManager availableListManager;
+    private RecipeListManager recipeListManager;
+    private ShoppingListManager shoppingListManager;
+    private ToCookListManager toCookListManager;
 
     private static ArrayList<Observer> onRecipeListChangeListener;
     private static ArrayList<Observer> onAvailableListChangeListener;
@@ -47,7 +51,7 @@ public class DataAccess implements Observabel
     /**
      * Private constructor
      */
-    private DataAccess()
+    private ApplicationController()
     {
 
     }
@@ -57,10 +61,10 @@ public class DataAccess implements Observabel
     {
             DatabaseHelper databaseService = new DatabaseHelper(context);
 
-            this.availableListService = availableListService;
-            this.shoppingListService = shoppingListService;
-            this.recipeListService = recipeListService;
-            this.toCookListService = toCookListService;
+            this.availableListManager = availableListService;
+            this.shoppingListManager = shoppingListService;
+            this.recipeListManager = recipeListService;
+            this.toCookListManager = toCookListService;
 
             //Observer Lists :
             onAvailableListChangeListener = new ArrayList<>();
@@ -73,11 +77,11 @@ public class DataAccess implements Observabel
             }
     }
 
-    public static DataAccess getInstance()
+    public static ApplicationController getInstance()
     {
         if (ourInstance == null)
         {
-            ourInstance = new DataAccess();
+            ourInstance = new ApplicationController();
         }
         return ourInstance;
     }
@@ -91,7 +95,7 @@ public class DataAccess implements Observabel
      */
     public void addArticleToAvailableList(Article article)
     {
-        this.availableListService.addArticleIntelligent(article);
+        this.availableListManager.addArticleIntelligent(article);
         this.onAvailableListChange();
     }
 
@@ -103,7 +107,7 @@ public class DataAccess implements Observabel
      */
     public void deleteArticleFromAvailableList(int index)
     {
-        this.availableListService.removeItem(index);
+        this.availableListManager.removeItem(index);
         this.onAvailableListChange();
     }
 
@@ -116,7 +120,7 @@ public class DataAccess implements Observabel
      */
     public Article getArticleFromAvailableList(int index)
     {
-        return (Article) this.availableListService.getItem(index);
+        return (Article) this.availableListManager.getItem(index);
     }
 
     //....BuyingListAccess..........
@@ -129,7 +133,7 @@ public class DataAccess implements Observabel
      */
     public Article getArticleFromAvailableList(String name)
     {
-        return this.availableListService.searchForArticle(name);
+        return this.availableListManager.searchForArticle(name);
     }
 
     /**
@@ -140,7 +144,7 @@ public class DataAccess implements Observabel
      */
     public ArrayList<Article> getAvailableList()
     {
-        return this.availableListService.getItemList();
+        return this.availableListManager.getItemList();
     }
 
     /**
@@ -149,7 +153,7 @@ public class DataAccess implements Observabel
      */
     public void updateArticleFromAvailableList(int index, Article newArticle)
     {
-        this.availableListService.updateArticle(index, newArticle);
+        this.availableListManager.updateArticle(index, newArticle);
         this.onAvailableListChange();
     }
 
@@ -161,7 +165,7 @@ public class DataAccess implements Observabel
      */
     public void addArticleToShoppingList(Article article)
     {
-        this.shoppingListService.addArticleIntelligent(article);
+        this.shoppingListManager.addArticleIntelligent(article);
         this.onShoppingListChange();
     }
 
@@ -173,7 +177,7 @@ public class DataAccess implements Observabel
      */
     public void deleteArticleShoppingList(int index)
     {
-        this.shoppingListService.removeItem(index);
+        this.shoppingListManager.removeItem(index);
         this.onShoppingListChange();
     }
 
@@ -186,7 +190,7 @@ public class DataAccess implements Observabel
      */
     public Article getArticleFromShoppingList(int index)
     {
-        return (Article) this.shoppingListService.getItem(index);
+        return (Article) this.shoppingListManager.getItem(index);
     }
 
     /**
@@ -197,7 +201,7 @@ public class DataAccess implements Observabel
      */
     public Article getArticleFromShoppingList(String name)
     {
-        return this.shoppingListService.searchForArticle(name);
+        return this.shoppingListManager.searchForArticle(name);
     }
 
     /**
@@ -208,7 +212,7 @@ public class DataAccess implements Observabel
      */
     public ArrayList<Article> getBuyingList()
     {
-        return this.shoppingListService.getItemList();
+        return this.shoppingListManager.getItemList();
     }
 
 
@@ -218,7 +222,7 @@ public class DataAccess implements Observabel
      */
     public void updateArticleFromBuyingList(int index, Article newArticle)
     {
-        this.shoppingListService.updateArticle(index, newArticle);
+        this.shoppingListManager.updateArticle(index, newArticle);
         this.onShoppingListChange();
     }
 
@@ -233,9 +237,9 @@ public class DataAccess implements Observabel
      */
     public void transferArticleFromBuyingToAvailableList(int index)
     {
-        Article transferredArticle = (Article) this.shoppingListService.getItem(index);
-        this.shoppingListService.removeItem(index);
-        this.availableListService.addArticleIntelligent(transferredArticle);
+        Article transferredArticle = (Article) this.shoppingListManager.getItem(index);
+        this.shoppingListManager.removeItem(index);
+        this.availableListManager.addArticleIntelligent(transferredArticle);
         this.onShoppingListChange();
         this.onAvailableListChange();
     }
@@ -248,9 +252,9 @@ public class DataAccess implements Observabel
      */
     public void transferArticleFromAvailableToBuyingList(int index)
     {
-        Article transferredArticle = (Article) this.availableListService.getItem(index);
-        this.availableListService.removeItem(index);
-        this.shoppingListService.addArticleIntelligent(transferredArticle);
+        Article transferredArticle = (Article) this.availableListManager.getItem(index);
+        this.availableListManager.removeItem(index);
+        this.shoppingListManager.addArticleIntelligent(transferredArticle);
         this.onShoppingListChange();
         this.onAvailableListChange();
     }
@@ -266,7 +270,7 @@ public class DataAccess implements Observabel
      */
     public void addRecipe(Recipe recipe)
     {
-        this.recipeListService.addItem(recipe);
+        this.recipeListManager.addItem(recipe);
         this.onRecipeListChange();
     }
 
@@ -278,7 +282,7 @@ public class DataAccess implements Observabel
      */
     public void deleteRecipe(int index)
     {
-        this.recipeListService.removeItem(index);
+        this.recipeListManager.removeItem(index);
         this.onRecipeListChange();
     }
 
@@ -291,19 +295,19 @@ public class DataAccess implements Observabel
      */
     public Recipe getRecipe(int index)
     {
-        return (Recipe) this.recipeListService.getItem(index);
+        return (Recipe) this.recipeListManager.getItem(index);
     }
 
 
     public Recipe getRecipe(String name)
     {
-        return (Recipe) this.recipeListService.getItem(name);
+        return (Recipe) this.recipeListManager.getItem(name);
     }
 
 
     public void updateRecipe(int index, Recipe newRecipe)
     {
-        this.recipeListService.updateRecipe(index, newRecipe);
+        this.recipeListManager.updateRecipe(index, newRecipe);
         this.onRecipeListChange();
     }
 
@@ -312,7 +316,7 @@ public class DataAccess implements Observabel
 
     public Article getArticleFromRecipe(String recipeName, int articleIndex)
     {
-        Recipe recipe = (Recipe) recipeListService.getItem(recipeName);
+        Recipe recipe = (Recipe) recipeListManager.getItem(recipeName);
         return recipe.getArticles().get(articleIndex);
     }
 
@@ -324,14 +328,14 @@ public class DataAccess implements Observabel
      */
     public ArrayList<Recipe> getRecipeList()
     {
-        return this.recipeListService.getItemList();
+        return this.recipeListManager.getItemList();
     }
 
     public void addRecipeFromRecipeToToCookList(int index)
     {
-      Recipe recipe = (Recipe) this.recipeListService.getItem(index);
+      Recipe recipe = (Recipe) this.recipeListManager.getItem(index);
       ArrayList neededArticles = recipe.getArticles();
-      ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
+      ArrayList notAvailableArticles = this.availableListManager.getListOfNotAvailableArticles(neededArticles);
 
       Log.d(TAG, ": addRecipeFromRecipeToToCookList: before if-clause");
 
@@ -347,7 +351,7 @@ public class DataAccess implements Observabel
         Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, before we set up!");
         recipe.setOnToCook(true);
         Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, after setOnToCook(true)");
-        this.toCookListService.addRecipeIntelligent(recipe);
+        this.toCookListManager.addRecipeIntelligent(recipe);
         Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, after addRecipeIntelligent(recipe)");
       }
       this.onToCookListChange();
@@ -357,35 +361,32 @@ public class DataAccess implements Observabel
 
     public void deleteArticlesWhenCooked(int position)
     {
-      Recipe recipe = (Recipe) this.toCookListService.getItem(position);
+      Recipe recipe = (Recipe) this.toCookListManager.getItem(position);
       ArrayList neededArticles = recipe.getArticles();
 
       for(int i = 0; i < neededArticles.size(); i++)
       {
         // hier müssen entsprechende Article von AvailableList entfernt werden
       }
-
-
-
     }
 
 
   public void recipeToShoppingList(int index)
     {
-        Recipe  recipe   = (Recipe) this.recipeListService.getItem(index);
+        Recipe  recipe   = (Recipe) this.recipeListManager.getItem(index);
         ArrayList neededArticles = recipe.getArticles();
-        ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
-        this.shoppingListService.addSeveralArticlesIntelligent(notAvailableArticles);
+        ArrayList notAvailableArticles = this.availableListManager.getListOfNotAvailableArticles(neededArticles);
+        this.shoppingListManager.addSeveralArticlesIntelligent(notAvailableArticles);
         this.onShoppingListChange();
         this.onRecipeListChange();
     }
 
     public void deleteFromToCook(int position)
     {
-      Recipe recipe = (Recipe) this.toCookListService.getItem(position);
+      Recipe recipe = (Recipe) this.toCookListManager.getItem(position);
       recipe.setOnToCook(false);
 
-      ArrayList<Recipe> tempRecipeList = this.recipeListService.getItemList();
+      ArrayList<Recipe> tempRecipeList = this.recipeListManager.getItemList();
 
       for (int i = 0; i < tempRecipeList.size(); i++)
       {
@@ -394,7 +395,7 @@ public class DataAccess implements Observabel
           break;
         }
       }
-      this.toCookListService.removeItem(position);
+      this.toCookListManager.removeItem(position);
       this.onToCookListChange();
       this.onRecipeListChange();
     }
@@ -506,9 +507,9 @@ public class DataAccess implements Observabel
 
     public void overrideShoppingListCompletely(ArrayList<Article> synchronizedList)
     {
-        this.shoppingListService.overrideListCompletely(synchronizedList);
+        this.shoppingListManager.overrideListCompletely(synchronizedList);
     }
 
-    public ArrayList<Recipe> getToCookList(){ return this.toCookListService.getItemList();}
+    public ArrayList<Recipe> getToCookList(){ return this.toCookListManager.getItemList();}
 
 }

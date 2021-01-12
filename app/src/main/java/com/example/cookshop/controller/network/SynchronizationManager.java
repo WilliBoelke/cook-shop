@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -126,7 +126,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      * instance of the model,
      * passed through the constructor to enable testing
      */
-    private DataAccess dataAccessInstance;
+    private ApplicationController applicationControllerInstance;
 
     /**
      * There are two states, sender and receiver
@@ -144,7 +144,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     //------------Constructors------------
 
 
-    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnSyncFinishedCallback<Article> onSyncFinished, DataAccess dataAccess)
+    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnSyncFinishedCallback<Article> onSyncFinished, ApplicationController applicationController)
     {
         Log.d(TAG, "Initialize SyncManager");
         this.networkConnection = networkConnection;
@@ -153,7 +153,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.onSyncFinished = onSyncFinished;
         Log.d(TAG, "Starting NetworkConnection as server");
         networkConnection.startServer();
-        this.dataAccessInstance = dataAccess;
+        this.applicationControllerInstance = applicationController;
         networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
@@ -332,7 +332,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
 
         //SEND
 
-        ArrayList<Article> shoppingList =dataAccessInstance.getBuyingList();
+        ArrayList<Article> shoppingList = applicationControllerInstance.getBuyingList();
         for (Article a: shoppingList)
         {
             Log.d(TAG, "sendArticles: pattern" + a.getMementoPattern() );
@@ -380,7 +380,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             //It then will send the complete list, including our article back to here.
             //so we can just replace the whole list without the nned of comparing it again
             Log.d(TAG, "synchronize: started as sender, saving articles ");
-            dataAccessInstance.overrideShoppingListCompletely(receivedArticles);
+            applicationControllerInstance.overrideShoppingListCompletely(receivedArticles);
         }
         else
         {
@@ -402,13 +402,13 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                  * I will compare the Articles name Name if they are in both lists i will take the one with the more recent "lastUpdateDate"
                  * And write a information about it into the description.
                  */
-                for (int index = 0; index < dataAccessInstance.getBuyingList().size(); index++)
+                for (int index = 0; index < applicationControllerInstance.getBuyingList().size(); index++)
                 {
 
                     if(!matched)
                     {
                         // Get the Article once to minimize method calls
-                        Article tempArticle = dataAccessInstance.getBuyingList().get(index);
+                        Article tempArticle = applicationControllerInstance.getBuyingList().get(index);
 
                         //save the names of both articles / trimmed and in lowercase
                         String trimmedArticleName = a.getName().trim().toLowerCase();
@@ -441,13 +441,13 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             for (Integer i : toDeleteIndex)
             {
                 Log.d(TAG, "Delete article at " + i);
-                dataAccessInstance.deleteArticleShoppingList(i.intValue());
+                applicationControllerInstance.deleteArticleShoppingList(i.intValue());
             }
             for (Article a: toAddArticles)
             {
                 Log.d(TAG, "Add article with name  "+ a.getName());
                 Log.d(TAG, "Add article with date  "+ a.getDateOfUpdate());
-                dataAccessInstance.addArticleToShoppingList(a);
+                applicationControllerInstance.addArticleToShoppingList(a);
             }
         }
     }

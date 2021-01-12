@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.recipeViewUpdateAdd.AddRecipeActivity;
 import com.example.cookshop.view.recipeViewUpdateAdd.RecipeViewer;
 import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
@@ -36,7 +36,7 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        DataAccess.getInstance().registerOnRecipeListChangeListener(this);
+        ApplicationController.getInstance().registerOnRecipeListChangeListener(this);
     }
 
     @Override
@@ -65,12 +65,12 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     @Override
     public void onDestroy(){
       super.onDestroy();
-      DataAccess.getInstance().unregisterOnRecipeListChangeListener(this);
+      ApplicationController.getInstance().unregisterOnRecipeListChangeListener(this);
     }
 
     @Override
     protected ArrayList<Recipe> getCorrespondingList() {
-      return DataAccess.getInstance().getRecipeList();
+      return ApplicationController.getInstance().getRecipeList();
     }
 
     @Override
@@ -87,11 +87,11 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
       // prüfen ob alle artikel available falls ja, rezept auf tocook, falls nicht
       swipeCallbackLeft = position -> {
         Log.e(TAG, ": setupSwipeGestures(): Left");
-        DataAccess.getInstance().addRecipeFromRecipeToToCookList(position);
+        ApplicationController.getInstance().addRecipeFromRecipeToToCookList(position);
       };
 
       swipeCallbackRight = position -> {
-        DataAccess.getInstance().deleteRecipe(position);
+        ApplicationController.getInstance().deleteRecipe(position);
       };
 
     }

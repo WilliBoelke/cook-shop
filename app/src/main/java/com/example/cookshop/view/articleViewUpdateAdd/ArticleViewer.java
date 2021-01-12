@@ -20,7 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.cookshop.R;
 import com.example.cookshop.controller.viewController.ArticleController;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.text.SimpleDateFormat;
@@ -197,16 +197,16 @@ public class ArticleViewer extends AppCompatActivity {
     {
         if (belonging.equals("buy"))
         {
-            viewedArticle = DataAccess.getInstance().getArticleFromShoppingList(position);
+            viewedArticle = ApplicationController.getInstance().getArticleFromShoppingList(position);
         }
         else if (belonging.equals("available"))
         {
-            viewedArticle = DataAccess.getInstance().getArticleFromAvailableList(position);
+            viewedArticle = ApplicationController.getInstance().getArticleFromAvailableList(position);
         }
         else
         {
             //Recipe
-            viewedArticle = DataAccess.getInstance().getArticleFromRecipe(belonging, position);
+            viewedArticle = ApplicationController.getInstance().getArticleFromRecipe(belonging, position);
         }
     }
 

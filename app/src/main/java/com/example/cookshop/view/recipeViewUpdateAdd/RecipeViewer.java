@@ -13,8 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.cookshop.R;
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.items.Step;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.adapter.ArticleSectionPagerAdapter;
 import com.example.cookshop.view.adapter.StepsSectionPagerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,7 +44,7 @@ public class RecipeViewer extends AppCompatActivity {
     belonging = intent.getStringExtra("belonging");
     position = intent.getIntExtra("position", -1);
 
-    recipeController = new RecipeController(DataAccess.getInstance());
+    recipeController = new RecipeController(ApplicationController.getInstance());
     this.viewedRecipe = recipeController.getRecipe(position);
     this.toolbar = findViewById(R.id.toolbar);
     this.description = findViewById(R.id.description_textview);

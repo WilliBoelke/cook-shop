@@ -455,7 +455,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
         String createArticleTable = "CREATE TABLE IF NOT EXISTS " + TABLE_ARTICLE + " (" + COLUMN_ARTICLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ARTICLE_NAME + " TEXT NOT NULL, " +
                 COLUMN_ARTICLE_DESCRIPTION + " TEXT, " +
-                COLUMN_ARTICLE_AMOUNT + " INEGER,  " +
+                COLUMN_ARTICLE_AMOUNT + " INTEGER,  " +
                 COLUMN_ARTICLE_WEIGHT + " REAL,  " +
                 COLUMN_ARTICLE_CATEGORY + " TEXT, " +
                 COLUMN_ARTICLE_CREATION_DATE + " TEXT, " +
