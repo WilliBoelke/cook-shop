@@ -8,7 +8,9 @@ import com.example.cookshop.items.Recipe;
 import com.example.cookshop.model.Observabel;
 import com.example.cookshop.model.Observer;
 import com.example.cookshop.model.database.DatabaseHelper;
+import com.example.cookshop.view.main.FragmentToCookList;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
@@ -33,14 +35,15 @@ public class DataAccess implements Observabel
     private AvailableListManager availableListService;
     private RecipeListManager recipeListService;
     private ShoppingListManager shoppingListService;
+    private ToCookListManager toCookListService;
 
     private static ArrayList<Observer> onRecipeListChangeListener;
     private static ArrayList<Observer> onAvailableListChangeListener;
     private static ArrayList<Observer> onBuyingListChangeListener;
+    private static ArrayList<Observer> onToCookListChangeListener;
 
 
-
-    //....Constructor..........
+  //....Constructor..........
 
 
     /**
@@ -51,18 +54,21 @@ public class DataAccess implements Observabel
 
     }
 
-    public void initialize(Context context, RecipeListManager recipeListService, ShoppingListManager shoppingListService, AvailableListManager availableListService)
+    public void initialize(Context context, RecipeListManager recipeListService, ShoppingListManager shoppingListService, AvailableListManager availableListService,
+                           ToCookListManager toCookListService)
     {
             DatabaseHelper databaseService = new DatabaseHelper(context);
 
             this.availableListService = availableListService;
             this.shoppingListService = shoppingListService;
             this.recipeListService = recipeListService;
+            this.toCookListService = toCookListService;
 
             //Observer Lists :
             onAvailableListChangeListener = new ArrayList<>();
             onBuyingListChangeListener = new ArrayList<>();
             onRecipeListChangeListener = new ArrayList<>();
+            onToCookListChangeListener = new ArrayList<>();
 
             if(onRecipeListChangeListener==null){
               Log.e(TAG,"onRecipeListChangeListener is null (initialize)");
@@ -323,14 +329,46 @@ public class DataAccess implements Observabel
         return this.recipeListService.getItemList();
     }
 
-    public void recipeToBuyingList(int index)
+    public void addRecipeFromRecipeToToCookList(int index){
+      Recipe recipe = (Recipe) this.recipeListService.getItem(index);
+      ArrayList neededArticles = recipe.getArticles();
+      ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
+      if(notAvailableArticles.size()!=0){
+        Article article = (Article) notAvailableArticles.get(0);
+        Log.e(TAG, ": addRecipeFromRecipeToToCookList: neededArticles!=null: " + article.getName());
+        recipeToBuyingList(index);
+        this.onShoppingListChange();
+      }else{
+        this.toCookListService.addItem(recipe);
+        this.onToCookListChange();
+      }
+      this.onRecipeListChange();
+
+    }
+
+    public void deleteArticlesWhenCooked(int position)
+    {
+      Recipe recipe = (Recipe) this.toCookListService.getItem(position);
+      ArrayList neededArticles = recipe.getArticles();
+
+      for(int i = 0; i < neededArticles.size(); i++)
+      {
+        // hier müssen entsprechende Article von AvailableList entfernt werden
+      }
+
+
+
+    }
+
+
+  public void recipeToBuyingList(int index)
     {
         Recipe  recipe   = (Recipe) this.recipeListService.getItem(index);
         ArrayList neededArticles = recipe.getArticles();
         ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
         this.shoppingListService.addSeveralArticlesIntelligent(notAvailableArticles);
         this.onShoppingListChange();
-        this.onRecipeListChange(); // To Reset the swipe
+        this.onRecipeListChange();
     }
 
     @Override
@@ -342,7 +380,7 @@ public class DataAccess implements Observabel
       if(onRecipeListChangeListener==null){
         Log.e(TAG,"onRecipeListChangeListener is null");
       }
-
+      Log.e(TAG, ": registerOnRecipeListChangeListener");
       onRecipeListChangeListener.add(observer);
     }
 
@@ -377,6 +415,28 @@ public class DataAccess implements Observabel
     }
 
     @Override
+    public void registerOnToCookListChangeListener(Observer observer)
+    {
+        if(observer==null){
+          Log.e(TAG, ": registerOnToCookListchangeListener: Observer = null");
+        }else{
+          Log.e(TAG, ": registerOnToCookListchangeListener: Observer != null");
+        }
+      if(onToCookListChangeListener==null){
+        Log.e(TAG, ": registerOnToCookListchangeListener: onToCookListChangeListener = null");
+      }else{
+        Log.e(TAG, ": registerOnToCookListchangeListener: onToCookListChangeListener != null");
+      }
+        onToCookListChangeListener.add(observer);
+    }
+
+    @Override
+    public void unregisterOnToCookListChangeListener(Observer observer)
+    {
+        onToCookListChangeListener.remove(observer);
+    }
+
+  @Override
     public void onAvailableListChange()
     {
         for (int i = 0; i < this.onAvailableListChangeListener.size(); i++)
@@ -403,12 +463,25 @@ public class DataAccess implements Observabel
         }
     }
 
+    @Override
+    public void onToCookListChange()
+    {
+      for (int i = 0; i < this.onToCookListChangeListener.size(); i++)
+      {
+        this.onToCookListChangeListener.get(i).onChange();
+      }
+    }
 
-    //....Synchronization..........
+
+  //....Synchronization..........
 
 
     public void overrideShoppingListCompletely(ArrayList<Article> synchronizedList)
     {
         this.shoppingListService.overrideListCompletely(synchronizedList);
     }
+
+    public ArrayList<Recipe> getToCookList(){ return this.toCookListService.getItemList();}
+
+
 }

@@ -24,13 +24,15 @@
         android:id="@+id/add_item_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
         android:background="?attr/colorPrimary"
         android:backgroundTint="?attr/colorPrimary"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="@+id/article_recycler"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/icon_add"/>
+        android:src="@drawable/icon_add"
+        android:focusable="true"
+        android:contentDescription="Button to add something" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.cookshop.view.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,7 +142,7 @@ public abstract class FragmentArticleList extends Fragment implements Observer
 
     private void setupRecyclerView()
     {
-
+        Log.e(TAG, ": setupRecyclerView()");
         recyclerView = view.findViewById(R.id.article_recycler);
         recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerAdapter = this.initializeRecyclerViewAdapter();
