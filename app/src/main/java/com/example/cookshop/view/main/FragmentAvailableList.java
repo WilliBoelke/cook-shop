@@ -28,7 +28,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     /**
      * Log Tag
      */
-    private final String TAG = "FragmentShoppingList";
+    private final String TAG = this.getClass().getSimpleName();
 
 
     //------------Constructors------------
@@ -85,6 +85,7 @@ public class FragmentAvailableList extends FragmentArticleList {
     @Override
     protected ArticleRecyclerViewAdapter initializeRecyclerViewAdapter()
     {
+        Log.e(TAG, getContext().toString());
         return new ArticleRecyclerViewAdapter(this.getCorrespondingList(), this.getContext());
     }
 

@@ -1,5 +1,10 @@
 package com.example.cookshop.model;
 
+import com.example.cookshop.items.Recipe;
+import com.example.cookshop.view.main.FragmentToCookList;
+
+import java.util.ArrayList;
+
 public interface Observabel
 {
         void registerOnRecipeListChangeListener(Observer observer);
@@ -19,10 +24,15 @@ public interface Observabel
 
         void unregisterOnAvailableListChangeListener(Observer observer);
 
+        void registerOnToCookListChangeListener(Observer observer);
+
+        void unregisterOnToCookListChangeListener(Observer observer);
 
         void onAvailableListChange();
 
         void onShoppingListChange();
 
         void onRecipeListChange();
+
+        void onToCookListChange();
 }
