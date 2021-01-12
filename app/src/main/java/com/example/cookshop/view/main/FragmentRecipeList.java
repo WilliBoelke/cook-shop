@@ -42,7 +42,12 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      return super.onCreateView(inflater, container, savedInstanceState);
+      view = inflater.inflate(R.layout.main_fratgment_list, container, false);
+      setupSwipeGestures();
+      setupRecyclerView();
+      setupAddFab();
+      return view;
+      //return super.onCreateView(inflater, container, savedInstanceState);
       //return inflater.inflate(R.layout.main_fratgment_list, container, false);
     }
 

@@ -20,6 +20,7 @@
 
     <!--warnings-->
     <string name="no_name_warning">You need to insert at least the name</string>
+    <string name="no_name_and_descr_warning" translatable="false">You need to insert name and description</string>
 
     <string name="title_home">Home</string>
     <string name="name">Name</string>

@@ -50,12 +50,18 @@ public abstract class FragmentRecipeTypeAbstract extends Fragment implements Obs
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-    Log.e(TAG, ": onCreateView()");
-    view = inflater.inflate(R.layout.main_fratgment_list, container, false);
+    Log.e(TAG, ": onCreateView() (super) ");
+    /*if(TAG == "FragmentToCookList"){
+      Log.e(TAG, ": onCreateView()(super): in if Bracket.");
+      view= inflater.inflate(R.layout.main_fratgment_list_no_button, container, false);
+    }else{
+      view = inflater.inflate(R.layout.main_fratgment_list, container, false);
+    }*/
 
-    setupSwipeGestures();
+
+    /*setupSwipeGestures();
     setupRecyclerView();
-    setupAddFab();
+    setupAddFab();*/
 
     return view;
   }
@@ -70,7 +76,7 @@ public abstract class FragmentRecipeTypeAbstract extends Fragment implements Obs
 
   protected abstract void setupAddFab();
 
-  private void setupRecyclerView()
+  protected void setupRecyclerView()
   {
 
     recyclerView = view.findViewById(R.id.article_recycler);

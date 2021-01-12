@@ -3,6 +3,7 @@ package com.example.cookshop.view.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +36,19 @@ public class FragmentToCookList extends FragmentRecipeTypeAbstract {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-      DataAccess.getInstance().registerOnToCookListChangeListener(this);
+        DataAccess.getInstance().registerOnToCookListChangeListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.main_fratgment_list, container, false);
+      view = inflater.inflate(R.layout.main_fratgment_list_no_button, container, false);
+      setupSwipeGestures();
+      setupRecyclerView();
+      //setupAddFab();
+      return view;
+        //super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -64,6 +70,9 @@ public class FragmentToCookList extends FragmentRecipeTypeAbstract {
 
     @Override
     protected ArrayList<Recipe> getCorrespondingList(){
+      if(DataAccess.getInstance().getToCookList().size()==0){
+        Log.e(TAG, ": getCorrespondingList(): ToCookList empty!");
+      }
       return DataAccess.getInstance().getToCookList();
     }
 
@@ -81,18 +90,21 @@ public class FragmentToCookList extends FragmentRecipeTypeAbstract {
       swipeCallbackLeft = position -> {
         DataAccess.getInstance().deleteArticlesWhenCooked(position);
       };
+      swipeCallbackRight = position -> {
+        DataAccess.getInstance().deleteFromToCook(position);
+      };
     }
 
     @Override
     protected void setupAddFab()
     {
-
+      Log.e(TAG, ": setupAddFab ( empty)");
     }
 
 
     @Override
     public void onChange()
     {
-
+      this.recyclerAdapter.notifyDataSetChanged();
     }
 }

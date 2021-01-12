@@ -149,12 +149,12 @@ public class AddRecipeActivity extends AppCompatActivity {
     if (recipeController.checkUserInput(nameTextView.getText().toString(), descriptionTextView.getText().toString()))
     {
       Recipe recipe = recipeController.generateRecipeFromInput(nameTextView.getText().toString(), descriptionTextView.getText().toString(), articleList, stepList);
-     this.recipeController.addRecipe(recipe);
+      this.recipeController.addRecipe(recipe);
       finish();
     }
     else
     {
-      Snackbar.make(view, R.string.no_name_warning, Snackbar.LENGTH_LONG)
+      Snackbar.make(view, R.string.no_name_and_descr_warning, Snackbar.LENGTH_LONG)
         .setAction("Action", null).show();
     }
   }

@@ -111,7 +111,6 @@ public abstract class ItemListManager<T extends Item & Comparable<T>>
      */
     protected void removeItem(int position)
     {
-        this.removeItemFromDatabase(itemList.get(position).getName());
         itemList.remove(position);
     }
 

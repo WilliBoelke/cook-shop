@@ -333,15 +333,20 @@ public class DataAccess implements Observabel
       Recipe recipe = (Recipe) this.recipeListService.getItem(index);
       ArrayList neededArticles = recipe.getArticles();
       ArrayList notAvailableArticles = this.availableListService.getListOfNotAvailableArticles(neededArticles);
+      Log.d(TAG, ": addRecipeFromRecipeToToCookList: before if-clause");
       if(notAvailableArticles.size()!=0){
         Article article = (Article) notAvailableArticles.get(0);
-        Log.e(TAG, ": addRecipeFromRecipeToToCookList: neededArticles!=null: " + article.getName());
+        Log.d(TAG, ": addRecipeFromRecipeToToCookList: neededArticles!=null: " + article.getName());
         recipeToBuyingList(index);
         this.onShoppingListChange();
       }else{
-        this.toCookListService.addItem(recipe);
-        this.onToCookListChange();
+        Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, before we set up!");
+        recipe.setOnToCook(true);
+        Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, after setOnToCook(true)");
+        this.toCookListService.addRecipeIntelligent(recipe);
+        Log.d(TAG, ": addRecipeFromRecipeToToCookList: else, after addRecipeIntelligent(recipe)");
       }
+      this.onToCookListChange();
       this.onRecipeListChange();
 
     }
@@ -369,6 +374,25 @@ public class DataAccess implements Observabel
         this.shoppingListService.addSeveralArticlesIntelligent(notAvailableArticles);
         this.onShoppingListChange();
         this.onRecipeListChange();
+    }
+
+    public void deleteFromToCook(int position)
+    {
+      Recipe recipe = (Recipe) this.toCookListService.getItem(position);
+      recipe.setOnToCook(false);
+
+      ArrayList<Recipe> tempRecipeList = this.recipeListService.getItemList();
+
+      for (int i = 0; i < tempRecipeList.size(); i++)
+      {
+        if(recipe.getName().equals(tempRecipeList.get(i).getName())){
+          this.updateRecipe(i, recipe);
+          break;
+        }
+      }
+      this.toCookListService.removeItem(position);
+      this.onToCookListChange();
+      this.onRecipeListChange();
     }
 
     @Override
@@ -482,6 +506,5 @@ public class DataAccess implements Observabel
     }
 
     public ArrayList<Recipe> getToCookList(){ return this.toCookListService.getItemList();}
-
 
 }
