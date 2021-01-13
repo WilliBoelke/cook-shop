@@ -491,7 +491,7 @@ public class BluetoothConnection  implements NetworkConnection
                 catch (IOException e)
                 {
                     Log.e(TAG, "ConnectedThread: run: Problem reading from input stream" + e.getMessage());
-                    //break;
+                    mOnReceiveCallback.onIncomingMessage(SynchronizationManager.DISCONNECT);
                 }
             }
         }

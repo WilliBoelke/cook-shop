@@ -142,8 +142,16 @@ public class SynchronizeActivity extends AppCompatActivity
             @Override
             public void onSyncFinished(ArrayList<Article> syncedList, String result)
             {
-                progressBar.setVisibility(View.INVISIBLE);
-                msgTextView.setText("The lists are synchronized");
+                if(result.equals(OnSyncFinishedCallback.RESULT_OKAY))
+                {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    msgTextView.setText("The lists are synchronized");
+                }
+                else if(result.equals(OnSyncFinishedCallback.RESULT_ERROR))
+                {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    msgTextView.setText("The connetcion failed and the list Synchronization was sopped");
+                }
             }
         }, ApplicationController.getInstance());
 

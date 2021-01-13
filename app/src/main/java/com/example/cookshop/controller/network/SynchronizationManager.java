@@ -115,12 +115,18 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     /*
      * The ACK send after each received article
      */
-    private final String ACKNOWLEDGED = "ACK";
+    public static final String ACKNOWLEDGED = "ACK";
 
     /**
      * The FIN send after all articles are transferred
      */
-    private final String FINISHED = "FIN";
+    public static final String FINISHED = "FIN";
+
+    /**
+     * If the in/output stream closes unexpected unexpected
+     * the BluetoothConnection writes that
+     */
+    public static final String DISCONNECT="DISCONN";
 
     /**
      * instance of the model,
@@ -139,6 +145,15 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      * Stops the doInBackground method
      */
     private boolean isCancelled = false;
+
+    /**
+     * True when the out- or input stream closes unexpected
+     * @param networkConnection
+     * @param device
+     * @param onSyncFinished
+     * @param applicationController
+     */
+    private boolean disconnected = false;
 
 
     //------------Constructors------------
@@ -182,8 +197,16 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     {
         Log.d(TAG, "onPostExecute:");
         super.onPostExecute(s);
-        this.networkConnection.closeConnection();
-        this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_OKAY);
+        if(!disconnected)
+        {
+            this.networkConnection.closeConnection();
+            this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_OKAY);
+        }
+        else
+        {
+            this.networkConnection.closeConnection();
+            this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_ERROR);
+        }
     }
 
     @Override
@@ -276,6 +299,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                             SynchronizationManager.this.notify();
                         }
                     }
+                    else if(Message.equals(DISCONNECT))
+                    {
+                        disconnected = true;
+                    }
                     else
                     {
                         Log.d(TAG, "Received Patter = " + Message);
@@ -326,6 +353,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                         SynchronizationManager.this.notify();
                     }
                 }
+                else if(Message.equals(DISCONNECT))
+                {
+                    disconnected = true;
+                }
             }
         });
 
@@ -372,7 +403,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private void synchronize()
     {
         Log.d(TAG, "synchronize");
-
+        if(disconnected)
+        {
+            return; //No sync when disconnected
+        }
         if(startedAsSender)
         {
             //If we started as sender, the remote device will already have compared his list

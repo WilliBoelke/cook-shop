@@ -9,11 +9,11 @@ import static org.junit.Assert.*;
 
 public class StepTest
 {
-    Step testStep1;
-    Step testStep2;
-    Step testStep3;
-    Step testStep4;;
-    Step testStep5;
+   private  Step testStep1;
+   private  Step testStep2;
+   private  Step testStep3;
+   private Step testStep4;;
+   private  Step testStep5;
 
     @Before
     public void setUp() throws Exception
