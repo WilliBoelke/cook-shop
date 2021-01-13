@@ -363,6 +363,87 @@ public class RecipeTests
 
 
     @Test
+    public void recipeToShoppingList()
+    {
+        //Go to recipeList
+        onView(withId(R.id.nav_recipes)).perform(click());
+
+        // Go to AddRecipe
+        onView(withId(R.id.add_item_fab)).perform(click());
+
+        //Add only A name
+        onView(withId(R.id.description_edittext)).perform(typeText("TestRecipeDescription"));
+        onView(withId(R.id.name_edittext)).perform(typeText("TestRecipe"));
+        Espresso.pressBack();// HideKeyboard
+
+        //addArticle
+        addArticleToRecipe("Article1");
+        addArticleToRecipe("Article2");
+        addArticleToRecipe("Article3");
+
+        onView(withId(R.id.fab)).perform(click());
+
+        //ToCookList
+        onView(withId(R.id.recipe_recycler_constraint)).perform(swipeLeft());
+
+        //Go to recipeList
+        onView(withId(R.id.nav_shopping)).perform(click());
+
+        onView(withText("Article1")).check(matches(isDisplayed()));
+        onView(withText("Article2")).check(matches(isDisplayed()));
+        onView(withText("Article3")).check(matches(isDisplayed()));
+
+    }
+
+
+    @Test
+    public void recipeToShoppingListWithAlreadyAvailableArticles()
+    {
+        //Go to recipeList
+        onView(withId(R.id.nav_recipes)).perform(click());
+
+        // Go to AddRecipe
+        onView(withId(R.id.add_item_fab)).perform(click());
+
+        //Add only A name
+        onView(withId(R.id.description_edittext)).perform(typeText("TestRecipeDescription"));
+        onView(withId(R.id.name_edittext)).perform(typeText("TestRecipe"));
+        Espresso.pressBack();// HideKeyboard
+
+        //addArticle
+        addArticleToRecipe("Article1");
+        addArticleToRecipe("Article2");
+        addArticleToRecipe("Article3");
+
+        onView(withId(R.id.fab)).perform(click());
+
+        //ToCookList
+        onView(withId(R.id.recipe_recycler_constraint)).perform(swipeLeft());
+
+        //Go to recipeList
+        onView(withId(R.id.nav_shopping)).perform(click());
+
+        onView(withText("Article1")).perform(swipeRight());
+        onView(withText("Article2")).perform(swipeRight());
+        onView(withText("Article3")).perform(swipeLeft());
+
+        //Go to recipeList
+        onView(withId(R.id.nav_recipes)).perform(click());
+
+        //ToCookList
+        onView(withId(R.id.recipe_recycler_constraint)).perform(swipeLeft());
+
+        //Go to recipeList
+        onView(withId(R.id.nav_shopping)).perform(click());
+
+        onView(withText("Article1")).check(matches(isDisplayed()));
+        onView(withText("Article2")).check(matches(isDisplayed()));
+        onView(withText("Article3")).check(doesNotExist());
+
+    }
+
+
+    @Test
     public void recipeToToCookList()
     {
         //Go to recipeList
@@ -388,11 +469,33 @@ public class RecipeTests
 
         //Go to recipeList
         onView(withId(R.id.nav_shopping)).perform(click());
+
+        onView(withText("Article1")).perform(swipeLeft());
+        onView(withText("Article2")).perform(swipeLeft());
+        onView(withText("Article3")).perform(swipeLeft());
+
+        //Go to recipeList
+        onView(withId(R.id.nav_recipes)).perform(click());
+
+        //ToCookList
+        onView(withId(R.id.recipe_recycler_constraint)).perform(swipeLeft());
+
+        //Go to recipeList
+        onView(withId(R.id.nav_shopping)).perform(click());
+
+        onView(withText("Article1")).check(doesNotExist());
+        onView(withText("Article2")).check(doesNotExist());
+        onView(withText("Article3")).check(doesNotExist());
+
+        //Go to ToCook
+        onView(withId(R.id.nav_to_cook)).perform(click());
+
+        onView(withId(R.id.recipe_recycler_constraint)).check(matches(isDisplayed()));
+        onView(withText("TestRecipe")).check(matches(isDisplayed()));
+
+
+
     }
-
-
-
-
 
 
     private void addArticleToRecipe(String name)
@@ -419,6 +522,9 @@ public class RecipeTests
         Espresso.pressBack();// HideKeyboard
         onView(withId(R.id.add_step_fab)).perform(click());
     }
+
+
+
 
 
 }
