@@ -1,5 +1,6 @@
 package com.example.cookshop.controller;
 
-public interface Observer {
+public interface Observer
+{
     void onChange();
 }

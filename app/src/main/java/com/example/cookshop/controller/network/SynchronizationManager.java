@@ -172,7 +172,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onIncomingMessage(String message)
             {
                 //Noting to do here - just avoiding null pointer
             }
@@ -286,10 +286,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.thisOnReceiveCallback = new OnReceiveCallback()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onIncomingMessage(String message)
             {
-                    Log.d(TAG, "Received message = " + Message);
-                    if(Message.equals(FINISHED))
+                    Log.d(TAG, "Received message = " + message);
+                    if(message.equals(FINISHED))
                     {
                         Log.d(TAG, "Sender finished transmission, going to send mode");
                         sender = !sender;
@@ -299,14 +299,14 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                             SynchronizationManager.this.notify();
                         }
                     }
-                    else if(Message.equals(DISCONNECT))
+                    else if(message.equals(DISCONNECT))
                     {
                         disconnected = true;
                     }
                     else
                     {
-                        Log.d(TAG, "Received Patter = " + Message);
-                        Article newArticle = new Article(Message);
+                        Log.d(TAG, "Received Patter = " + message);
+                        Article newArticle = new Article(message);
                         Log.e(TAG, " Date 00 " + newArticle.getDateOfUpdate());
                         receivedArticles.add(newArticle);
                         networkConnection.write(ACKNOWLEDGED);
@@ -343,9 +343,9 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onIncomingMessage(String message)
             {
-                if(Message.equals(ACKNOWLEDGED))
+                if(message.equals(ACKNOWLEDGED))
                 {
                     Log.d(TAG, "sendArticles: onReceive: Article acknowledged");
                     synchronized (SynchronizationManager.this)
@@ -353,7 +353,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                         SynchronizationManager.this.notify();
                     }
                 }
-                else if(Message.equals(DISCONNECT))
+                else if(message.equals(DISCONNECT))
                 {
                     disconnected = true;
                 }
