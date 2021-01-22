@@ -46,7 +46,7 @@ public class RecipeListManager extends ItemListManager
     }
 
 
-    protected void updateRecipe(int index, Recipe newRecipe){
+    public void updateRecipe(int index, Recipe newRecipe){
       Recipe oldRecipe = (Recipe) this.getItem(index);
 
       this.getItemList().set(index, newRecipe);

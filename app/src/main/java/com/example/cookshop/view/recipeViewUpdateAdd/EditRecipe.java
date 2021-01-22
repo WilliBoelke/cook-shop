@@ -29,13 +29,12 @@ public class EditRecipe extends AddRecipeActivity {
   @Override
   public void onSaveButtonClick(View view){
 
-    Recipe updatedValues =
-      RecipeController.getInstance().generateRecipeFromInput(nameTextView, descriptionTextView, articleListAdapter, stepListAdapter);
+    Recipe updatedValues = this.recipeController.generateRecipeFromInput(nameTextView.getText().toString(), descriptionTextView.getText().toString(), articleList, stepList);
 
     if (!nameTextView.getText().toString().equals(""))
     {
       Log.d(TAG, " onSaveButtonclick: Position: "+position);
-      RecipeController.getInstance().updateRecipe(this.position, updatedValues);
+      this.recipeController.updateRecipe(this.position, updatedValues);
       finish();
 
     }

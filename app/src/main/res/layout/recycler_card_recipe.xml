@@ -11,38 +11,28 @@
     app:cardCornerRadius="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recipe_recycler_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
         android:focusable="false"
-        android:background="?attr/small_gradient_rounded_corner">
+        android:background="@drawable/gradient_article">
 
-
-        <ImageView
-            android:id="@+id/recipe_image"
-            android:layout_width="100dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/recipe_name_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:textSize="18sp"
-            android:textColor="?attr/textColorPrimary"
             android:fontFamily="@font/comfortaa"
+            android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/header2_font_size"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/recipe_image"
-            app:layout_constraintTop_toTopOf="@+id/recipe_image" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/recipe_description_textview"
@@ -52,8 +42,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:textColor="?attr/textColorSecondary"
             android:fontFamily="@font/comfortaa"
+            android:textColor="?attr/textColorSecondary"
+            android:textSize="@dimen/secondary_font_size"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

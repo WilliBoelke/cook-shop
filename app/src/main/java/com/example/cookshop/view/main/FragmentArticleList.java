@@ -1,6 +1,7 @@
 package com.example.cookshop.view.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.Observer;
-import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
-
+import com.example.cookshop.controller.Observer;
+import com.example.cookshop.view.adapter.ArticleRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.RecyclerAdapterSwipeGestures;
+import com.example.cookshop.view.adapter.SwipeCallbackLeft;
+import com.example.cookshop.view.adapter.SwipeCallbackRight;
 
 
 import java.util.ArrayList;
@@ -141,7 +144,7 @@ public abstract class FragmentArticleList extends Fragment implements Observer
 
     private void setupRecyclerView()
     {
-
+        Log.e(TAG, ": setupRecyclerView()");
         recyclerView = view.findViewById(R.id.article_recycler);
         recyclerLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerAdapter = this.initializeRecyclerViewAdapter();

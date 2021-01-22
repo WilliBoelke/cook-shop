@@ -33,7 +33,7 @@ public class AddStepActivity extends AppCompatActivity{
       name = findViewById(R.id.name_edittext);
       description = findViewById(R.id.description_edittext);
       timer = findViewById(R.id.timer_edittext);
-      addFab = findViewById(R.id.add_fab);
+      addFab = findViewById(R.id.add_article_fab);
     }
   }
 

@@ -23,8 +23,8 @@ import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
-import com.example.cookshop.view.recyclerViews.DeviceListAdapter;
+import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.view.adapter.DeviceListAdapter;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -142,10 +142,18 @@ public class SynchronizeActivity extends AppCompatActivity
             @Override
             public void onSyncFinished(ArrayList<Article> syncedList, String result)
             {
-                progressBar.setVisibility(View.INVISIBLE);
-                msgTextView.setText("The lists are synchronized");
+                if(result.equals(OnSyncFinishedCallback.RESULT_OKAY))
+                {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    msgTextView.setText("The lists are synchronized");
+                }
+                else if(result.equals(OnSyncFinishedCallback.RESULT_ERROR))
+                {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    msgTextView.setText("The connetcion failed and the list Synchronization was sopped");
+                }
             }
-        }, DataAccess.getInstance());
+        }, ApplicationController.getInstance());
 
     }
 

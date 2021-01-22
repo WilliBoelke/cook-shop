@@ -41,6 +41,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     {
         // creating the Database at first app start
         String createRecipeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" + COLUMN_RECIPE_NAME + " TEXT PRIMARY KEY, " +
+                COLUMN_RECIPE_ON_TO_COOK + " INTEGER, " +
                 COLUMN_RECIPE_DESCRIPTION + " TEXT );";
         String createArticleTable = "CREATE TABLE IF NOT EXISTS " + TABLE_ARTICLE + " (" + COLUMN_ARTICLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ARTICLE_NAME + " TEXT NOT NULL, " +
@@ -231,7 +232,11 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
                 do
                 {
                     String name = cursor.getString(cursor.getColumnIndex(COLUMN_RECIPE_NAME)); // I store the name in a variable because its needed 3 times (name for the recipe, to retrieve the steps and the articles)
-                    recipeArrayList.add(new Recipe(name, cursor.getString(cursor.getColumnIndex(COLUMN_RECIPE_DESCRIPTION)), retrieveAllArticlesFrom(name), retrieveAllStepsFrom(name)));
+                    Boolean onToCook = cursor.getInt(cursor.getColumnIndex(COLUMN_RECIPE_ON_TO_COOK)) !=0;
+                    Recipe recipe = new Recipe(name, cursor.getString(cursor.getColumnIndex(COLUMN_RECIPE_DESCRIPTION)), retrieveAllArticlesFrom(name), retrieveAllStepsFrom(name));
+                    recipe.setOnToCook(onToCook);
+                    recipeArrayList.add(recipe);
+
                 }
                 while (cursor.moveToNext());
             }
@@ -433,7 +438,9 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_RECIPE_NAME, recipe.getName());
+        contentValues.put(COLUMN_RECIPE_ON_TO_COOK, (recipe.getOnToCook() ?1:0));
         contentValues.put(COLUMN_RECIPE_DESCRIPTION, recipe.getDescription());
+
         return contentValues;
     }
 
@@ -443,11 +450,12 @@ public class DatabaseHelper  extends SQLiteOpenHelper implements  Database, Data
         SQLiteDatabase database  = this.getWritableDatabase();
 
         String createRecipeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_RECIPES + " (" + COLUMN_RECIPE_NAME + " TEXT PRIMARY KEY, " +
+                COLUMN_RECIPE_ON_TO_COOK + " INTEGER, " +
                 COLUMN_RECIPE_DESCRIPTION + " TEXT );";
         String createArticleTable = "CREATE TABLE IF NOT EXISTS " + TABLE_ARTICLE + " (" + COLUMN_ARTICLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_ARTICLE_NAME + " TEXT NOT NULL, " +
                 COLUMN_ARTICLE_DESCRIPTION + " TEXT, " +
-                COLUMN_ARTICLE_AMOUNT + " INEGER,  " +
+                COLUMN_ARTICLE_AMOUNT + " INTEGER,  " +
                 COLUMN_ARTICLE_WEIGHT + " REAL,  " +
                 COLUMN_ARTICLE_CATEGORY + " TEXT, " +
                 COLUMN_ARTICLE_CREATION_DATE + " TEXT, " +

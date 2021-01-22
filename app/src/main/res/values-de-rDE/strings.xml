@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cook &amp; Shop</string>
+    <string name="title_activity_main" translatable="false">Cook &amp; Shop</string>
+    <string name="fruit">Onst</string>
+    <string name="vegetable">Gemüse</string>
+    <string name="drink" translatable="false">Getränke</string>
+    <string name="meat">Fleisch</string>
+    <string name="other" translatable="false">Sonstiges</string>
+    <string name="no_name_warning" translatable="false">Es muss mindestens ein Name eingeben werden</string>
+    <string name="string_timer_warning" translatable="false">Der Timer muss in Sekunden angegeben werden!</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="name" translatable="false">Name</string>
+    <string name="description" translatable="false">Beschreibung</string>
+    <string name="amount" translatable="false">Anzahl</string>
+    <string name="weight">Gewicht</string>
+    <string name="new_article">Neuer Artikel</string>
+    <string name="new_step" translatable="false">Neuer Schritt</string>
+    <string name="timer">Timer</string>
+    <string name="timer_descriptional_text">Du kannst für jeden         Schritt einen Timer (in Sekunden) angeben. Wenn du         Später das Rezept nachkochst, kannst du den Timer         nutzen um dir mit einem Click eine Erinnerung zu erstellen</string>
+    <string name="step">Schritte</string>
+    <string name="article">Artikel</string>
+    <string name="add_article">Artikel hinzufügen</string>
+    <string name="synchronize">Synchronisieren</string>
+    <string name="synchronize_articles">"Synchronisiere deine Einkaufs- und Lagerliste via Bluetooth "</string>
+    <string name="synchronize_recipes">Synchronisiere alle deine Rezepte via Bluetooth</string>
+    <string name="add_step">Schritt hinzufügen</string>
+</resources>

@@ -44,6 +44,18 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
      */
     private ArrayList<Article> articles;
 
+    public Boolean getOnToCook()
+    {
+      return onToCook;
+    }
+
+    public void setOnToCook(Boolean onToCook)
+    {
+      this.onToCook = onToCook;
+  }
+
+  private Boolean onToCook;
+
 
     //....Constructor..........
     /**
@@ -65,6 +77,7 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
         this.setDescription(description);
         this.setArticles(ingreList);
         this.setSteps(stepsList);
+        if(onToCook==null){this.setOnToCook(false);}
     }
 
     /**
@@ -98,6 +111,8 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
         name = in.readString();
         description = in.readString();
         articles = in.createTypedArrayList(Article.CREATOR);
+        steps = in.createTypedArrayList(Step.CREATOR);
+        onToCook = in.readByte()!=0;
     }
 
 
@@ -218,6 +233,8 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
         dest.writeString(name);
         dest.writeString(description);
         dest.writeTypedList(articles);
+        dest.writeTypedList(steps);
+        dest.writeByte((byte) (onToCook ? 1 : 0)); //1 when true
     }
 
     public static Recipe deserialize(byte[] bytes) throws IOException, ClassNotFoundException

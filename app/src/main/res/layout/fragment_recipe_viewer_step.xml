@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
+    android:id="@+id/frame_layout_step_fragment"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@drawable/recycler_item_recipe_gradient">
+    android:background="@drawable/gradient_step">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/timer_fab"
@@ -42,8 +42,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:textColor="?attr/textColorPrimary"
         android:fontFamily="@font/comfortaa"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/primary_font_size"
         android:textStyle="normal"
         app:layout_constraintBottom_toTopOf="@+id/timer_textview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,8 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:textColor="?attr/textColorPrimary"
         android:fontFamily="@font/comfortaa"
+        android:textColor="?attr/textColorPrimary"
+        android:textSize="@dimen/secondary_font_size"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/timer_fab" />

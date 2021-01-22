@@ -1,13 +1,13 @@
 package com.example.cookshop.controller.applicationController;
 
-import android.content.Context;
-
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Recipe;
 
 import java.util.ArrayList;
 
-public interface Controller {
+public interface Controller
+{
+
 
     /**
      * Adds one article to the availableList (and database)
@@ -16,12 +16,14 @@ public interface Controller {
      */
     void addArticleToAvailableList(Article article);
 
+
     /**
      * deletes the article at index from the availableList (and database)
      *
      * @param index the index of the article
      */
     void deleteArticleFromAvailableList(int index);
+
 
     /**
      * returns the article at index
@@ -30,6 +32,7 @@ public interface Controller {
      * @return teh article at index
      */
     Article getArticleFromAvailableList(int index);
+
 
     //....BuyingListAccess..........
 
@@ -40,6 +43,7 @@ public interface Controller {
      * @return
      */
     Article getArticleFromAvailableList(String name);
+
 
     /**
      * return the complete ItemList from the availableLists service
@@ -56,18 +60,19 @@ public interface Controller {
     void updateArticleFromAvailableList(int index, Article newArticle);
 
     /**
-     * Adds one article to the buyingList(and database)
+     * Adds one article to the shopping(and database)
      *
      * @param article the article to be added
      */
-    void addArticleToBuyingList(Article article);
+    void addArticleToShoppingList(Article article);
+
 
     /**
-     * deletes the article at index from the buyingList (and database)
+     * deletes the article at index from the shopping list (and database)
      *
      * @param index the index of the article
      */
-    void deleteArticleFromBuyingList(int index);
+    void deleteArticleFromShoppingList(int index);
 
     /**
      * returns the article at index
@@ -75,7 +80,8 @@ public interface Controller {
      * @param index the list index
      * @return the article at index
      */
-    public Article getArticleFromBuyingList(int index);
+    Article getArticleFromShoppingList(int index);
+
 
     /**
      * Returns the article  with the name from the buyingList
@@ -83,7 +89,8 @@ public interface Controller {
      * @param name
      * @return
      */
-    Article getArticleFromBuyingList(String name);
+    Article getArticleFromShoppingList(String name);
+
 
     /**
      * return the complete ItemList from the buyingListService
@@ -91,13 +98,14 @@ public interface Controller {
      *
      * @return the ItemList of the buyingListService
      */
-    public ArrayList<Article> getBuyingList();
+    public ArrayList<Article> getShoppingList();
 
     /**
      * @param index
      * @param newArticle
      */
-    void updateArticleFromBuyingList(int index, Article newArticle);
+    void updateArticleFromShoppingList(int index, Article newArticle);
+
 
     //....exchange between the article list..........
 
@@ -108,7 +116,8 @@ public interface Controller {
      *
      * @param index
      */
-    void transferArticleFromBuyingToAvailableList(int index);
+    void transferArticleFromShoppingToAvailableList(int index);
+
 
     /**
      * Transfers one article from the available- to the buyingList
@@ -116,7 +125,8 @@ public interface Controller {
      *
      * @param index
      */
-    void transferArticleFromAvailableToBuyingList(int index);
+    void transferArticleFromAvailableToShoppingList(int index);
+
 
     //....Recipe List Access..........
 
@@ -130,14 +140,16 @@ public interface Controller {
     /**
      * deletes the recipe at index from the recipeList (and database)
      *
-     * @param index the index of the recipe
+     * @param index
+     *         the index of the recipe
      */
     void deleteRecipe(int index);
 
     /**
      * returns the recipe at index
      *
-     * @param index the list index
+     * @param index
+     *         the list index
      * @return the recipe at index
      */
     Recipe getRecipe(int index);
@@ -146,7 +158,10 @@ public interface Controller {
 
     void updateRecipe(int index, Recipe newRecipe);
 
+    //....Observer..........
+
     Article getArticleFromRecipe(String recipeName, int articleIndex);
+
 
     /**
      * returns the complete ItemList from the recipeListService
@@ -156,8 +171,19 @@ public interface Controller {
      */
     ArrayList<Recipe> getRecipeList();
 
+    void addRecipeFromRecipeToToCookList(int index);
 
-    void recipeToBuyingList(int index);
+    void deleteArticlesWhenCooked(int position);
 
+
+    void recipeToShoppingList(int index);
+
+    void deleteFromToCook(int position);
+
+    void overrideShoppingListCompletely(ArrayList<Article> synchronizedList);
+
+     ArrayList<Recipe> getToCookList();
 }
+
+
 

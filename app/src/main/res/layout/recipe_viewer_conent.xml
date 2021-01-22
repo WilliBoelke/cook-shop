@@ -50,6 +50,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="TextView"
                     android:textColor="?attr/textColorPrimary"
+                    android:textSize="@dimen/primary_font_size"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="10dp"
@@ -103,8 +105,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="5dp"
             app:cardElevation="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/add_article_fab"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -128,8 +132,10 @@
                     android:layout_marginBottom="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -141,8 +147,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/step"
             android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/header2_font_size"
+            app:layout_constraintBottom_toTopOf="@+id/content_card_steps"
             app:layout_constraintStart_toStartOf="@+id/content_card_articles"
             app:layout_constraintTop_toBottomOf="@+id/content_card_description" />
 
@@ -152,10 +161,29 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/article"
             android:textColor="?attr/textColorPrimary"
+            android:textSize="@dimen/header2_font_size"
+            app:layout_constraintBottom_toTopOf="@+id/content_card_articles"
             app:layout_constraintStart_toStartOf="@+id/content_card_articles"
             app:layout_constraintTop_toBottomOf="@+id/content_card_steps" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_article_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="346dp"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:clickable="true"
+            android:onClick="onEditButtonClick"
+            android:translationZ="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
+            android:src="@drawable/icon_edit"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

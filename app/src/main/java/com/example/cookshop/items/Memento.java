@@ -1,19 +1,17 @@
 package com.example.cookshop.items;
 
 
-import java.text.ParseException;
 
 /**
  * This interface prescribes a method to get the memento pattern of an Object
  * and another one to set all values of an object to the values given by a memento pattern.
  * <p>
  * This interface will be implemented by any {@link Item} class, witch are currently
- * {@link Article} and {@link Recipe}
+ * {@link Article} , {@link Step} and {@link Recipe}
  * <p>
  * Furthermore it provides final string values, which will be used
  * as delimiters  to separate memento pattern obj objects from different classes.
  *
- * @author willi
  */
 public interface Memento
 {
@@ -53,5 +51,5 @@ public interface Memento
     /**
      * Sets all values of an Objects to the values given by the mementoPattern
      */
-    void setObjectFromMementoPattern(String mementoPattern) throws ParseException;
+    void setObjectFromMementoPattern(String mementoPattern) ;
 }

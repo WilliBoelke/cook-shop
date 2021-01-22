@@ -12,10 +12,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.recipeViewUpdateAdd.AddRecipeActivity;
 import com.example.cookshop.view.recipeViewUpdateAdd.RecipeViewer;
-import com.example.cookshop.view.recyclerViews.RecipeRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
 
-    private final String TAG = "FragmentRecipeList";
+    private final String TAG = this.getClass().getSimpleName();
 
     public FragmentRecipeList() {
         // Required empty public constructor
@@ -34,9 +34,27 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        DataAccess.getInstance().registerOnRecipeListChangeListener(this);
+        super.onCreate(savedInstanceState);
+        ApplicationController.getInstance().registerOnRecipeListChangeListener(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+      view = inflater.inflate(R.layout.main_fratgment_list, container, false);
+      setupSwipeGestures();
+      setupRecyclerView();
+      setupAddFab();
+      return view;
+      //return super.onCreateView(inflater, container, savedInstanceState);
+      //return inflater.inflate(R.layout.main_fratgment_list, container, false);
+    }
+
+    @Override
+    protected RecipeRecyclerViewAdapter initializeRecyclerViewAdapter() {
+      Log.e(TAG, getContext().toString());
+      return new RecipeRecyclerViewAdapter(this.getCorrespondingList(), this.getContext());
     }
 
     @Override
@@ -45,25 +63,14 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
     public void onDestroy(){
       super.onDestroy();
-      DataAccess.getInstance().unregisterOnRecipeListChangeListener(this);
-    }
-
-    @Override
-    protected RecipeRecyclerViewAdapter initializeRecyclerViewAdapter() {
-      return new RecipeRecyclerViewAdapter(this.getCorrespondingList(), this.getContext());
+      ApplicationController.getInstance().unregisterOnRecipeListChangeListener(this);
     }
 
     @Override
     protected ArrayList<Recipe> getCorrespondingList() {
-      return DataAccess.getInstance().getRecipeList();
+      return ApplicationController.getInstance().getRecipeList();
     }
 
     @Override
@@ -79,11 +86,12 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
       //nach links soll das Rezept auf die To-Cook List kommen
       // prüfen ob alle artikel available falls ja, rezept auf tocook, falls nicht
       swipeCallbackLeft = position -> {
-        DataAccess.getInstance().recipeToBuyingList(position);
+        Log.e(TAG, ": setupSwipeGestures(): Left");
+        ApplicationController.getInstance().addRecipeFromRecipeToToCookList(position);
       };
 
       swipeCallbackRight = position -> {
-        DataAccess.getInstance().deleteRecipe(position);
+        ApplicationController.getInstance().deleteRecipe(position);
       };
 
     }
@@ -96,7 +104,8 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
         @Override
         public void onClick(View v){
           Intent newRecipeRecipe = new Intent(getContext(), AddRecipeActivity.class);
-          newRecipeRecipe.putExtra("belonging", "buy");
+          newRecipeRecipe.putExtra("belonging", "recipe");
+          Log.e(TAG, "setupAddFab(): onClick(): intent: " + newRecipeRecipe.getDataString());
           startActivity(newRecipeRecipe);
         }
       });
@@ -106,6 +115,6 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     @Override
     public void onChange() {
       Log.e(TAG, "onChange");
-      this.recyclerViewAdapter.notifyDataSetChanged();
+      this.recyclerAdapter.notifyDataSetChanged();
     }
 }

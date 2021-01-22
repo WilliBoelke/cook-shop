@@ -1,6 +1,7 @@
 package com.example.cookshop.view.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.model.Observer;
-import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
-import com.example.cookshop.view.recyclerViews.RecipeRecyclerViewAdapter;
+import com.example.cookshop.controller.Observer;
+import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.RecyclerAdapterSwipeGestures;
+import com.example.cookshop.view.adapter.SwipeCallbackLeft;
+import com.example.cookshop.view.adapter.SwipeCallbackRight;
 
 import java.util.ArrayList;
 
@@ -22,9 +25,9 @@ public abstract class FragmentRecipeTypeAbstract extends Fragment implements Obs
   /**
    * Log Tag
    */
-  private final String TAG = "FragmentRecipeTypeList";
+  private final String TAG = this.getClass().getSimpleName();
 
-  protected RecipeRecyclerViewAdapter recyclerViewAdapter;
+  protected RecipeRecyclerViewAdapter recyclerAdapter;
 
   private RecyclerView recyclerView;
 
@@ -43,16 +46,25 @@ public abstract class FragmentRecipeTypeAbstract extends Fragment implements Obs
   }
 
   @Override
-  public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState);}
+  public void onCreate(Bundle savedInstanceState) {
+    Log.e(TAG, "onCreate (superclass): before super call");
+    super.onCreate(savedInstanceState);
+    Log.e(TAG, "onCreate (superclass): after super call");}
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    Log.e(TAG, ": onCreateView() (super) ");
+    /*if(TAG == "FragmentToCookList"){
+      Log.e(TAG, ": onCreateView()(super): in if Bracket.");
+      view= inflater.inflate(R.layout.main_fratgment_list_no_button, container, false);
+    }else{
+      view = inflater.inflate(R.layout.main_fratgment_list, container, false);
+    }*/
 
-    view = inflater.inflate(R.layout.main_fratgment_list, container, false);
 
-    setupSwipeGestures();
+    /*setupSwipeGestures();
     setupRecyclerView();
-    setupAddFab();
+    setupAddFab();*/
 
     return view;
   }
@@ -67,20 +79,20 @@ public abstract class FragmentRecipeTypeAbstract extends Fragment implements Obs
 
   protected abstract void setupAddFab();
 
-  private void setupRecyclerView()
+  protected void setupRecyclerView()
   {
 
     recyclerView = view.findViewById(R.id.article_recycler);
     recyclerLayoutManager = new LinearLayoutManager(this.getContext());
-    recyclerViewAdapter = this.initializeRecyclerViewAdapter();
+    recyclerAdapter = this.initializeRecyclerViewAdapter();
     itemTouchHelper = new ItemTouchHelper(new RecyclerAdapterSwipeGestures(swipeCallbackRight, swipeCallbackLeft));
     itemTouchHelper.attachToRecyclerView(recyclerView);
     recyclerView.setLayoutManager(recyclerLayoutManager);
-    recyclerView.setAdapter(recyclerViewAdapter);
-    recyclerViewAdapter.notifyDataSetChanged();
+    recyclerView.setAdapter(recyclerAdapter);
+    recyclerAdapter.notifyDataSetChanged();
     //nnClickListener
 
-    recyclerViewAdapter.setOnItemClickListener(new RecipeRecyclerViewAdapter.OnItemClickListener()
+    recyclerAdapter.setOnItemClickListener(new RecipeRecyclerViewAdapter.OnItemClickListener()
     {
       @Override
       public void onItemClick(int position)

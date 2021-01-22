@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
-import com.example.cookshop.view.recyclerViews.ArticleRecyclerViewAdapter;
+import com.example.cookshop.view.adapter.ArticleRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class FragmentShoppingList extends FragmentArticleList
          *    register at onBuyingChangeListener, so the
          *    DataAccess will call this {@link #onChange()} method
          */
-        DataAccess.getInstance().registerOnBuyingListChangeListener(this);
+        ApplicationController.getInstance().registerOnShoppingListChangeListener(this);
 
     }
 
@@ -77,7 +77,7 @@ public class FragmentShoppingList extends FragmentArticleList
     public void onDestroy()
     {
         super.onDestroy();
-        DataAccess.getInstance().unregisterOnBuyingListChangeListener(this);
+        ApplicationController.getInstance().unregisterOnShoppingListChangeListener(this);
     }
 
 
@@ -93,7 +93,7 @@ public class FragmentShoppingList extends FragmentArticleList
     @Override
     protected ArrayList<Article> getCorrespondingList()
     {
-        return DataAccess.getInstance().getBuyingList();
+        return ApplicationController.getInstance().getShoppingList();
     }
 
 
@@ -102,12 +102,12 @@ public class FragmentShoppingList extends FragmentArticleList
     {
 
         swipeCallbackLeft = position -> {
-            DataAccess.getInstance().transferArticleFromBuyingToAvailableList(position);
+            ApplicationController.getInstance().transferArticleFromShoppingToAvailableList(position);
         };
 
         swipeCallbackRight = position ->
         {
-            DataAccess.getInstance().deleteArticleShoppingList(position);
+            ApplicationController.getInstance().deleteArticleFromShoppingList(position);
         };
     }
 

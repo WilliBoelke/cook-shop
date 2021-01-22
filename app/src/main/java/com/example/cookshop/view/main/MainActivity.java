@@ -10,9 +10,10 @@ import android.widget.Toast;
 import com.example.cookshop.R;
 import com.example.cookshop.model.database.DatabaseHelper;
 import com.example.cookshop.model.listManagement.AvailableListManager;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.model.listManagement.RecipeListManager;
 import com.example.cookshop.model.listManagement.ShoppingListManager;
+import com.example.cookshop.model.listManagement.ToCookListManager;
 import com.example.cookshop.view.SynchronizeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(false);
         //
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-        DataAccess.getInstance().initialize(this.getApplicationContext(), new RecipeListManager(db), new ShoppingListManager(db), new AvailableListManager(db) );
+        ApplicationController.getInstance().initialize(this.getApplicationContext(), new RecipeListManager(db), new ShoppingListManager(db), new AvailableListManager(db), new ToCookListManager(db));
 
         //Setting the FragmentFactory
         getSupportFragmentManager().setFragmentFactory(new FragmentFactory());
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity
             {
                 case R.id.nav_to_cook:
                     Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment toCook");
-                    selectedFragment = FragmentShoppingList.class;
+                    selectedFragment = FragmentToCookList.class;
                     break;
                 case R.id.nav_sync:
                     Log.d(TAG, "onNavigationItemSelected: replacing current fragment with fragment sync");

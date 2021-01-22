@@ -10,7 +10,6 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import com.example.cookshop.R;
 import com.example.cookshop.items.Item;
-import com.example.cookshop.view.recyclerViews.RecipeRecyclerViewAdapter;
 
 import java.util.ArrayList;
 

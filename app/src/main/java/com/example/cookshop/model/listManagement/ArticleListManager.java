@@ -32,7 +32,7 @@ public class ArticleListManager extends ItemListManager
     //....Methods..........
 
 
-    protected void overrideListCompletely(ArrayList<Article> list)
+    public void overrideListCompletely(ArrayList<Article> list)
     {
         int size = this.getItemList().size();
         for (int i = 0; i < size; i++)
@@ -50,7 +50,7 @@ public class ArticleListManager extends ItemListManager
 
 
 
-    protected Article searchForArticle(String name)
+    public Article searchForArticle(String name)
     {
         ArrayList<Article> toSearch = (ArrayList<Article>) this.getItemList();
 
@@ -71,7 +71,7 @@ public class ArticleListManager extends ItemListManager
      *
      * @param articles
      */
-    protected void addSeveralArticlesIntelligent(ArrayList<Article> articles)
+    public void addSeveralArticlesIntelligent(ArrayList<Article> articles)
     {
         for (int i = 0; i < articles.size(); i++)
         {
@@ -82,7 +82,7 @@ public class ArticleListManager extends ItemListManager
     /**
      * @param article
      */
-    protected void addArticleIntelligent(Article article)
+    public void addArticleIntelligent(Article article)
     {
         // Boolean to check if a match was found (and merged)
         Boolean merged = false;
@@ -137,7 +137,7 @@ public class ArticleListManager extends ItemListManager
      * @param index
      * @param newArticle
      */
-    protected void updateArticle(int index, Article newArticle)
+    public void updateArticle(int index, Article newArticle)
     {
         Article oldArticle = (Article) this.getItem(index);
 

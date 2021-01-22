@@ -40,14 +40,15 @@
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="8dp"
 
-                android:hint="@string/name"
-                android:inputType="textPersonName"
                 android:background="?attr/edit_text_background"
                 android:ems="10"
                 android:fontFamily="@font/comfortaa"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
                 android:textColor="?attr/textColorPrimary"
                 android:textColorHint="?attr/textColorSecondary"
 
+                android:textSize="@dimen/primary_font_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -81,29 +82,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/description_edittext"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            <EditText
+                android:id="@+id/description_edittext"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
 
-            android:hint="@string/description"
-            android:inputType="textPersonName"
-            android:background="?attr/edit_text_background"
-            android:ems="10"
-            android:fontFamily="@font/comfortaa"
-            android:textColor="?attr/textColorPrimary"
-            android:textColorHint="?attr/textColorSecondary"
+                android:background="?attr/edit_text_background"
+                android:ems="10"
+                android:fontFamily="@font/comfortaa"
+                android:hint="@string/description"
+                android:inputType="textPersonName"
+                android:textColor="?attr/textColorPrimary"
+                android:textColorHint="?attr/textColorSecondary"
 
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.709" />
+                android:textSize="@dimen/primary_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.709" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -156,14 +158,15 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
 
-                android:hint="@string/name"
-                android:inputType="textPersonName"
                 android:background="?attr/edit_text_background"
                 android:ems="10"
                 android:fontFamily="@font/comfortaa"
+                android:hint="@string/timer"
+                android:inputType="textShortMessage|number|textPersonName"
                 android:textColor="?attr/textColorPrimary"
                 android:textColorHint="?attr/textColorSecondary"
 
+                android:textSize="@dimen/primary_font_size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -175,7 +178,7 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/add_fab"
+      android:id="@+id/add_step_fab"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="@dimen/fab_margin"
@@ -184,6 +187,7 @@
       android:onClick="onAddStepFabClick"
       android:backgroundTint="?attr/colorPrimary"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent" />
+      app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/icon_save"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

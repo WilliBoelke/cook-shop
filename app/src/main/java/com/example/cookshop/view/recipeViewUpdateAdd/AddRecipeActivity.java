@@ -18,7 +18,7 @@ import com.example.cookshop.items.Article;
 
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.stepViewUpdateAdd.AddStepActivity;
@@ -45,7 +45,7 @@ public class AddRecipeActivity extends AppCompatActivity {
   protected Recipe editRecipe;
   protected ArrayList<Article> articleList = new ArrayList();
   protected ArrayList<Step> stepList = new ArrayList<>();
-
+  protected RecipeController recipeController;
   protected ListItemWithDeleteButtonAdapter<Article> articleListAdapter;
   protected ListItemWithDeleteButtonAdapter<Step> stepListAdapter;
 
@@ -56,12 +56,14 @@ public class AddRecipeActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.recipe_add_edit);
     processIntent();
-    {
+    recipeController = new RecipeController(ApplicationController.getInstance());
+
       nameTextView = findViewById(R.id.name_edittext);
       descriptionTextView = findViewById(R.id.description_edittext);
       articles = findViewById(R.id.articles_listview);
       steps = findViewById(R.id.steps_listview);
-    }
+
+
 
       articleListAdapter = new ListItemWithDeleteButtonAdapter(articleList, this);
       articleListAdapter.setOnDeleteButtonClickListener((position) -> {
@@ -97,7 +99,7 @@ public class AddRecipeActivity extends AppCompatActivity {
       }
 
       if (editBelonging.equals("recipe")){
-        editRecipe = DataAccess.getInstance().getRecipe(position);
+        editRecipe = ApplicationController.getInstance().getRecipe(position);
       }
     }
   }
@@ -135,7 +137,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     startActivityForResult(addArticleIntent, NEW_ARTICLE);
   }
 
-  public void onAddStepButtonClick(View view){
+  public void onAddStepButtonClick(View view)
+  {
     Intent addStepIntent = new Intent(this, AddStepActivity.class);
     addStepIntent.putExtra("belonging", "newRecipe");
     startActivityForResult(addStepIntent, NEW_STEP);
@@ -143,22 +146,17 @@ public class AddRecipeActivity extends AppCompatActivity {
 
   public void onSaveButtonClick(View view)
   {
-    if (!nameTextView.getText().toString().equals("") && !descriptionTextView.getText().toString().equals(""))
+    if (recipeController.checkUserInput(nameTextView.getText().toString(), descriptionTextView.getText().toString()))
     {
-      RecipeController.getInstance().addRecipe(this.getRecipe());
+      Recipe recipe = recipeController.generateRecipeFromInput(nameTextView.getText().toString(), descriptionTextView.getText().toString(), articleList, stepList);
+      this.recipeController.addRecipe(recipe);
       finish();
     }
     else
     {
-      Snackbar.make(view, R.string.no_name_warning, Snackbar.LENGTH_LONG)
+      Snackbar.make(view, R.string.no_name_and_descr_warning, Snackbar.LENGTH_LONG)
         .setAction("Action", null).show();
     }
   }
 
-  protected Recipe getRecipe()
-  {
-    String name = this.nameTextView.getText().toString();
-    String description = this.descriptionTextView.getText().toString();
-    return new Recipe(name, description, articleList, stepList);
-  }
 }

@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_fab"
+        android:id="@+id/edit_article_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="346dp"
@@ -18,7 +18,8 @@
         android:onClick="onEditButtonClick"
         app:layout_constraintBottom_toBottomOf="@+id/app_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        android:src="@drawable/icon_edit"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -64,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_fab">
+        app:layout_constraintTop_toBottomOf="@+id/edit_article_fab">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -86,6 +87,7 @@
                 android:fontFamily="@font/comfortaa"
                 android:text="TextView"
                 android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/primary_font_size"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +129,7 @@
                 android:fontFamily="@font/comfortaa"
                 android:text="TextView"
                 android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/primary_font_size"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -168,6 +171,7 @@
                 android:fontFamily="@font/comfortaa"
                 android:text="TextView"
                 android:textColor="?attr/textColorPrimary"
+                android:textSize="@dimen/primary_font_size"
                 android:textStyle="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

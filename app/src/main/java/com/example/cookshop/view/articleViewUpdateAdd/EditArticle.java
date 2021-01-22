@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.example.cookshop.R;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.google.android.material.snackbar.Snackbar;
 
 public class EditArticle extends  AddArticleActivity
@@ -55,11 +55,11 @@ public class EditArticle extends  AddArticleActivity
             {
                 if (this.editBelonging.equals("buy"))
                 {
-                    DataAccess.getInstance().updateArticleFromBuyingList(this.position, updatedValues);
+                    ApplicationController.getInstance().updateArticleFromShoppingList(this.position, updatedValues);
                 }
                 else if (this.editBelonging.equals("available"))
                 {
-                    DataAccess.getInstance().updateArticleFromAvailableList(this.position, updatedValues);
+                    ApplicationController.getInstance().updateArticleFromAvailableList(this.position, updatedValues);
                 }
 
                 finish();

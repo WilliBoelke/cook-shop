@@ -27,6 +27,10 @@ public interface DatabaseNamingContract
      */
     String COLUMN_RECIPE_DESCRIPTION  = "DESCRIPTION";
     /**
+     * column on_to_cook of the recipe table
+     */
+    String COLUMN_RECIPE_ON_TO_COOK = "ON_TO_COOK";
+    /**
      * name of the steps table
      */
     String TABLE_STEPS                = "steps_table";

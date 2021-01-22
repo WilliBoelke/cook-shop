@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.cookshop.items.Article;
-import com.example.cookshop.model.listManagement.DataAccess;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -115,18 +115,24 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     /*
      * The ACK send after each received article
      */
-    private final String ACKNOWLEDGED = "ACK";
+    public static final String ACKNOWLEDGED = "ACK";
 
     /**
      * The FIN send after all articles are transferred
      */
-    private final String FINISHED = "FIN";
+    public static final String FINISHED = "FIN";
+
+    /**
+     * If the in/output stream closes unexpected unexpected
+     * the BluetoothConnection writes that
+     */
+    public static final String DISCONNECT="DISCONN";
 
     /**
      * instance of the model,
      * passed through the constructor to enable testing
      */
-    private DataAccess dataAccessInstance;
+    private ApplicationController applicationControllerInstance;
 
     /**
      * There are two states, sender and receiver
@@ -140,11 +146,20 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
      */
     private boolean isCancelled = false;
 
+    /**
+     * True when the out- or input stream closes unexpected
+     * @param networkConnection
+     * @param device
+     * @param onSyncFinished
+     * @param applicationController
+     */
+    private boolean disconnected = false;
+
 
     //------------Constructors------------
 
 
-    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnSyncFinishedCallback<Article> onSyncFinished, DataAccess dataAccess)
+    public SynchronizationManager(NetworkConnection networkConnection, BluetoothDevice device, OnSyncFinishedCallback<Article> onSyncFinished, ApplicationController applicationController)
     {
         Log.d(TAG, "Initialize SyncManager");
         this.networkConnection = networkConnection;
@@ -153,11 +168,11 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.onSyncFinished = onSyncFinished;
         Log.d(TAG, "Starting NetworkConnection as server");
         networkConnection.startServer();
-        this.dataAccessInstance = dataAccess;
+        this.applicationControllerInstance = applicationController;
         networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onIncomingMessage(String message)
             {
                 //Noting to do here - just avoiding null pointer
             }
@@ -182,8 +197,16 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     {
         Log.d(TAG, "onPostExecute:");
         super.onPostExecute(s);
-        this.networkConnection.closeConnection();
-        this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_OKAY);
+        if(!disconnected)
+        {
+            this.networkConnection.closeConnection();
+            this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_OKAY);
+        }
+        else
+        {
+            this.networkConnection.closeConnection();
+            this.onSyncFinished.onSyncFinished(receivedArticles, OnSyncFinishedCallback.RESULT_ERROR);
+        }
     }
 
     @Override
@@ -263,10 +286,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.thisOnReceiveCallback = new OnReceiveCallback()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onIncomingMessage(String message)
             {
-                    Log.d(TAG, "Received message = " + Message);
-                    if(Message.equals(FINISHED))
+                    Log.d(TAG, "Received message = " + message);
+                    if(message.equals(FINISHED))
                     {
                         Log.d(TAG, "Sender finished transmission, going to send mode");
                         sender = !sender;
@@ -276,10 +299,14 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                             SynchronizationManager.this.notify();
                         }
                     }
+                    else if(message.equals(DISCONNECT))
+                    {
+                        disconnected = true;
+                    }
                     else
                     {
-                        Log.d(TAG, "Received Patter = " + Message);
-                        Article newArticle = new Article(Message);
+                        Log.d(TAG, "Received Patter = " + message);
+                        Article newArticle = new Article(message);
                         Log.e(TAG, " Date 00 " + newArticle.getDateOfUpdate());
                         receivedArticles.add(newArticle);
                         networkConnection.write(ACKNOWLEDGED);
@@ -316,9 +343,9 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
         this.networkConnection.setOnReceiveListener(new OnReceiveCallback()
         {
             @Override
-            public void onIncomingMessage(String Message)
+            public void onIncomingMessage(String message)
             {
-                if(Message.equals(ACKNOWLEDGED))
+                if(message.equals(ACKNOWLEDGED))
                 {
                     Log.d(TAG, "sendArticles: onReceive: Article acknowledged");
                     synchronized (SynchronizationManager.this)
@@ -326,13 +353,17 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                         SynchronizationManager.this.notify();
                     }
                 }
+                else if(message.equals(DISCONNECT))
+                {
+                    disconnected = true;
+                }
             }
         });
 
 
         //SEND
 
-        ArrayList<Article> shoppingList =dataAccessInstance.getBuyingList();
+        ArrayList<Article> shoppingList = applicationControllerInstance.getShoppingList();
         for (Article a: shoppingList)
         {
             Log.d(TAG, "sendArticles: pattern" + a.getMementoPattern() );
@@ -372,7 +403,10 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
     private void synchronize()
     {
         Log.d(TAG, "synchronize");
-
+        if(disconnected)
+        {
+            return; //No sync when disconnected
+        }
         if(startedAsSender)
         {
             //If we started as sender, the remote device will already have compared his list
@@ -380,7 +414,7 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             //It then will send the complete list, including our article back to here.
             //so we can just replace the whole list without the nned of comparing it again
             Log.d(TAG, "synchronize: started as sender, saving articles ");
-            dataAccessInstance.overrideShoppingListCompletely(receivedArticles);
+            applicationControllerInstance.overrideShoppingListCompletely(receivedArticles);
         }
         else
         {
@@ -402,13 +436,13 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
                  * I will compare the Articles name Name if they are in both lists i will take the one with the more recent "lastUpdateDate"
                  * And write a information about it into the description.
                  */
-                for (int index = 0; index < dataAccessInstance.getBuyingList().size(); index++)
+                for (int index = 0; index < applicationControllerInstance.getShoppingList().size(); index++)
                 {
 
                     if(!matched)
                     {
                         // Get the Article once to minimize method calls
-                        Article tempArticle = dataAccessInstance.getBuyingList().get(index);
+                        Article tempArticle = applicationControllerInstance.getShoppingList().get(index);
 
                         //save the names of both articles / trimmed and in lowercase
                         String trimmedArticleName = a.getName().trim().toLowerCase();
@@ -441,13 +475,13 @@ public class SynchronizationManager extends AsyncTask<String, String, String>
             for (Integer i : toDeleteIndex)
             {
                 Log.d(TAG, "Delete article at " + i);
-                dataAccessInstance.deleteArticleShoppingList(i.intValue());
+                applicationControllerInstance.deleteArticleFromShoppingList(i.intValue());
             }
             for (Article a: toAddArticles)
             {
                 Log.d(TAG, "Add article with name  "+ a.getName());
                 Log.d(TAG, "Add article with date  "+ a.getDateOfUpdate());
-                dataAccessInstance.addArticleToShoppingList(a);
+                applicationControllerInstance.addArticleToShoppingList(a);
             }
         }
     }

@@ -51,7 +51,7 @@ public abstract class ItemListManager<T extends Item & Comparable<T>>
      *
      * @return
      */
-    protected ArrayList<T> getItemList()
+    public ArrayList<T> getItemList()
     {
         return this.itemList;
     }
@@ -74,7 +74,7 @@ public abstract class ItemListManager<T extends Item & Comparable<T>>
      *         the index of the item in the list
      * @return the Item at position
      */
-    protected <T> Object getItem(int position)
+    public <T> Object getItem(int position)
     {
         return itemList.get(position);
     }
@@ -86,7 +86,7 @@ public abstract class ItemListManager<T extends Item & Comparable<T>>
      *         of the Item
      * @return the Item with the name
      */
-    protected <T> Object getItem(String name)
+    public <T> Object getItem(String name)
     {
 
         for (int i = 0; i < itemList.size(); i++)
@@ -109,7 +109,7 @@ public abstract class ItemListManager<T extends Item & Comparable<T>>
      * @param position
      *         the index of the Item in the lItemList
      */
-    protected void removeItem(int position)
+    public void removeItem(int position)
     {
         this.removeItemFromDatabase(itemList.get(position).getName());
         itemList.remove(position);
@@ -125,7 +125,7 @@ public abstract class ItemListManager<T extends Item & Comparable<T>>
      * @param object
      *         the Item to be added to the ItemList and to the Database
      */
-    protected void addItem(T object)
+    public void addItem(T object)
     {
         addItemToDatabase(object);
         this.itemList.add(object);
