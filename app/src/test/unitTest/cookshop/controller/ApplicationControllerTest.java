@@ -619,7 +619,8 @@ public class ApplicationControllerTest
     @Test
     public void fromShoppingToAvailableListTest1()
     {
-      testApplicationController.transferArticleFromShoppingToAvailableList(3);
+        Mockito.when(mockShoppingListManager.getItem(3)).thenReturn(testArticle3);
+        testApplicationController.transferArticleFromShoppingToAvailableList(3);
 
         Mockito.verify(mockShoppingListManager).getItem(anyInt());
         Mockito.verify(mockShoppingListManager).removeItem(anyInt());
@@ -645,7 +646,8 @@ public class ApplicationControllerTest
     @Test
     public void fromAvailableToShoppingTest1()
     {
-      testApplicationController.transferArticleFromAvailableToShoppingList(3);
+        Mockito.when(mockAvailableListManager.getItem(3)).thenReturn(testArticle3);
+        testApplicationController.transferArticleFromAvailableToShoppingList(3);
 
         Mockito.verify(mockAvailableListManager).getItem(anyInt());
         Mockito.verify(mockAvailableListManager).removeItem(anyInt());
