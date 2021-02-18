@@ -14,6 +14,7 @@ import com.example.cookshop.controller.applicationController.ApplicationControll
 import com.example.cookshop.model.listManagement.RecipeListManager;
 import com.example.cookshop.model.listManagement.ShoppingListManager;
 import com.example.cookshop.model.listManagement.ToCookListManager;
+import com.example.cookshop.view.ExportImportActivity;
 import com.example.cookshop.view.SynchronizeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -149,5 +150,11 @@ public class MainActivity extends AppCompatActivity
         Toast toast=Toast.makeText(getApplicationContext(),"Not available at the moment",Toast.LENGTH_SHORT);
         toast.setMargin(50,50);
         toast.show();
+    }
+
+    public void importExportOnClick(View view)
+    {
+        Intent eiIntent = new Intent(getApplicationContext(), ExportImportActivity.class);
+        startActivity(eiIntent);
     }
 }

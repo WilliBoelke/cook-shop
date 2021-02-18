@@ -1,6 +1,7 @@
 package com.example.cookshop.items;
 
 
+import java.util.NoSuchElementException;
 
 /**
  * This interface prescribes a method to get the memento pattern of an Object
@@ -26,7 +27,7 @@ public interface Memento
      * <p>
      * Example : name++description++weight++amount++category++
      */
-    String DELIMITER_ARTICLES = "||";
+    String DELIMITER_INTRA_ARTICLE = "||";
     /**
      * Delimiter which will be added after a whole item memento patter
      * this can be an complete {@link Article} or {@link Recipe}
@@ -38,7 +39,11 @@ public interface Memento
     /**
      * Delimiter for {@link Step}
      */
-    String DELIMITER_STEPS    = "::";
+    String DELIMITER_INTRA_STEP = "::";
+    
+    String DELIMITER_INTER_ARTICLE = "((";
+    
+    String DELIMITER_INTER_STEP = "))";
 
 
     /**
@@ -51,5 +56,5 @@ public interface Memento
     /**
      * Sets all values of an Objects to the values given by the mementoPattern
      */
-    void setObjectFromMementoPattern(String mementoPattern) ;
+    void setObjectFromMementoPattern(String mementoPattern) throws NoSuchElementException;
 }

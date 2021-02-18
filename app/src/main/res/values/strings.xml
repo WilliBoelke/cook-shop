@@ -40,5 +40,6 @@
     <string name="vegetable">Vegetable</string>
     <string name="string_timer_warning">The timer needs to be given in seconds</string>
     <string name="synchronize_articles">Snchronize your shopping- and storage list via Bluetooth</string>
+    <string name="export_import">"Export or import Recipes "</string>
 </resources>
 

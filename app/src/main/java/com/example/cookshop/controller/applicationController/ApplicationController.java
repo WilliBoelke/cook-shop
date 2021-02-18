@@ -13,6 +13,8 @@ import com.example.cookshop.model.listManagement.RecipeListManager;
 import com.example.cookshop.model.listManagement.ShoppingListManager;
 import com.example.cookshop.model.listManagement.ToCookListManager;
 
+import org.mockito.internal.matchers.Null;
+
 import java.util.ArrayList;
 
 /**
@@ -390,7 +392,14 @@ public class ApplicationController implements Observabel, Controller
     @Override
     public void registerOnShoppingListChangeListener(Observer observer)
     {
-        onShoppingListChangeListener.add(observer);
+        try
+        {
+            onShoppingListChangeListener.add(observer);
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(TAG, "registerOnShoppingListChangeListener :  the Listener List was null : " + e.getCause());
+        }
     }
 
 
@@ -404,7 +413,14 @@ public class ApplicationController implements Observabel, Controller
     @Override
     public void registerOnAvailableListChangeListener(Observer observer)
     {
-        onAvailableListChangeListener.add(observer);
+        try
+        {
+            onAvailableListChangeListener.add(observer);
+        }
+        catch (NullPointerException e)
+        {
+            Log.e(TAG, "registerOnAvailableListChangeListener :  the Listener List was null : " + e.getCause());
+        }
     }
 
 

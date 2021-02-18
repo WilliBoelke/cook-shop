@@ -69,6 +69,12 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     }
 
     @Override
+    public void onStop(){
+        super.onStop();
+        ApplicationController.getInstance().unregisterOnRecipeListChangeListener(this);
+    }
+
+    @Override
     protected ArrayList<Recipe> getCorrespondingList() {
       return ApplicationController.getInstance().getRecipeList();
     }

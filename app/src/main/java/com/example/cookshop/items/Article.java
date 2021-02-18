@@ -298,35 +298,35 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         StringBuilder sb = new StringBuilder();
-        sb.append(this.name + DELIMITER_ARTICLES);
-        sb.append(this.description + DELIMITER_ARTICLES);
-        sb.append(this.weight + DELIMITER_ARTICLES);
-        sb.append(this.amount + DELIMITER_ARTICLES);
-        sb.append(simpleDateFormat.format(this.dateOfCreation) + DELIMITER_ARTICLES);
-        sb.append(simpleDateFormat.format(this.dateOfUpdate) + DELIMITER_ARTICLES);
+        sb.append(this.name + DELIMITER_INTRA_ARTICLE);
+        sb.append(this.description + DELIMITER_INTRA_ARTICLE);
+        sb.append(this.weight + DELIMITER_INTRA_ARTICLE);
+        sb.append(this.amount + DELIMITER_INTRA_ARTICLE);
+        sb.append(simpleDateFormat.format(this.dateOfCreation) + DELIMITER_INTRA_ARTICLE);
+        sb.append(simpleDateFormat.format(this.dateOfUpdate) + DELIMITER_INTRA_ARTICLE);
         if (this.category != null) // This if statement prevents some NullPointerExceptions
         {
             switch (this.category)
             {
                 case FRUIT:
-                    sb.append(Category.FRUIT.toString() + DELIMITER_ARTICLES);
+                    sb.append(Category.FRUIT.toString() + DELIMITER_INTRA_ARTICLE);
                     break;
                 case VEGETABLE:
-                    sb.append(Category.VEGETABLE.toString() + DELIMITER_ARTICLES);
+                    sb.append(Category.VEGETABLE.toString() + DELIMITER_INTRA_ARTICLE);
                     break;
                 case DRINK:
-                    sb.append(Category.DRINK.toString() + DELIMITER_ARTICLES);
+                    sb.append(Category.DRINK.toString() + DELIMITER_INTRA_ARTICLE);
                     break;
                 case MEAT:
-                    sb.append(Category.MEAT.toString() + DELIMITER_ARTICLES);
+                    sb.append(Category.MEAT.toString() + DELIMITER_INTRA_ARTICLE);
                     break;
                 default:
-                    sb.append(Category.OTHERS.toString() + DELIMITER_ARTICLES);
+                    sb.append(Category.OTHERS.toString() + DELIMITER_INTRA_ARTICLE);
             }
         }
         else
         {
-            sb.append(Category.OTHERS.toString() + DELIMITER_ARTICLES);
+            sb.append(Category.OTHERS.toString() + DELIMITER_INTRA_ARTICLE);
         }
         return sb.toString();
     }
@@ -343,32 +343,32 @@ public class Article extends Item implements Comparable<Article>, Cloneable
     @Override
     public void setObjectFromMementoPattern(String mementoPattern)
     {
+        Log.d(TAG, "setObjectFromMementoPattern: called with : " + mementoPattern);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-        StringTokenizer st = new StringTokenizer(mementoPattern, DELIMITER_ARTICLES);
+        StringTokenizer st = new StringTokenizer(mementoPattern, DELIMITER_INTRA_ARTICLE);
 
-        this.setName(st.nextToken(DELIMITER_ARTICLES));
-        this.setDescription(st.nextToken(DELIMITER_ARTICLES));
-        this.setWeight(Double.parseDouble(st.nextToken(DELIMITER_ARTICLES).trim()));
-        this.setAmount(Integer.parseInt(st.nextToken(DELIMITER_ARTICLES).trim()));
+        this.setName(st.nextToken(DELIMITER_INTRA_ARTICLE));
+        this.setDescription(st.nextToken(DELIMITER_INTRA_ARTICLE));
+        this.setWeight(Double.parseDouble(st.nextToken(DELIMITER_INTRA_ARTICLE).trim()));
+        this.setAmount(Integer.parseInt(st.nextToken(DELIMITER_INTRA_ARTICLE).trim()));
         try
         {
-            this.dateOfCreation = simpleDateFormat.parse(st.nextToken(DELIMITER_ARTICLES).trim());
-        }
-        catch (ParseException e)
-        {
-            e.printStackTrace();
-
-        }
-        try
-        {
-            this.dateOfUpdate = simpleDateFormat.parse(st.nextToken(DELIMITER_ARTICLES).trim());
+            this.dateOfCreation = simpleDateFormat.parse(st.nextToken(DELIMITER_INTRA_ARTICLE).trim());
         }
         catch (ParseException e)
         {
             e.printStackTrace();
         }
+        try
+        {
+            this.dateOfUpdate = simpleDateFormat.parse(st.nextToken(DELIMITER_INTRA_ARTICLE).trim());
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
 
-        switch (st.nextToken(DELIMITER_ARTICLES))
+        switch (st.nextToken(DELIMITER_INTRA_ARTICLE))
         {
             case "Fruit":
                 this.category = Category.FRUIT;

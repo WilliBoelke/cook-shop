@@ -158,9 +158,9 @@ public class Step extends Item implements Serializable, Comparable<Step>
     public String getMementoPattern()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getName() + Memento.DELIMITER_STEPS);
-        sb.append(this.getDescription() + Memento.DELIMITER_STEPS);
-        sb.append(this.getTimerInSeconds() + Memento.DELIMITER_STEPS);
+        sb.append(this.getName() + Memento.DELIMITER_INTRA_STEP);
+        sb.append(this.getDescription() + Memento.DELIMITER_INTRA_STEP);
+        sb.append(this.getTimerInSeconds() + Memento.DELIMITER_INTRA_STEP);
         return sb.toString();
     }
 
@@ -177,10 +177,10 @@ public class Step extends Item implements Serializable, Comparable<Step>
     {
         if (mementoPattern.trim().length() > 0)
         {
-            StringTokenizer st = new StringTokenizer(mementoPattern, Memento.DELIMITER_STEPS);
-            this.setName(st.nextToken(Memento.DELIMITER_STEPS));
-            this.setDescription(st.nextToken(Memento.DELIMITER_STEPS));
-            this.setTimerInSeconds(Integer.parseInt(st.nextToken(Memento.DELIMITER_STEPS)));
+            StringTokenizer st = new StringTokenizer(mementoPattern, Memento.DELIMITER_INTRA_STEP);
+            this.setName(st.nextToken(Memento.DELIMITER_INTRA_STEP));
+            this.setDescription(st.nextToken(Memento.DELIMITER_INTRA_STEP));
+            this.setTimerInSeconds(Integer.parseInt(st.nextToken(Memento.DELIMITER_INTRA_STEP)));
         }
     }
 

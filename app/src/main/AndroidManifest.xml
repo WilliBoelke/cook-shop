@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.SynchronizeActivity"></activity>
+        <activity android:name=".view.ExportImportActivity"></activity>
+        <activity android:name=".view.SynchronizeActivity" />
         <activity android:name=".view.articleViewUpdateAdd.EditArticle" />
         <activity android:name=".view.articleViewUpdateAdd.ArticleViewer" />
         <activity
@@ -23,12 +24,12 @@
             android:name=".view.stepViewUpdateAdd.AddStepActivity"
             android:label="@string/add_step"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.recipeViewUpdateAdd.EditRecipe"></activity>
+        <activity android:name=".view.recipeViewUpdateAdd.EditRecipe" />
         <activity android:name=".view.recipeViewUpdateAdd.RecipeViewer" />
         <activity
-          android:name=".view.recipeViewUpdateAdd.AddRecipeActivity"
-          android:label="@string/add_article"
-          android:theme="@style/AppTheme" />
+            android:name=".view.recipeViewUpdateAdd.AddRecipeActivity"
+            android:label="@string/add_article"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".view.main.MainActivity"
             android:label="@string/title_activity_main">

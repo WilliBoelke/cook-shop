@@ -1,12 +1,14 @@
 package com.example.cookshop.items;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 
@@ -39,6 +41,8 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
             return new Recipe[size];
         }
     };
+    private  final String TAG =  this.getClass().getSimpleName();
+
     /**
      * the list of the Ingredients
      */
@@ -54,7 +58,7 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
       this.onToCook = onToCook;
   }
 
-  private Boolean onToCook;
+     private Boolean onToCook;
 
 
     //....Constructor..........
@@ -87,8 +91,9 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
      *         the memento pattern
      * @see Memento
      */
-    public Recipe(String mementoPattern)
+    public Recipe(String mementoPattern)  throws  NoSuchElementException
     {
+        Log.e(TAG, "Constructor  called with " + mementoPattern);
         setObjectFromMementoPattern(mementoPattern);
     }
 
@@ -191,9 +196,15 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
         for (int i = 0; i < this.articles.size(); i++)
         {
             sb.append(articles.get(i).getMementoPattern());
-            sb.append(Memento.DELIMITER_RECIPES);
-
+            sb.append(Memento.DELIMITER_INTER_ARTICLE);
         }
+        sb.append(Memento.DELIMITER_RECIPES);
+        for (int i = 0; i < this.steps.size(); i++)
+        {
+            sb.append(steps.get(i).getMementoPattern());
+            sb.append(Memento.DELIMITER_INTER_STEP);
+        }
+        sb.append(Memento.DELIMITER_RECIPES);
         return sb.toString();
     }
 
@@ -204,18 +215,38 @@ public class Recipe extends Item implements Comparable<Recipe> , Serializable
      * @param mementoPattern
      */
     @Override
-    public void setObjectFromMementoPattern(String mementoPattern)
+    public  void setObjectFromMementoPattern(String mementoPattern) throws NoSuchElementException
     {
+        Log.e(TAG, "setObjectFromMementoPattern  called with " + mementoPattern);
+
         if (mementoPattern.trim().length() > 0)
         {
             StringTokenizer st = new StringTokenizer(mementoPattern, Memento.DELIMITER_RECIPES);
             this.setName(st.nextToken(Memento.DELIMITER_RECIPES));
             this.setDescription(st.nextToken(Memento.DELIMITER_RECIPES));
+
+            this.onToCook = false; // Always false, because thats just used for import and export ...and in that case we don't care if the other person has it on his toCook list
             this.articles = new ArrayList<>();
-            while (st.hasMoreTokens())
+            this.steps = new ArrayList<>();
+
+
+            String articles = st.nextToken(Memento.DELIMITER_RECIPES);
+            Log.e(TAG, "setObjectFromMementoPattern:  articles : " + articles);
+            StringTokenizer ast = new StringTokenizer(articles, Memento.DELIMITER_INTER_ARTICLE);
+            while (ast.hasMoreTokens())
             {
                 //Create Article from its own memento pattern and add it to the list
-                this.articles.add(new Article(st.nextToken(Memento.DELIMITER_RECIPES).trim()));
+                this.articles.add(new Article(ast.nextToken(Memento.DELIMITER_INTER_ARTICLE).trim()));
+            }
+
+
+            String steps = st.nextToken(Memento.DELIMITER_RECIPES);
+            Log.e(TAG, "setObjectFromMementoPattern:  Steps : " + articles);
+            StringTokenizer sst = new StringTokenizer(steps, Memento.DELIMITER_INTER_STEP);
+            while (sst.hasMoreTokens())
+            {
+                //Create Article from its own memento pattern and add it to the list
+                this.steps.add(new Step(sst.nextToken(Memento.DELIMITER_INTER_STEP).trim()));
             }
         }
     }
