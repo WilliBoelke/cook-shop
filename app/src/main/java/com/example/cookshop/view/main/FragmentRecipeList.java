@@ -1,13 +1,16 @@
 package com.example.cookshop.view.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
@@ -19,6 +22,8 @@ import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,7 +102,7 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
       };
 
       swipeCallbackRight = position -> {
-        ApplicationController.getInstance().deleteRecipe(position);
+        alertDialog(position);
       };
 
     }
@@ -122,5 +127,34 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
     public void onChange() {
       Log.e(TAG, "onChange");
       this.recyclerAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Displays an alert dialog to warn the user before deleting a recipe
+     * @param position
+     */
+    private void alertDialog(int position) {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this.getActivity());
+        dialog.setTitle("Delete " + ApplicationController.getInstance().getRecipe(position).getName());
+        dialog.setMessage("Do you want to permanently delete the recipe " + ApplicationController.getInstance().getRecipe(position).getName() + "?");
+        dialog.setPositiveButton("YES", new DialogInterface.OnClickListener()
+        {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        ApplicationController.getInstance().deleteRecipe(position);
+                        Toast.makeText(getActivity(),"Recipe was deleted",Toast.LENGTH_LONG).show();
+                    }
+                });
+        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                recyclerAdapter.notifyDataSetChanged();
+            }
+        }
+        );
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
     }
 }
