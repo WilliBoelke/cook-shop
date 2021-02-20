@@ -3,14 +3,13 @@ package cookshop.network;
 
 import android.bluetooth.BluetoothDevice;
 
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
 import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
-import com.example.cookshop.controller.applicationController.ApplicationController;
-
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -54,8 +53,8 @@ public class SynchronizationManagerTest
     private ArrayList<Article> testArticleArrayList2;
     private ArrayList<Article> testArticleArrayList3;
 
-    private String dateString = "09-1-2021 07:50:40";
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    private final String dateString = "09-1-2021 07:50:40";
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     private Date date;
 
 
@@ -84,7 +83,7 @@ public class SynchronizationManagerTest
     }
 
 
-    private OnSyncFinishedCallback<Article> notNeededReceiveCallback = new OnSyncFinishedCallback()
+    private final OnSyncFinishedCallback<Article> notNeededReceiveCallback = new OnSyncFinishedCallback()
     {
         @Override
         public void onSyncFinished(ArrayList syncedList, String result)
@@ -226,8 +225,6 @@ public class SynchronizationManagerTest
     }
 
 
-
-
     /**
      * Articles whit newer lastUpdateDates should be saved and the older ones should be deleted
      */
@@ -312,7 +309,6 @@ public class SynchronizationManagerTest
     }
 
 
-
     /**
      * Now, we have the newest venison of the article in "our" list
      * no articles should be added or deleted
@@ -347,7 +343,6 @@ public class SynchronizationManagerTest
         verify(mockApplicationController, atLeast(1)).getShoppingList();
         verify(mockApplicationController, times(0)).addArticleToShoppingList(any(Article.class));
         verify(mockApplicationController, times(0)).deleteArticleFromShoppingList(anyInt());
-
 
 
     }

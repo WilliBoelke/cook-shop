@@ -1,8 +1,5 @@
 package com.example.cookshop.view.articleViewUpdateAdd;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,16 +8,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.cookshop.R;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.viewController.ArticleController;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.model.UserPreferences;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.text.SimpleDateFormat;
@@ -54,19 +56,20 @@ public class ArticleViewer extends AppCompatActivity {
     /**
      * The position of the Article in the listService
      */
-    private int    position;
+    private int position;
     /**
      * the belonging of the article
      * (an article can belong to different lists, shopping, available or a recipe)
      */
-    private String   belonging;
+    private String belonging;
 
     /**
-     *
      * @param savedInstanceState
      */
     private ArticleController controller;
 
+
+    private final String TAG = this.getClass().getSimpleName();
 
     //------------Activity/Fragment Lifecycle------------
 
@@ -75,8 +78,10 @@ public class ArticleViewer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTheme();
         setContentView(R.layout.article_viewer);
         this.controller = new ArticleController();
+
         //get intent
         Intent intent = getIntent();
         belonging = intent.getStringExtra("belonging");
@@ -108,7 +113,6 @@ public class ArticleViewer extends AppCompatActivity {
         this.setupLastChangedTextView();
         this.setupCreationDateTextView();
     }
-
 
 
     //------------Setup Views------------
@@ -146,11 +150,13 @@ public class ArticleViewer extends AppCompatActivity {
         description = findViewById(R.id.description_textview);
         description.setText(viewedArticle.getDescription());
     }
+
     private void setupAmountTextView()
     {
         amount = findViewById(R.id.amount_textview);
         amount.setText(Integer.toString(viewedArticle.getAmount()));
     }
+
     private void setupWeightTextView()
     {
         weight = findViewById(R.id.weight_textview);
@@ -218,5 +224,32 @@ public class ArticleViewer extends AppCompatActivity {
         intent.putExtra("position", position);
         intent.putExtra("editBelonging", belonging);
         startActivity(intent);
+    }
+
+
+    private void setTheme()
+    {
+        String theme = UserPreferences.getInstance().getTheme();
+
+        switch (theme)
+        {
+            case UserPreferences.DARK_MODE:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  app theme DARK");
+                break;
+            case UserPreferences.LIGHT_MODE:
+                setTheme(R.style.LightTheme);
+                Log.d(TAG, "setTheme :  app theme LIGHT");
+                break;
+            case UserPreferences.LILAH_MODE:
+                setTheme(R.style.LilahTheme);
+                Log.d(TAG, "setTheme :  app theme LILAH");
+                break;
+            default:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  default DARK");
+                break;
+
+        }
     }
 }

@@ -11,9 +11,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.cookshop.R;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Recipe;
-import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.model.UserPreferences;
 import com.example.cookshop.view.adapter.ArticleSectionPagerAdapter;
 import com.example.cookshop.view.adapter.StepsSectionPagerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,6 +40,7 @@ public class RecipeViewer extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+    setTheme();
     setContentView(R.layout.recipe_viewer);
     Intent intent = getIntent();
     belonging = intent.getStringExtra("belonging");
@@ -116,7 +118,7 @@ public class RecipeViewer extends AppCompatActivity {
   {
     toolbar.setTitle(viewedRecipe.getName());
     setSupportActionBar(toolbar);
-
+    setTheme();
     description.setText(viewedRecipe.getDescription());
 
     //Steps ViePager:
@@ -147,5 +149,32 @@ public class RecipeViewer extends AppCompatActivity {
   private void setRecipe()
   {
     this.viewedRecipe = recipeController.getRecipe(position);
+  }
+
+
+  private void setTheme()
+  {
+    String theme = UserPreferences.getInstance().getTheme();
+
+    switch (theme)
+    {
+      case UserPreferences.DARK_MODE:
+        setTheme(R.style.DarkTheme);
+        Log.d(TAG, "setTheme :  app theme DARK");
+        break;
+      case UserPreferences.LIGHT_MODE:
+        setTheme(R.style.LightTheme);
+        Log.d(TAG, "setTheme :  app theme LIGHT");
+        break;
+      case UserPreferences.LILAH_MODE:
+        setTheme(R.style.LilahTheme);
+        Log.d(TAG, "setTheme :  app theme LILAH");
+        break;
+      default:
+        setTheme(R.style.DarkTheme);
+        Log.d(TAG, "setTheme :  default DARK");
+        break;
+
+    }
   }
 }

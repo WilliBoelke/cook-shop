@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.cookshop.view.settings.FragmentSettings;
+
 
 public class FragmentFactory extends androidx.fragment.app.FragmentFactory
 {
@@ -42,9 +44,15 @@ public class FragmentFactory extends androidx.fragment.app.FragmentFactory
             Log.d(TAG, "Instantiate : FragmentToCookList");
             return new FragmentToCookList();
         }
-        if (className.equals(FragmentRecipeList.class.getName())) {
+        if (className.equals(FragmentRecipeList.class.getName()))
+        {
             Log.d(TAG, "Instantiate : FragmentRecipeList");
             return new FragmentRecipeList();
+        }
+        if (className.equals(FragmentSettings.class.getName()))
+        {
+            Log.d(TAG, "Instantiate : FragmentSettings");
+            return new FragmentSettings();
         }
         else
         {

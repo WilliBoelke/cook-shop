@@ -1,7 +1,6 @@
 package cookshop.network;
 
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
 
 import com.example.cookshop.controller.network.NetworkConnection;
 import com.example.cookshop.controller.network.OnReceiveCallback;
@@ -16,14 +15,13 @@ import java.util.UUID;
  */
 public class MockNetworkConnectionServer implements NetworkConnection
 {
-    private ArrayList<Article> receivedArticles;
+    private final ArrayList<Article> receivedArticles;
     private OnReceiveCallback listener;
     private SendThread sendThread;
     private ReceiveThread receiveThread;
 
 
-
-    public MockNetworkConnectionServer( )
+    public MockNetworkConnectionServer()
     {
         this.receivedArticles = new ArrayList<>();
     }
@@ -47,7 +45,7 @@ public class MockNetworkConnectionServer implements NetworkConnection
         {
             this.sendThread = new SendThread();
             sendThread.start();
-          return;
+            return;
         }
         Article article = new Article(message);
         this.receivedArticles.add(article);
@@ -107,8 +105,6 @@ public class MockNetworkConnectionServer implements NetworkConnection
     }
 
 
-
-
     private class SendThread extends Thread
     {
         @Override
@@ -127,8 +123,6 @@ public class MockNetworkConnectionServer implements NetworkConnection
             listener.onIncomingMessage("FIN");
         }
     }
-
-
 
 
 }

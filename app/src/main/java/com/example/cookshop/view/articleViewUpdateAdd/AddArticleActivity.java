@@ -14,10 +14,11 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookshop.R;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.viewController.ArticleController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
-import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.model.UserPreferences;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -65,6 +66,7 @@ public class AddArticleActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTheme();
         setContentView(R.layout.article_add_edit);
         controller = new ArticleController();
         processIntent();
@@ -182,6 +184,34 @@ public class AddArticleActivity extends AppCompatActivity
         });
 
     }
+
+
+    private void setTheme()
+    {
+        String theme = UserPreferences.getInstance().getTheme();
+
+        switch (theme)
+        {
+            case UserPreferences.DARK_MODE:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  app theme DARK");
+                break;
+            case UserPreferences.LIGHT_MODE:
+                setTheme(R.style.LightTheme);
+                Log.d(TAG, "setTheme :  app theme LIGHT");
+                break;
+            case UserPreferences.LILAH_MODE:
+                setTheme(R.style.LilahTheme);
+                Log.d(TAG, "setTheme :  app theme LILAH");
+                break;
+            default:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  default DARK");
+                break;
+
+        }
+    }
+
 
     private void processIntent()
     {

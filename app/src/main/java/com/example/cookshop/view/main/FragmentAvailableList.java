@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 
 import com.example.cookshop.R;
-import com.example.cookshop.items.Article;
 import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.items.Article;
+import com.example.cookshop.view.adapter.ArticleRecyclerViewAdapter;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.articleViewUpdateAdd.ArticleViewer;
-import com.example.cookshop.view.adapter.ArticleRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class FragmentAvailableList extends FragmentArticleList {
          *    DataAccess will call this {@link #onChange()} method
          */
         ApplicationController.getInstance().registerOnAvailableListChangeListener(this);
-
+        setHasOptionsMenu(true);
     }
 
 

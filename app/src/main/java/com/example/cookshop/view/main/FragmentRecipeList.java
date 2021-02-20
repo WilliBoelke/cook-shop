@@ -14,16 +14,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.cookshop.R;
-import com.example.cookshop.items.Recipe;
 import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.items.Recipe;
+import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
 import com.example.cookshop.view.recipeViewUpdateAdd.AddRecipeActivity;
 import com.example.cookshop.view.recipeViewUpdateAdd.RecipeViewer;
-import com.example.cookshop.view.adapter.RecipeRecyclerViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,14 +44,16 @@ public class FragmentRecipeList extends FragmentRecipeTypeAbstract {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-      view = inflater.inflate(R.layout.main_fratgment_list, container, false);
-      setupSwipeGestures();
-      setupRecyclerView();
-      setupAddFab();
-      return view;
-      //return super.onCreateView(inflater, container, savedInstanceState);
-      //return inflater.inflate(R.layout.main_fratgment_list, container, false);
+                             Bundle savedInstanceState)
+    {
+        view = inflater.inflate(R.layout.main_fratgment_list, container, false);
+        setHasOptionsMenu(true);
+        setupSwipeGestures();
+        setupRecyclerView();
+        setupAddFab();
+        return view;
+        //return super.onCreateView(inflater, container, savedInstanceState);
+        //return inflater.inflate(R.layout.main_fratgment_list, container, false);
     }
 
     @Override

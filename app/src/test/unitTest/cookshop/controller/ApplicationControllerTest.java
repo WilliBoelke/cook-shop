@@ -4,7 +4,7 @@ package cookshop.controller;
 import android.content.Context;
 
 import com.example.cookshop.controller.Observer;
-import com.example.cookshop.controller.applicationController.ApplicationController;;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.items.Recipe;
@@ -36,26 +36,26 @@ import static org.mockito.Mockito.when;
 public class ApplicationControllerTest
 {
     Context mockContext = mock(Context.class);
-    ApplicationController testApplicationController ;
-    private RecipeListManager mockRecipeListManager    = Mockito.mock(RecipeListManager.class);
-    private ShoppingListManager mockShoppingListManager    = Mockito.mock(ShoppingListManager.class);
-    private AvailableListManager mockAvailableListManager = Mockito.mock(AvailableListManager.class);
-    private ToCookListManager mockToCookListManager = Mockito.mock(ToCookListManager.class);
+    ApplicationController testApplicationController;
+    private final RecipeListManager mockRecipeListManager = Mockito.mock(RecipeListManager.class);
+    private final ShoppingListManager mockShoppingListManager = Mockito.mock(ShoppingListManager.class);
+    private final AvailableListManager mockAvailableListManager = Mockito.mock(AvailableListManager.class);
+    private final ToCookListManager mockToCookListManager = Mockito.mock(ToCookListManager.class);
 
-    private Article testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0);
-    private Article testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0);
-    private Article testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13);
+    private final Article testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0);
+    private final Article testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0);
+    private final Article testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13);
 
-    private Step testStep1 = new Step("Schritt 1", "Beschreibung Schritt eins", 0, 1);
-    private Step testStep2 = new Step("Schritt 2", "Beschreibung Schritt zwei", 0, 2);
-    private Step testStep3 = new Step("Schritt 3", "Beschreibung Schritt drei", 0, 3);
+    private final Step testStep1 = new Step("Schritt 1", "Beschreibung Schritt eins", 0, 1);
+    private final Step testStep2 = new Step("Schritt 2", "Beschreibung Schritt zwei", 0, 2);
+    private final Step testStep3 = new Step("Schritt 3", "Beschreibung Schritt drei", 0, 3);
 
     private Recipe testRecipe1;
     private Recipe testRecipe2;
     private Recipe testRecipe3;
 
-    private ArrayList<Article> al = new ArrayList<>();
-    private ArrayList<Step>    sl = new ArrayList<>();
+    private final ArrayList<Article> al = new ArrayList<>();
+    private final ArrayList<Step> sl = new ArrayList<>();
 
     @Before
     public void setUp()
@@ -71,21 +71,21 @@ public class ApplicationControllerTest
         testRecipe2 = new Recipe("Kartoffelsuppe", "Beschreibung", al, sl);
         testRecipe3 = new Recipe("Rezept", "Beschreibung", al, sl);
         ApplicationController.getInstance().initialize(mockContext, mockRecipeListManager, mockShoppingListManager, mockAvailableListManager, mockToCookListManager);
-        testApplicationController =  ApplicationController.getInstance();
+        testApplicationController = ApplicationController.getInstance();
     }
 
     @Test
     public void addArticleToShoppingTest1()
     {
 
-      testApplicationController.addArticleToShoppingList(testArticle1);
+        testApplicationController.addArticleToShoppingList(testArticle1);
         Mockito.verify(mockShoppingListManager).addArticleIntelligent(testArticle1);
     }
 
     @Test
     public void addArticleToAvailableListTest1()
     {
-      testApplicationController.addArticleToAvailableList(testArticle2);
+        testApplicationController.addArticleToAvailableList(testArticle2);
         Mockito.verify(mockAvailableListManager).addArticleIntelligent(testArticle2);
     }
 
@@ -95,7 +95,7 @@ public class ApplicationControllerTest
     @Test
     public void addRecipeTest1()
     {
-      testApplicationController.addRecipe(testRecipe1);
+        testApplicationController.addRecipe(testRecipe1);
         Mockito.verify(mockRecipeListManager).addItem(testRecipe1);
     }
 
@@ -107,7 +107,7 @@ public class ApplicationControllerTest
     public void removeItemFromShoppingListTest1()
     {
         int index = 42;
-      testApplicationController.deleteArticleFromShoppingList(index);
+        testApplicationController.deleteArticleFromShoppingList(index);
         Mockito.verify(mockShoppingListManager).removeItem(Mockito.anyInt());
     }
 
@@ -119,7 +119,7 @@ public class ApplicationControllerTest
     public void removeItemFromShoppingListTest2()
     {
         int index = 42;
-      testApplicationController.deleteArticleFromShoppingList(index);
+        testApplicationController.deleteArticleFromShoppingList(index);
         Mockito.verify(mockShoppingListManager).removeItem(index);
     }
 
@@ -130,9 +130,9 @@ public class ApplicationControllerTest
     @Test
     public void removeItemFromShoppingListTest3()
     {
-      testApplicationController.deleteArticleFromShoppingList(1);
-      testApplicationController.deleteArticleFromShoppingList(2);
-      testApplicationController.deleteArticleFromShoppingList(3);
+        testApplicationController.deleteArticleFromShoppingList(1);
+        testApplicationController.deleteArticleFromShoppingList(2);
+        testApplicationController.deleteArticleFromShoppingList(3);
         Mockito.verify(mockShoppingListManager, times(3)).removeItem(Mockito.anyInt());
     }
 
@@ -144,7 +144,7 @@ public class ApplicationControllerTest
     public void removeItemFromAvailableListTest1()
     {
         int index = 42;
-      testApplicationController.deleteArticleFromAvailableList(index);
+        testApplicationController.deleteArticleFromAvailableList(index);
         Mockito.verify(mockAvailableListManager).removeItem(anyInt());
     }
 
@@ -156,7 +156,7 @@ public class ApplicationControllerTest
     public void removeItemFromAvailableListTest2()
     {
         int index = 42;
-      testApplicationController.deleteArticleFromAvailableList(index);
+        testApplicationController.deleteArticleFromAvailableList(index);
         Mockito.verify(mockAvailableListManager).removeItem(index);
     }
 
@@ -167,9 +167,9 @@ public class ApplicationControllerTest
     @Test
     public void removeItemFromAvailableListTest3()
     {
-      testApplicationController.deleteArticleFromAvailableList(1);
-      testApplicationController.deleteArticleFromAvailableList(2);
-      testApplicationController.deleteArticleFromAvailableList(3);
+        testApplicationController.deleteArticleFromAvailableList(1);
+        testApplicationController.deleteArticleFromAvailableList(2);
+        testApplicationController.deleteArticleFromAvailableList(3);
         Mockito.verify(mockAvailableListManager, times(3)).removeItem(Mockito.anyInt());
     }
 
@@ -180,7 +180,7 @@ public class ApplicationControllerTest
     @Test
     public void removeRecipeTest1()
     {
-      testApplicationController.deleteRecipe(1);
+        testApplicationController.deleteRecipe(1);
         Mockito.verify(mockRecipeListManager).removeItem(anyInt());
     }
 
@@ -191,7 +191,7 @@ public class ApplicationControllerTest
     @Test
     public void removeRecipeTest2()
     {
-      testApplicationController.deleteRecipe(1);
+        testApplicationController.deleteRecipe(1);
         Mockito.verify(mockRecipeListManager).removeItem(1);
     }
 
@@ -202,9 +202,9 @@ public class ApplicationControllerTest
     @Test
     public void removeRecipeTest3()
     {
-      testApplicationController.deleteRecipe(1);
-      testApplicationController.deleteRecipe(2);
-      testApplicationController.deleteRecipe(3);
+        testApplicationController.deleteRecipe(1);
+        testApplicationController.deleteRecipe(2);
+        testApplicationController.deleteRecipe(3);
         Mockito.verify(mockRecipeListManager, times(3)).removeItem(anyInt());
     }
 
@@ -219,7 +219,7 @@ public class ApplicationControllerTest
     public void getItemFromShoppingListTest1()
     {
         int index = 42;
-      testApplicationController.getArticleFromShoppingList(index);
+        testApplicationController.getArticleFromShoppingList(index);
         Mockito.verify(mockShoppingListManager).getItem(Mockito.anyInt());
     }
 
@@ -231,7 +231,7 @@ public class ApplicationControllerTest
     public void getItemFromShoppingListTest2()
     {
         int index = 42;
-      testApplicationController.getArticleFromShoppingList(index);
+        testApplicationController.getArticleFromShoppingList(index);
         Mockito.verify(mockShoppingListManager).getItem(index);
     }
 
@@ -242,9 +242,9 @@ public class ApplicationControllerTest
     @Test
     public void getItemFromShoppingListTest3()
     {
-      testApplicationController.getArticleFromShoppingList(1);
-      testApplicationController.getArticleFromShoppingList(2);
-      testApplicationController.getArticleFromShoppingList(3);
+        testApplicationController.getArticleFromShoppingList(1);
+        testApplicationController.getArticleFromShoppingList(2);
+        testApplicationController.getArticleFromShoppingList(3);
         Mockito.verify(mockShoppingListManager, times(3)).getItem(Mockito.anyInt());
     }
 
@@ -268,7 +268,7 @@ public class ApplicationControllerTest
     public void getItemFromAvailableListTest1()
     {
         int index = 42;
-      testApplicationController.getArticleFromAvailableList(index);
+        testApplicationController.getArticleFromAvailableList(index);
         Mockito.verify(mockAvailableListManager).getItem(anyInt());
     }
 
@@ -280,7 +280,7 @@ public class ApplicationControllerTest
     public void getItemFromAvailableListTest2()
     {
         int index = 42;
-      testApplicationController.getArticleFromAvailableList(index);
+        testApplicationController.getArticleFromAvailableList(index);
         Mockito.verify(mockAvailableListManager).getItem(index);
     }
 
@@ -291,9 +291,9 @@ public class ApplicationControllerTest
     @Test
     public void getItemFromAvailableListTest3()
     {
-      testApplicationController.getArticleFromAvailableList(1);
-      testApplicationController.getArticleFromAvailableList(2);
-      testApplicationController.getArticleFromAvailableList(3);
+        testApplicationController.getArticleFromAvailableList(1);
+        testApplicationController.getArticleFromAvailableList(2);
+        testApplicationController.getArticleFromAvailableList(3);
         Mockito.verify(mockAvailableListManager, times(3)).getItem(Mockito.anyInt());
     }
 
@@ -316,7 +316,7 @@ public class ApplicationControllerTest
     @Test
     public void getRecipeTest1()
     {
-      testApplicationController.getRecipe(1);
+        testApplicationController.getRecipe(1);
         Mockito.verify(mockRecipeListManager).getItem(anyInt());
     }
 
@@ -327,7 +327,7 @@ public class ApplicationControllerTest
     @Test
     public void getRecipeTest2()
     {
-      testApplicationController.getRecipe(1);
+        testApplicationController.getRecipe(1);
         Mockito.verify(mockRecipeListManager).getItem(1);
     }
 
@@ -338,9 +338,9 @@ public class ApplicationControllerTest
     @Test
     public void getRecipeTest3()
     {
-      testApplicationController.getRecipe(1);
-      testApplicationController.getRecipe(2);
-      testApplicationController.getRecipe(3);
+        testApplicationController.getRecipe(1);
+        testApplicationController.getRecipe(2);
+        testApplicationController.getRecipe(3);
         Mockito.verify(mockRecipeListManager, times(3)).getItem(anyInt());
     }
 
@@ -367,7 +367,7 @@ public class ApplicationControllerTest
     @Test
     public void getItemFromShoppingListWithNameTest1()
     {
-      testApplicationController.getArticleFromShoppingList("Banane");
+        testApplicationController.getArticleFromShoppingList("Banane");
         Mockito.verify(mockShoppingListManager).searchForArticle(Mockito.anyString());
     }
 
@@ -379,7 +379,7 @@ public class ApplicationControllerTest
     public void getItemFromShoppingListWithNameTest2()
     {
         String name = "Bananae";
-      testApplicationController.getArticleFromShoppingList(name);
+        testApplicationController.getArticleFromShoppingList(name);
         Mockito.verify(mockShoppingListManager).searchForArticle(name);
     }
 
@@ -390,9 +390,9 @@ public class ApplicationControllerTest
     @Test
     public void getItemFromShoppingListWithNameTest3()
     {
-      testApplicationController.getArticleFromShoppingList("name1");
-      testApplicationController.getArticleFromShoppingList("name2");
-      testApplicationController.getArticleFromShoppingList("name3");
+        testApplicationController.getArticleFromShoppingList("name1");
+        testApplicationController.getArticleFromShoppingList("name2");
+        testApplicationController.getArticleFromShoppingList("name3");
         Mockito.verify(mockShoppingListManager, times(3)).searchForArticle(Mockito.anyString());
     }
 
@@ -415,7 +415,7 @@ public class ApplicationControllerTest
     @Test
     public void getItemFromAvailableListWithNameTest1()
     {
-      testApplicationController.getArticleFromAvailableList("Banane");
+        testApplicationController.getArticleFromAvailableList("Banane");
         Mockito.verify(mockAvailableListManager).searchForArticle(Mockito.anyString());
     }
 
@@ -427,7 +427,7 @@ public class ApplicationControllerTest
     public void getItemFromAvailableListWithNameTest2()
     {
         String name = "Bananae";
-      testApplicationController.getArticleFromAvailableList(name);
+        testApplicationController.getArticleFromAvailableList(name);
         Mockito.verify(mockAvailableListManager).searchForArticle(name);
     }
 
@@ -438,9 +438,9 @@ public class ApplicationControllerTest
     @Test
     public void getItemFromAvailableListWithNameTest3()
     {
-      testApplicationController.getArticleFromAvailableList("name1");
-      testApplicationController.getArticleFromAvailableList("name2");
-      testApplicationController.getArticleFromAvailableList("name3");
+        testApplicationController.getArticleFromAvailableList("name1");
+        testApplicationController.getArticleFromAvailableList("name2");
+        testApplicationController.getArticleFromAvailableList("name3");
         Mockito.verify(mockAvailableListManager, times(3)).searchForArticle(Mockito.anyString());
     }
 
@@ -463,7 +463,7 @@ public class ApplicationControllerTest
     @Test
     public void getRecipeWithNameTest1()
     {
-      testApplicationController.getRecipe("Rezept");
+        testApplicationController.getRecipe("Rezept");
         Mockito.verify(mockRecipeListManager).getItem(anyString());
     }
 
@@ -474,7 +474,7 @@ public class ApplicationControllerTest
     @Test
     public void getRecipeWithNameTest2()
     {
-      testApplicationController.getRecipe("Test1234");
+        testApplicationController.getRecipe("Test1234");
         Mockito.verify(mockRecipeListManager).getItem("Test1234");
     }
 
@@ -485,9 +485,9 @@ public class ApplicationControllerTest
     @Test
     public void getRecipeWithNameTest3()
     {
-      testApplicationController.getRecipe("123");
-      testApplicationController.getRecipe("312");
-      testApplicationController.getRecipe("123");
+        testApplicationController.getRecipe("123");
+        testApplicationController.getRecipe("312");
+        testApplicationController.getRecipe("123");
         Mockito.verify(mockRecipeListManager, times(3)).getItem(anyString());
     }
 
@@ -514,7 +514,7 @@ public class ApplicationControllerTest
     @Test
     public void updateItemFromShoppingListTest1()
     {
-      testApplicationController.updateArticleFromShoppingList(1, testArticle2);
+        testApplicationController.updateArticleFromShoppingList(1, testArticle2);
         Mockito.verify(mockShoppingListManager).updateArticle(Mockito.anyInt(), Mockito.any(testArticle1.getClass()));
     }
 
@@ -525,7 +525,7 @@ public class ApplicationControllerTest
     @Test
     public void updateItemFromShoppingListTest2()
     {
-      testApplicationController.updateArticleFromShoppingList(2, testArticle2);
+        testApplicationController.updateArticleFromShoppingList(2, testArticle2);
         Mockito.verify(mockShoppingListManager).updateArticle(2, testArticle2);
     }
 
@@ -536,9 +536,9 @@ public class ApplicationControllerTest
     @Test
     public void updateItemFromShoppingListTest3()
     {
-      testApplicationController.updateArticleFromShoppingList(2, testArticle2);
-      testApplicationController.updateArticleFromShoppingList(2, testArticle2);
-      testApplicationController.updateArticleFromShoppingList(2, testArticle2);
+        testApplicationController.updateArticleFromShoppingList(2, testArticle2);
+        testApplicationController.updateArticleFromShoppingList(2, testArticle2);
+        testApplicationController.updateArticleFromShoppingList(2, testArticle2);
         Mockito.verify(mockShoppingListManager, times(3)).updateArticle(Mockito.anyInt(), Mockito.any(testArticle1.getClass()));
     }
 
@@ -549,7 +549,7 @@ public class ApplicationControllerTest
     @Test
     public void updateItemFromAvailableListTest1()
     {
-      testApplicationController.updateArticleFromAvailableList(1, testArticle2);
+        testApplicationController.updateArticleFromAvailableList(1, testArticle2);
         Mockito.verify(mockAvailableListManager).updateArticle(Mockito.anyInt(), Mockito.any(testArticle1.getClass()));
     }
 
@@ -560,7 +560,7 @@ public class ApplicationControllerTest
     @Test
     public void updateItemFromAvailableListTest2()
     {
-      testApplicationController.updateArticleFromAvailableList(2, testArticle2);
+        testApplicationController.updateArticleFromAvailableList(2, testArticle2);
         Mockito.verify(mockAvailableListManager).updateArticle(2, testArticle2);
     }
 
@@ -571,8 +571,8 @@ public class ApplicationControllerTest
     @Test
     public void updateItemFromAvailableListTest3()
     {
-      testApplicationController.updateArticleFromAvailableList(2, testArticle2);
-      testApplicationController.updateArticleFromAvailableList(2, testArticle2);
+        testApplicationController.updateArticleFromAvailableList(2, testArticle2);
+        testApplicationController.updateArticleFromAvailableList(2, testArticle2);
         Mockito.verify(mockAvailableListManager, times(2)).updateArticle(Mockito.anyInt(), Mockito.any(testArticle1.getClass()));
     }
 
@@ -583,7 +583,7 @@ public class ApplicationControllerTest
     @Test
     public void updateRecipeTest1()
     {
-      testApplicationController.updateRecipe(1, testRecipe1);
+        testApplicationController.updateRecipe(1, testRecipe1);
         Mockito.verify(mockRecipeListManager).updateRecipe(anyInt(), any(Recipe.class));
     }
 
@@ -594,7 +594,7 @@ public class ApplicationControllerTest
     @Test
     public void updateRecipeTest2()
     {
-      testApplicationController.updateRecipe(1, testRecipe1);
+        testApplicationController.updateRecipe(1, testRecipe1);
         Mockito.verify(mockRecipeListManager).updateRecipe(1, testRecipe1);
     }
 
@@ -605,9 +605,9 @@ public class ApplicationControllerTest
     @Test
     public void updateRecipeTest3()
     {
-      testApplicationController.updateRecipe(1, testRecipe1);
-      testApplicationController.updateRecipe(2, testRecipe1);
-      testApplicationController.updateRecipe(3, testRecipe1);
+        testApplicationController.updateRecipe(1, testRecipe1);
+        testApplicationController.updateRecipe(2, testRecipe1);
+        testApplicationController.updateRecipe(3, testRecipe1);
         Mockito.verify(mockRecipeListManager, times(3)).updateRecipe(anyInt(), any(Recipe.class));
     }
 
@@ -634,7 +634,7 @@ public class ApplicationControllerTest
     public void fromShoppingToAvailableListTest2()
     {
         Mockito.when(mockShoppingListManager.getItem(3)).thenReturn(testArticle3);
-      testApplicationController.transferArticleFromShoppingToAvailableList(3);
+        testApplicationController.transferArticleFromShoppingToAvailableList(3);
         Mockito.verify(mockShoppingListManager).removeItem(3);
         Mockito.verify(mockShoppingListManager).getItem(3);
         Mockito.verify(mockAvailableListManager).addArticleIntelligent(testArticle3);
@@ -661,7 +661,7 @@ public class ApplicationControllerTest
     public void fromAvailableToShoppingTest2()
     {
         Mockito.when(mockAvailableListManager.getItem(3)).thenReturn(testArticle3);
-      testApplicationController.transferArticleFromAvailableToShoppingList(3);
+        testApplicationController.transferArticleFromAvailableToShoppingList(3);
         Mockito.verify(mockAvailableListManager).removeItem(3);
         Mockito.verify(mockAvailableListManager).getItem(3);
         Mockito.verify(mockShoppingListManager).addArticleIntelligent(testArticle3);
@@ -670,8 +670,8 @@ public class ApplicationControllerTest
 
     //....observable tests ..........
 
-    private int counterOne   = 0;
-    private int counterTwo   = 0;
+    private int counterOne = 0;
+    private int counterTwo = 0;
 
 
     @Before
@@ -707,10 +707,10 @@ public class ApplicationControllerTest
     public void onShoppingListChangeTest1()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnShoppingListChangeListener(bls1);
+        testApplicationController.registerOnShoppingListChangeListener(bls1);
 
-      testApplicationController.transferArticleFromAvailableToShoppingList(3);
-      testApplicationController.addArticleToShoppingList(testArticle3);
+        testApplicationController.transferArticleFromAvailableToShoppingList(3);
+        testApplicationController.addArticleToShoppingList(testArticle3);
 
         assertEquals(counterOne, 2);
     }
@@ -723,11 +723,11 @@ public class ApplicationControllerTest
     {
         ObserverOne bls1 = new ObserverOne();
         ObserverTwo bls2 = new ObserverTwo();
-      testApplicationController.registerOnShoppingListChangeListener(bls1);
-      testApplicationController.registerOnShoppingListChangeListener(bls2);
+        testApplicationController.registerOnShoppingListChangeListener(bls1);
+        testApplicationController.registerOnShoppingListChangeListener(bls2);
 
-      testApplicationController.transferArticleFromAvailableToShoppingList(3);
-      testApplicationController.addArticleToShoppingList(testArticle3);
+        testApplicationController.transferArticleFromAvailableToShoppingList(3);
+        testApplicationController.addArticleToShoppingList(testArticle3);
 
         assertEquals(counterOne, 2);
         assertEquals(counterTwo, 2);
@@ -740,13 +740,13 @@ public class ApplicationControllerTest
     public void onShoppingListChangeTest3()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnShoppingListChangeListener(bls1);
+        testApplicationController.registerOnShoppingListChangeListener(bls1);
 
 
-      testApplicationController.transferArticleFromAvailableToShoppingList(3);
-      testApplicationController.addArticleToShoppingList(testArticle3);
-      testApplicationController.deleteArticleFromShoppingList(1);
-      testApplicationController.updateArticleFromShoppingList(1, testArticle1);
+        testApplicationController.transferArticleFromAvailableToShoppingList(3);
+        testApplicationController.addArticleToShoppingList(testArticle3);
+        testApplicationController.deleteArticleFromShoppingList(1);
+        testApplicationController.updateArticleFromShoppingList(1, testArticle1);
 
         assertEquals(4, counterOne);
     }
@@ -758,15 +758,15 @@ public class ApplicationControllerTest
     public void onShoppingListChangeTest4()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnShoppingListChangeListener(bls1);
+        testApplicationController.registerOnShoppingListChangeListener(bls1);
 
 
-      testApplicationController.transferArticleFromAvailableToShoppingList(3);
-      testApplicationController.addArticleToShoppingList(testArticle3);
-      testApplicationController.unregisterOnShoppingListChangeListener(bls1);
+        testApplicationController.transferArticleFromAvailableToShoppingList(3);
+        testApplicationController.addArticleToShoppingList(testArticle3);
+        testApplicationController.unregisterOnShoppingListChangeListener(bls1);
 
         //Shouldn't be counted anymore
-      testApplicationController.deleteArticleFromShoppingList(1);
+        testApplicationController.deleteArticleFromShoppingList(1);
 
         assertEquals(2, counterOne);
     }
@@ -779,10 +779,10 @@ public class ApplicationControllerTest
     public void onAvailableListChangeTest1()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnAvailableListChangeListener(bls1);
+        testApplicationController.registerOnAvailableListChangeListener(bls1);
 
-      testApplicationController.transferArticleFromShoppingToAvailableList(3);
-      testApplicationController.addArticleToAvailableList(testArticle3);
+        testApplicationController.transferArticleFromShoppingToAvailableList(3);
+        testApplicationController.addArticleToAvailableList(testArticle3);
 
         assertEquals(counterOne, 2);
     }
@@ -795,11 +795,11 @@ public class ApplicationControllerTest
     {
         ObserverOne bls1 = new ObserverOne();
         ObserverTwo bls2 = new ObserverTwo();
-      testApplicationController.registerOnAvailableListChangeListener(bls1);
-      testApplicationController.registerOnAvailableListChangeListener(bls2);
+        testApplicationController.registerOnAvailableListChangeListener(bls1);
+        testApplicationController.registerOnAvailableListChangeListener(bls2);
 
-      testApplicationController.transferArticleFromShoppingToAvailableList(3);
-      testApplicationController.addArticleToAvailableList(testArticle3);
+        testApplicationController.transferArticleFromShoppingToAvailableList(3);
+        testApplicationController.addArticleToAvailableList(testArticle3);
 
         assertEquals(counterOne, 2);
         assertEquals(counterTwo, 2);
@@ -812,13 +812,13 @@ public class ApplicationControllerTest
     public void onAvailableListChangeTest3()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnAvailableListChangeListener(bls1);
+        testApplicationController.registerOnAvailableListChangeListener(bls1);
 
 
-      testApplicationController.transferArticleFromShoppingToAvailableList(3);
-      testApplicationController.addArticleToAvailableList(testArticle3);
-      testApplicationController.deleteArticleFromAvailableList(1);
-      testApplicationController.updateArticleFromAvailableList(1, testArticle1);
+        testApplicationController.transferArticleFromShoppingToAvailableList(3);
+        testApplicationController.addArticleToAvailableList(testArticle3);
+        testApplicationController.deleteArticleFromAvailableList(1);
+        testApplicationController.updateArticleFromAvailableList(1, testArticle1);
 
         assertEquals(4, counterOne);
     }
@@ -830,15 +830,15 @@ public class ApplicationControllerTest
     public void onAvailableListChangeTest4()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnAvailableListChangeListener(bls1);
+        testApplicationController.registerOnAvailableListChangeListener(bls1);
 
 
-      testApplicationController.transferArticleFromShoppingToAvailableList(3);
-      testApplicationController.addArticleToAvailableList(testArticle3);
-      testApplicationController.unregisterOnAvailableListChangeListener(bls1);
+        testApplicationController.transferArticleFromShoppingToAvailableList(3);
+        testApplicationController.addArticleToAvailableList(testArticle3);
+        testApplicationController.unregisterOnAvailableListChangeListener(bls1);
 
         //Shouldn't be counted anymore
-      testApplicationController.deleteArticleFromAvailableList(1);
+        testApplicationController.deleteArticleFromAvailableList(1);
 
         assertEquals(2, counterOne);
     }
@@ -851,10 +851,10 @@ public class ApplicationControllerTest
     public void onRecipeListChangeTest1()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnRecipeListChangeListener(bls1);
+        testApplicationController.registerOnRecipeListChangeListener(bls1);
 
-      testApplicationController.addRecipe(testRecipe1);
-      testApplicationController.addRecipe(testRecipe2);
+        testApplicationController.addRecipe(testRecipe1);
+        testApplicationController.addRecipe(testRecipe2);
 
         assertEquals(counterOne, 2);
     }
@@ -867,11 +867,11 @@ public class ApplicationControllerTest
     {
         ObserverOne bls1 = new ObserverOne();
         ObserverTwo bls2 = new ObserverTwo();
-      testApplicationController.registerOnRecipeListChangeListener(bls1);
-      testApplicationController.registerOnRecipeListChangeListener(bls2);
+        testApplicationController.registerOnRecipeListChangeListener(bls1);
+        testApplicationController.registerOnRecipeListChangeListener(bls2);
 
-      testApplicationController.addRecipe(testRecipe1);
-      testApplicationController.updateRecipe(1, testRecipe2);
+        testApplicationController.addRecipe(testRecipe1);
+        testApplicationController.updateRecipe(1, testRecipe2);
 
         assertEquals(counterOne, 2);
         assertEquals(counterTwo, 2);
@@ -884,11 +884,11 @@ public class ApplicationControllerTest
     public void onRecipeListChangeTest3()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnRecipeListChangeListener(bls1);
+        testApplicationController.registerOnRecipeListChangeListener(bls1);
 
-      testApplicationController.addRecipe(testRecipe1);
-      testApplicationController.deleteRecipe(1);
-      testApplicationController.updateRecipe(1, testRecipe1);
+        testApplicationController.addRecipe(testRecipe1);
+        testApplicationController.deleteRecipe(1);
+        testApplicationController.updateRecipe(1, testRecipe1);
 
         assertEquals(3, counterOne);
     }
@@ -900,15 +900,15 @@ public class ApplicationControllerTest
     public void onRecipeListChangeTest4()
     {
         ObserverOne bls1 = new ObserverOne();
-      testApplicationController.registerOnRecipeListChangeListener(bls1);
+        testApplicationController.registerOnRecipeListChangeListener(bls1);
 
 
-      testApplicationController.updateRecipe(1, testRecipe1);
-      testApplicationController.addRecipe(testRecipe1);
-      testApplicationController.unregisterOnRecipeListChangeListener(bls1);
+        testApplicationController.updateRecipe(1, testRecipe1);
+        testApplicationController.addRecipe(testRecipe1);
+        testApplicationController.unregisterOnRecipeListChangeListener(bls1);
 
         //Shouldn't be counted anymore
-      testApplicationController.deleteRecipe(1);
+        testApplicationController.deleteRecipe(1);
 
         assertEquals(2, counterOne);
     }

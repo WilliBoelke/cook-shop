@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.cookshop.R;
-import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 

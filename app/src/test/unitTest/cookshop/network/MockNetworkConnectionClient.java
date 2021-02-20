@@ -12,8 +12,8 @@ import java.util.UUID;
 
 public class MockNetworkConnectionClient implements NetworkConnection
 {
-    private ArrayList<Article> receivedArticles;
-    private ArrayList<Article> sendArticles;
+    private final ArrayList<Article> receivedArticles;
+    private final ArrayList<Article> sendArticles;
     private OnReceiveCallback listener;
     private SendThread sendThread;
     private ReceiveThread receiveThread;
@@ -55,21 +55,21 @@ public class MockNetworkConnectionClient implements NetworkConnection
         this.receiveThread = new ReceiveThread();
         receiveThread.start();
     }
-    int count = 0;
 
+    int count = 0;
 
 
     @Override
     public void setOnReceiveListener(OnReceiveCallback listener)
     {
-             this.listener = listener;
-             count ++;
-             if(count == 2)
-             {
-                 sendThread = new SendThread();
-                 System.out.println("Start send thread ");
-                 sendThread.start();
-             }
+        this.listener = listener;
+        count++;
+        if (count == 2)
+        {
+            sendThread = new SendThread();
+            System.out.println("Start send thread ");
+            sendThread.start();
+        }
     }
 
     @Override
@@ -108,8 +108,7 @@ public class MockNetworkConnectionClient implements NetworkConnection
                 {
                     this.wait(50);
                 }
-            }
-                catch (InterruptedException e)
+            } catch (InterruptedException e)
             {
                 e.printStackTrace();
             }
@@ -133,8 +132,7 @@ public class MockNetworkConnectionClient implements NetworkConnection
                     {
                         this.wait(1000);
                     }
-                }
-                catch (InterruptedException e)
+                } catch (InterruptedException e)
                 {
                     e.printStackTrace();
                 }

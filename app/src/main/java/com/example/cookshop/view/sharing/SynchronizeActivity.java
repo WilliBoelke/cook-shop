@@ -1,6 +1,4 @@
-package com.example.cookshop.view;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.cookshop.view.sharing;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -18,12 +16,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cookshop.R;
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.network.BluetoothConnection;
 import com.example.cookshop.controller.network.OnSyncFinishedCallback;
 import com.example.cookshop.controller.network.SynchronizationManager;
 import com.example.cookshop.items.Article;
-import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.model.UserPreferences;
 import com.example.cookshop.view.adapter.DeviceListAdapter;
 
 import java.lang.reflect.Method;
@@ -114,8 +115,8 @@ public class SynchronizeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setTheme();
         setContentView(R.layout.activity_synchronie);
-
         listView = findViewById(R.id.device_list_view);
         mBTDevices = new ArrayList<>();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -445,14 +446,42 @@ public class SynchronizeActivity extends AppCompatActivity
 
     private AdapterView.OnItemClickListener  listClickListener=  new AdapterView.OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
             mBluetoothAdapter.cancelDiscovery();
 
-            Log.d(TAG, "Clicked on ListViewItem at  position " + position );
+            Log.d(TAG, "Clicked on ListViewItem at  position " + position);
             String deviceName = mBTDevices.get(position).getName();
             String deviceAddress = mBTDevices.get(position).getAddress();
             Log.d(TAG, "Clicked on ListViewItem with name :  " + deviceName + " " + deviceAddress);
             mBTDevices.get(position).createBond();
         }
     };
+
+
+    private void setTheme()
+    {
+        String theme = UserPreferences.getInstance().getTheme();
+
+        switch (theme)
+        {
+            case UserPreferences.DARK_MODE:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  app theme DARK");
+                break;
+            case UserPreferences.LIGHT_MODE:
+                setTheme(R.style.LightTheme);
+                Log.d(TAG, "setTheme :  app theme LIGHT");
+                break;
+            case UserPreferences.LILAH_MODE:
+                setTheme(R.style.LilahTheme);
+                Log.d(TAG, "setTheme :  app theme LILAH");
+                break;
+            default:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  default DARK");
+                break;
+
+        }
+    }
 }

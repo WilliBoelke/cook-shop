@@ -8,13 +8,13 @@ import com.example.cookshop.items.Step;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RecipeTest
 {
@@ -36,8 +36,8 @@ public class RecipeTest
 
     ArrayList<Article> al = new ArrayList<>();
     ArrayList<Step> sl = new ArrayList<>();
-    private String dateString = "09-1-2021 07:50:40";
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    private final String dateString = "09-1-2021 07:50:40";
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     private Date date;
 
 
@@ -46,12 +46,12 @@ public class RecipeTest
     {
         date = simpleDateFormat.parse(dateString);
 
-         testArticle1 = new Article("Apfel", "Beschreibung Apfel", Category.FRUIT, 4, 1.0 , date,  date);
-         testArticle2 = new Article("Birne", "Beschreibung Birne", Category.FRUIT, 3, 1.0, date, date);
-         testArticle3 = new Article("Gurke", "Beschreibung Gurke", Category.VEGETABLE, 1, 13, date, date);
-         testArticle4 = new Article("Mehl","Beschreibung Mehl",  Category.OTHERS, 12, 13, date, date);
-         testArticle5 = new Article("Melone", "Beschreibung Melone",  Category.FRUIT, 12, 2.13, date, date);
-         testArticle6 = new Article("Mais", "Beschreibung Mais", Category.VEGETABLE, 21, 1.2, date, date);
+        testArticle1 = new Article("Apfel", "Beschreibung Apfel", Category.FRUIT, 4, 1.0, date, date);
+        testArticle2 = new Article("Birne", "Beschreibung Birne", Category.FRUIT, 3, 1.0, date, date);
+        testArticle3 = new Article("Gurke", "Beschreibung Gurke", Category.VEGETABLE, 1, 13, date, date);
+        testArticle4 = new Article("Mehl", "Beschreibung Mehl", Category.OTHERS, 12, 13, date, date);
+        testArticle5 = new Article("Melone", "Beschreibung Melone", Category.FRUIT, 12, 2.13, date, date);
+        testArticle6 = new Article("Mais", "Beschreibung Mais", Category.VEGETABLE, 21, 1.2, date, date);
 
         al.add(testArticle1);
         al.add(testArticle2);
@@ -60,31 +60,35 @@ public class RecipeTest
         sl.add(testStep2);
         sl.add(testStep3);
         testRecipe1 = new Recipe("Spaghetti", "Mit blognese", al, sl);
-        testRecipe2 = new Recipe("Kartoffelsuppe", "Beschreibung", al,sl);
-        testRecipe3 = new Recipe("Rezept", "Beschreibung", al,sl);
+        testRecipe2 = new Recipe("Kartoffelsuppe", "Beschreibung", al, sl);
+        testRecipe3 = new Recipe("Rezept", "Beschreibung", al, sl);
     }
 
     @Test
-    public void getNameTest1() {
+    public void getNameTest1()
+    {
         assertTrue(testRecipe1.getName().equals("Spaghetti") &&
                 testRecipe2.getName().equals("Kartoffelsuppe") &&
                 testRecipe3.getName().equals("Rezept"));
     }
 
     @Test
-    public void getDescriptionTest1() {
+    public void getDescriptionTest1()
+    {
         assertTrue(testRecipe1.getDescription().equals("Mit blognese") &&
                 testRecipe2.getDescription().equals("Beschreibung") &&
                 testRecipe3.getDescription().equals("Beschreibung"));
     }
 
     @Test
-    public void getArticleListTest1() {
+    public void getArticleListTest1()
+    {
         assertTrue(testRecipe1.getArticles().equals(al));
     }
 
     @Test
-    public void setNameTest1() {
+    public void setNameTest1()
+    {
         assertTrue(testRecipe1.getName().equals("Spaghetti"));
 
         testRecipe1.setName("new name");
@@ -105,7 +109,7 @@ public class RecipeTest
     @Test
     public void setArticleListTest1()
     {
-        ArrayList<Article>  nal = new ArrayList<>();
+        ArrayList<Article> nal = new ArrayList<>();
         nal.add(testArticle4);
         nal.add(testArticle5);
         nal.add(testArticle6);
@@ -120,7 +124,7 @@ public class RecipeTest
     @Test
     public void setStepListTest1()
     {
-        ArrayList<Step>  nsl = new ArrayList<>();
+        ArrayList<Step> nsl = new ArrayList<>();
         nsl.add(testStep4);
         nsl.add(testStep5);
         nsl.add(testStep2);
@@ -136,14 +140,14 @@ public class RecipeTest
     public void compareToTest1()
     {
         assertTrue(testRecipe2.compareTo(testRecipe3) == 1 &&
-                testRecipe3.compareTo(testRecipe1) ==  1);
+                testRecipe3.compareTo(testRecipe1) == 1);
     }
 
     @Test
     public void compareToTest2()
     {
-        assertTrue(testRecipe1.compareTo(testRecipe3) ==  - 1 &&
-                testRecipe3.compareTo(testRecipe2) ==   - 1);
+        assertTrue(testRecipe1.compareTo(testRecipe3) == -1 &&
+                testRecipe3.compareTo(testRecipe2) == -1);
     }
 
     @Test
@@ -153,8 +157,8 @@ public class RecipeTest
         testRecipe1.setName(name);
         testRecipe2.setName(name);
         testRecipe3.setName(name);
-        assertTrue(testRecipe1.compareTo(testRecipe3) ==  0 &&
-                testRecipe3.compareTo(testRecipe2) ==   0);
+        assertTrue(testRecipe1.compareTo(testRecipe3) == 0 &&
+                testRecipe3.compareTo(testRecipe2) == 0);
     }
 
     @Test
@@ -163,15 +167,15 @@ public class RecipeTest
         System.out.println(testRecipe1.getMementoPattern());
         System.out.println(testRecipe2.getMementoPattern());
         System.out.println(testRecipe3.getMementoPattern());
-        assertTrue(testRecipe1.getMementoPattern().equals("Spaghetti++Mit blognese++Apfel||Beschreibung Apfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||"+ dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||"+ dateString + "||" + dateString + "||Vegetable||++"));
-        assertTrue(testRecipe2.getMementoPattern().equals("Kartoffelsuppe++Beschreibung++Apfel||Beschreibung Apfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||"+ dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||"+ dateString + "||" + dateString + "||Vegetable||++"));
-        assertTrue(testRecipe3.getMementoPattern().equals("Rezept++Beschreibung++Apfel||Beschreibung Apfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||"+ dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||"+ dateString + "||" + dateString + "||Vegetable||++"));
+        assertTrue(testRecipe1.getMementoPattern().equals("Spaghetti++Mit blognese++Apfel||Beschreibung Apfel||1.0||4||" + dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||" + dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||" + dateString + "||" + dateString + "||Vegetable||++"));
+        assertTrue(testRecipe2.getMementoPattern().equals("Kartoffelsuppe++Beschreibung++Apfel||Beschreibung Apfel||1.0||4||" + dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||" + dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||" + dateString + "||" + dateString + "||Vegetable||++"));
+        assertTrue(testRecipe3.getMementoPattern().equals("Rezept++Beschreibung++Apfel||Beschreibung Apfel||1.0||4||" + dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||" + dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||" + dateString + "||" + dateString + "||Vegetable||++"));
     }
 
     @Test
     public void setObjectFromMementoPatternTest1()
     {
-        testRecipe1.setObjectFromMementoPattern("Spaghetti++Mit blognese++Apfel||Beschreibung Apfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||"+ dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||"+ dateString + "||" + dateString + "||Vegetable||++");
+        testRecipe1.setObjectFromMementoPattern("Spaghetti++Mit blognese++Apfel||Beschreibung Apfel||1.0||4||" + dateString + "||" + dateString + "||Fruit||++Birne||Beschreibung Birne||1.0||3||" + dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung Gurke||13.0||1||" + dateString + "||" + dateString + "||Vegetable||++");
         assertTrue(testRecipe1.getName().equals("Spaghetti"));
         assertTrue(testRecipe1.getDescription().equals("Mit blognese"));
     }
@@ -179,7 +183,7 @@ public class RecipeTest
     @Test
     public void setObjectFromMementoPatternTest2()
     {
-        testRecipe1.setObjectFromMementoPattern("Test      ++memento Beschreibung    ++Apfel    ||4 Äpfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||++Birne||3 Birnen||1.0||3||"+ dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung||13.0||1||"+ dateString + "||" + dateString + "||Vegetable||++");
+        testRecipe1.setObjectFromMementoPattern("Test      ++memento Beschreibung    ++Apfel    ||4 Äpfel||1.0||4||" + dateString + "||" + dateString + "||Fruit||++Birne||3 Birnen||1.0||3||" + dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung||13.0||1||" + dateString + "||" + dateString + "||Vegetable||++");
         assertTrue(testRecipe1.getName().equals("Test"));
         assertTrue(testRecipe1.getDescription().equals("memento Beschreibung"));
     }
@@ -187,7 +191,7 @@ public class RecipeTest
     @Test
     public void setObjectFromMementoPatternTest3()
     {
-        testRecipe1.setObjectFromMementoPattern("Test      ++memento Beschreibung    ++Apfel    ||4 Äpfel||1.0||4||"+ dateString + "||" + dateString + "||Fruit||++Birne||3 Birnen||1.0||3||"+ dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung||13.0||1||"+ dateString + "||" + dateString + "||Vegetable||++");
+        testRecipe1.setObjectFromMementoPattern("Test      ++memento Beschreibung    ++Apfel    ||4 Äpfel||1.0||4||" + dateString + "||" + dateString + "||Fruit||++Birne||3 Birnen||1.0||3||" + dateString + "||" + dateString + "||Fruit||++Gurke||Beschreibung||13.0||1||" + dateString + "||" + dateString + "||Vegetable||++");
         assertTrue(testRecipe1.getName().equals("Test"));
         assertTrue(testRecipe1.getDescription().equals("memento Beschreibung"));
     }
@@ -215,6 +219,6 @@ public class RecipeTest
         assertEquals(testRecipe1.getName(), recipe.getName());
         assertEquals(testRecipe1.getDescription(), recipe.getDescription());
         assertTrue(testRecipe1.getSteps().size() == recipe.getSteps().size());
-        assertTrue(testRecipe1.getArticles().size() ==  recipe.getArticles().size());
+        assertTrue(testRecipe1.getArticles().size() == recipe.getArticles().size());
     }
 }

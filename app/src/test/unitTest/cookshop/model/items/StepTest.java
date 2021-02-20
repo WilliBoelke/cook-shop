@@ -5,15 +5,15 @@ import com.example.cookshop.items.Step;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class StepTest
 {
-   private  Step testStep1;
-   private  Step testStep2;
-   private  Step testStep3;
-   private Step testStep4;;
-   private  Step testStep5;
+    private Step testStep1;
+    private Step testStep2;
+    private Step testStep3;
+    private Step testStep4;
+    private Step testStep5;
 
     @Before
     public void setUp() throws Exception
@@ -47,15 +47,15 @@ public class StepTest
     {
         assertTrue(testStep1.getTimerInSeconds() == 42 &&
                 testStep2.getTimerInSeconds() == 12345 &&
-                testStep3.getTimerInSeconds() == 0 );
+                testStep3.getTimerInSeconds() == 0);
     }
 
     @Test
     public void getOrderPositionTest1()
     {
-        assertTrue(testStep1.getOrderPosition() == 1    &&
+        assertTrue(testStep1.getOrderPosition() == 1 &&
                 testStep2.getOrderPosition() == 2 &&
-                testStep4.getOrderPosition() == 4 );
+                testStep4.getOrderPosition() == 4);
     }
 
 
@@ -75,7 +75,6 @@ public class StepTest
     }
 
 
-
     @Test
     public void setDescriptionTest1()
     {
@@ -90,7 +89,6 @@ public class StepTest
                 testStep2.getDescription().equals("Banane") &&
                 testStep3.getDescription().equals("Beschreibung Schritt drei"));
     }
-
 
 
     @Test
@@ -126,9 +124,6 @@ public class StepTest
     }
 
 
-
-
-
     @Test
     public void setOrderPositionTest1()
     {
@@ -156,8 +151,8 @@ public class StepTest
         testStep1.setName("ABC");
         testStep2.setName("BAC");
         testStep3.setName("CAB");
-        assertTrue(testStep1.compareTo(testStep2)  ==1 &&
-                testStep1.compareTo(testStep3) ==1);
+        assertTrue(testStep1.compareTo(testStep2) == 1 &&
+                testStep1.compareTo(testStep3) == 1);
     }
 
     @Test
@@ -166,7 +161,7 @@ public class StepTest
         testStep1.setName("CAB");
         testStep2.setName("BAC");
         testStep3.setName("ABC");
-        assertTrue(testStep1.compareTo(testStep2)  == -1 &&
+        assertTrue(testStep1.compareTo(testStep2) == -1 &&
                 testStep2.compareTo(testStep3) == -1);
     }
 
@@ -177,11 +172,9 @@ public class StepTest
         testStep1.setName("Schritt");
         testStep2.setName("Schritt");
         testStep3.setName("Schritt");
-        assertTrue(testStep1.compareTo(testStep2)  == 0 &&
+        assertTrue(testStep1.compareTo(testStep2) == 0 &&
                 testStep2.compareTo(testStep3) == 0);
     }
-
-
 
 
     @Test

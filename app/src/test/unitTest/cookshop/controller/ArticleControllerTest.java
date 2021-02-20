@@ -9,11 +9,12 @@ import com.example.cookshop.items.Category;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +48,6 @@ public class ArticleControllerTest
     }
 
 
-
     @Test
     public void checkUserInputWithName()
     {
@@ -65,12 +65,12 @@ public class ArticleControllerTest
         when(textView3.getText()).thenReturn("13");
         when(textView4.getText()).thenReturn("12");
 
-        Article result =  testArticleController.generateArticleFromInput(textView1, textView2, Category.FRUIT, textView3, textView4);
+        Article result = testArticleController.generateArticleFromInput(textView1, textView2, Category.FRUIT, textView3, textView4);
 
         assertEquals("aName", result.getName());
         assertEquals("Description", result.getDescription());
-        assertTrue(13 ==  result.getWeight());
-        assertTrue(12 ==  result.getAmount());
+        assertTrue(13 == result.getWeight());
+        assertTrue(12 == result.getAmount());
         assertEquals(Category.FRUIT, result.getCategory());
     }
 
@@ -84,12 +84,12 @@ public class ArticleControllerTest
         when(textView4.getText()).thenReturn("12");
 
         Date date = Calendar.getInstance().getTime();
-        Article result =  testArticleController.generateArticleFromInput(textView1, textView2, Category.FRUIT, textView3, textView4, date);
+        Article result = testArticleController.generateArticleFromInput(textView1, textView2, Category.FRUIT, textView3, textView4, date);
 
         assertEquals("aName", result.getName());
         assertEquals("Description", result.getDescription());
-        assertTrue(13 ==  result.getWeight());
-        assertTrue(12 ==  result.getAmount());
+        assertTrue(13 == result.getWeight());
+        assertTrue(12 == result.getAmount());
         assertEquals(Category.FRUIT, result.getCategory());
         assertEquals(date, result.getDateOfCreation());
         assertNotEquals(date, result.getDateOfUpdate());

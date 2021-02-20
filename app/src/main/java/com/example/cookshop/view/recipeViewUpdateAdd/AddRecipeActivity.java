@@ -7,18 +7,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookshop.R;
-
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Article;
-
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
-import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.model.UserPreferences;
 import com.example.cookshop.view.adapter.ListItemWithDeleteButtonAdapter;
 import com.example.cookshop.view.articleViewUpdateAdd.AddArticleActivity;
 import com.example.cookshop.view.stepViewUpdateAdd.AddStepActivity;
@@ -54,6 +52,7 @@ public class AddRecipeActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
+    setTheme();
     setContentView(R.layout.recipe_add_edit);
     processIntent();
     recipeController = new RecipeController(ApplicationController.getInstance());
@@ -155,8 +154,36 @@ public class AddRecipeActivity extends AppCompatActivity {
     else
     {
       Snackbar.make(view, R.string.no_name_and_descr_warning, Snackbar.LENGTH_LONG)
-        .setAction("Action", null).show();
+              .setAction("Action", null).show();
     }
   }
+
+
+  private void setTheme()
+  {
+    String theme = UserPreferences.getInstance().getTheme();
+
+    switch (theme)
+    {
+      case UserPreferences.DARK_MODE:
+        setTheme(R.style.DarkTheme);
+        Log.d(TAG, "setTheme :  app theme DARK");
+        break;
+      case UserPreferences.LIGHT_MODE:
+        setTheme(R.style.LightTheme);
+        Log.d(TAG, "setTheme :  app theme LIGHT");
+        break;
+      case UserPreferences.LILAH_MODE:
+        setTheme(R.style.LilahTheme);
+        Log.d(TAG, "setTheme :  app theme LILAH");
+        break;
+      default:
+        setTheme(R.style.DarkTheme);
+        Log.d(TAG, "setTheme :  default DARK");
+        break;
+
+    }
+  }
+
 
 }

@@ -18,6 +18,14 @@
         <item>Sonstiges</item>
     </string-array>
 
+
+    <!--Array used for teh category spinner-->
+    <string-array name="themes">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Lilah</item>
+    </string-array>
+
     <!--warnings-->
     <string name="no_name_warning">You need to insert at least the name</string>
     <string name="no_name_and_descr_warning" translatable="false">You need to insert name and description</string>
@@ -41,5 +49,11 @@
     <string name="string_timer_warning">The timer needs to be given in seconds</string>
     <string name="synchronize_articles">Snchronize your shopping- and storage list via Bluetooth</string>
     <string name="export_import">"Export or import Recipes "</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dark_mode">dark mode</string>
+    <string name="weight_unit_discription">Weich weight unit do ou prefere</string>
+    <string name="weight_unit">weight unit</string>
+    <string name="settings_text">Configure the App to you needs</string>
 </resources>
 

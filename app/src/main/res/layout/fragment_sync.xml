@@ -9,17 +9,62 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/content_card_syc_articles"
-        android:layout_width="0dp"
+        android:id="@+id/content_card_settings"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/content_card_syc_recipes"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_card_import_export">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_recipe"
+            android:clickable="true"
+            android:elevation="20dp"
+            android:onClick="openSettingOnClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/settings_tw"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/comfortaa"
+                android:text="@string/settings_text"
+                android:textAlignment="gravity"
+                android:textSize="@dimen/header2_font_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/content_card_syc_articles"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/content_card_syc_recipes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -40,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/synchronize_articles"
@@ -56,18 +101,17 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/content_card_syc_recipes"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/content_card_import_export"
+        app:layout_constraintBottom_toBottomOf="@+id/content_card_syc_articles"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_card_syc_articles">
+        app:layout_constraintStart_toEndOf="@+id/content_card_syc_articles"
+        app:layout_constraintTop_toTopOf="@+id/content_card_syc_articles">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -86,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="100dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/comfortaa"
                 android:text="@string/synchronize_recipes"
@@ -108,10 +152,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/content_card_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

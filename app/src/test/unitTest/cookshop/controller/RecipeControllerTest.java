@@ -1,11 +1,11 @@
 package cookshop.controller;
 
+import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.controller.viewController.RecipeController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
 import com.example.cookshop.items.Recipe;
 import com.example.cookshop.items.Step;
-import com.example.cookshop.controller.applicationController.ApplicationController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +33,14 @@ public class RecipeControllerTest
     private Article testArticle2;
     private Article testArticle3;
 
-    private Step testStep1 = new Step("Schritt 1", "Beschreibung Schritt eins", 0, 1);
-    private Step testStep2 = new Step("Schritt 2", "Beschreibung Schritt zwei", 0, 2);
-    private Step testStep3 = new Step("Schritt 3", "Beschreibung Schritt drei", 0, 3);
+    private final Step testStep1 = new Step("Schritt 1", "Beschreibung Schritt eins", 0, 1);
+    private final Step testStep2 = new Step("Schritt 2", "Beschreibung Schritt zwei", 0, 2);
+    private final Step testStep3 = new Step("Schritt 3", "Beschreibung Schritt drei", 0, 3);
 
-    private ArrayList<Article> al = new ArrayList<>();
-    private ArrayList<Step> sl = new ArrayList<>();
-    private String dateString = "09-1-2021 07:50:40";
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    private final ArrayList<Article> al = new ArrayList<>();
+    private final ArrayList<Step> sl = new ArrayList<>();
+    private final String dateString = "09-1-2021 07:50:40";
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     private Date date;
 
 
@@ -55,7 +55,7 @@ public class RecipeControllerTest
         testRecipeController = new RecipeController(mockApplicationController);
         date = simpleDateFormat.parse(dateString);
 
-        testArticle1 = new Article("Apfel", "Beschreibung Apfel", Category.FRUIT, 4, 1.0 , date,  date);
+        testArticle1 = new Article("Apfel", "Beschreibung Apfel", Category.FRUIT, 4, 1.0, date, date);
         testArticle2 = new Article("Birne", "Beschreibung Birne", Category.FRUIT, 3, 1.0, date, date);
         testArticle3 = new Article("Gurke", "Beschreibung Gurke", Category.VEGETABLE, 1, 13, date, date);
 
@@ -67,7 +67,6 @@ public class RecipeControllerTest
         sl.add(testStep3);
 
     }
-
 
 
     @Test
@@ -106,8 +105,7 @@ public class RecipeControllerTest
         assertEquals(sl, testRecipe.getSteps());
     }
 
-    Recipe testRecipe =  new Recipe("Name", "Beschreibung", al, sl);
-
+    Recipe testRecipe = new Recipe("Name", "Beschreibung", al, sl);
 
 
     @Test

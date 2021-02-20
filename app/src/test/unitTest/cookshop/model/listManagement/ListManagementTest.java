@@ -1,7 +1,6 @@
 package cookshop.model.listManagement;
 
 
-
 import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.items.Article;
 import com.example.cookshop.items.Category;
@@ -24,23 +23,23 @@ import static org.mockito.Mockito.times;
 
 public class ListManagementTest
 {
-    private DatabaseHelper mockDatabaseHelper = Mockito.mock(DatabaseHelper.class);
+    private final DatabaseHelper mockDatabaseHelper = Mockito.mock(DatabaseHelper.class);
     private ApplicationController applicationController;
 
-    private Article testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0);
-    private Article testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0);
-    private Article testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13);
+    private final Article testArticle1 = new Article("Apfel", "4 Äpfel", Category.FRUIT, 4, 1.0);
+    private final Article testArticle2 = new Article("Birne", "3 Birnen", Category.FRUIT, 3, 1.0);
+    private final Article testArticle3 = new Article("Gurke", "Beschreibung", Category.VEGETABLE, 1, 13);
 
-    private Step testStep1 = new Step("Schritt 1", "Beschreibung Schritt eins", 0, 1);
-    private Step testStep2 = new Step("Schritt 2", "Beschreibung Schritt zwei", 0, 2);
-    private Step testStep3 = new Step("Schritt 3", "Beschreibung Schritt drei", 0, 3);
+    private final Step testStep1 = new Step("Schritt 1", "Beschreibung Schritt eins", 0, 1);
+    private final Step testStep2 = new Step("Schritt 2", "Beschreibung Schritt zwei", 0, 2);
+    private final Step testStep3 = new Step("Schritt 3", "Beschreibung Schritt drei", 0, 3);
 
     private Recipe testRecipe1;
     private Recipe testRecipe2;
     private Recipe testRecipe3;
 
-    private ArrayList<Article> al = new ArrayList<>();
-    private ArrayList<Step>    sl = new ArrayList<>();
+    private final ArrayList<Article> al = new ArrayList<>();
+    private final ArrayList<Step> sl = new ArrayList<>();
 
     @Before
     public void setUp()
@@ -55,7 +54,7 @@ public class ListManagementTest
         testRecipe2 = new Recipe("Kartoffelsuppe", "Beschreibung", al, sl);
         testRecipe3 = new Recipe("Rezept", "Beschreibung", al, sl);
         ApplicationController.getInstance().initialize(mockDatabaseHelper);
-        applicationController =ApplicationController.getInstance();
+        applicationController = ApplicationController.getInstance();
     }
 
 
@@ -729,13 +728,13 @@ public class ListManagementTest
         applicationController.addArticleToShoppingList(testArticle1);
         applicationController.addArticleToShoppingList(testArticle2);
         System.out.println(applicationController.getArticleFromShoppingList(1).getCategory().toString());
-        System.out.println(applicationController.getArticleFromShoppingList(1).getName().toString());
+        System.out.println(applicationController.getArticleFromShoppingList(1).getName());
         assertTrue(applicationController.getArticleFromShoppingList(1).getCategory() == cat);
 
         Article newArticle = new Article(testArticle2.getName(), "bla beschreibung 1234", Category.VEGETABLE, 213, 2654);
         applicationController.addArticleToShoppingList(newArticle);
         System.out.println(applicationController.getArticleFromShoppingList(1).getCategory().toString());
-        System.out.println(applicationController.getArticleFromShoppingList(1).getName().toString());
+        System.out.println(applicationController.getArticleFromShoppingList(1).getName());
         assertTrue(applicationController.getArticleFromShoppingList(1).getCategory() == cat);
     }
 

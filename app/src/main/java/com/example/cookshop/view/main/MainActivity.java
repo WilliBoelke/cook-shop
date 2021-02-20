@@ -7,19 +7,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.cookshop.R;
+import com.example.cookshop.controller.applicationController.ApplicationController;
+import com.example.cookshop.model.UserPreferences;
 import com.example.cookshop.model.database.DatabaseHelper;
 import com.example.cookshop.model.listManagement.AvailableListManager;
-import com.example.cookshop.controller.applicationController.ApplicationController;
 import com.example.cookshop.model.listManagement.RecipeListManager;
 import com.example.cookshop.model.listManagement.ShoppingListManager;
 import com.example.cookshop.model.listManagement.ToCookListManager;
-import com.example.cookshop.view.ExportImportActivity;
-import com.example.cookshop.view.SynchronizeActivity;
+import com.example.cookshop.view.settings.FragmentSettings;
+import com.example.cookshop.view.sharing.ExportImportActivity;
+import com.example.cookshop.view.sharing.SynchronizeActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.cookshop.model.UserPreferences.SETTINGS_SHARED_PREFERENCES;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -29,9 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     //------------Instance Variables------------
 
-
-
-    private  final String TAG = getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
 
 
     @Override
@@ -39,9 +41,10 @@ public class MainActivity extends AppCompatActivity
     {
         Log.d(TAG, "onCreate: Called");
         super.onCreate(savedInstanceState);
-
+        UserPreferences.getInstance();
+        UserPreferences.getInstance().init(getApplicationContext().getSharedPreferences(SETTINGS_SHARED_PREFERENCES, 0));
         //Set the Abb theme (true = dark, false = light)
-        setTheme(false);
+        setTheme();
         //
         DatabaseHelper db = new DatabaseHelper(getApplicationContext());
         ApplicationController.getInstance().initialize(this.getApplicationContext(), new RecipeListManager(db), new ShoppingListManager(db), new AvailableListManager(db), new ToCookListManager(db));
@@ -57,19 +60,29 @@ public class MainActivity extends AppCompatActivity
 
     //------------Setup Views------------
 
-    private void setTheme(boolean theme)
+    private void setTheme()
     {
-        //Setting the app heme and contentView
-        Log.d(TAG, "onCreate : setting app theme...");
-        if (theme)
+        String theme = UserPreferences.getInstance().getTheme();
+
+        switch (theme)
         {
-            setTheme(R.style.DarkTheme);
-            Log.d(TAG, "onCreate :  app theme DARK");
-        }
-        else
-        {
-            setTheme(R.style.LightTheme);
-            Log.d(TAG, "onCreate :  app theme LIGHT");
+            case UserPreferences.DARK_MODE:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  app theme DARK");
+                break;
+            case UserPreferences.LIGHT_MODE:
+                setTheme(R.style.LightTheme);
+                Log.d(TAG, "setTheme :  app theme LIGHT");
+                break;
+            case UserPreferences.LILAH_MODE:
+                setTheme(R.style.LilahTheme);
+                Log.d(TAG, "setTheme :  app theme LILAH");
+                break;
+            default:
+                setTheme(R.style.DarkTheme);
+                Log.d(TAG, "setTheme :  default DARK");
+                break;
+
         }
     }
 
@@ -147,8 +160,8 @@ public class MainActivity extends AppCompatActivity
 
     public void recipeListSyncOnClick(View view)
     {
-        Toast toast=Toast.makeText(getApplicationContext(),"Not available at the moment",Toast.LENGTH_SHORT);
-        toast.setMargin(50,50);
+        Toast toast = Toast.makeText(getApplicationContext(), "Not available at the moment", Toast.LENGTH_SHORT);
+        toast.setMargin(50, 50);
         toast.show();
     }
 
@@ -156,5 +169,11 @@ public class MainActivity extends AppCompatActivity
     {
         Intent eiIntent = new Intent(getApplicationContext(), ExportImportActivity.class);
         startActivity(eiIntent);
+    }
+
+
+    public void openSettingOnClick(View view)
+    {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FragmentSettings.class, new Bundle()).addToBackStack(null).commit();
     }
 }
